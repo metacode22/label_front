@@ -9,6 +9,7 @@ header {
 
 #Header__logo__image {
     height: 72px;
+    cursor: pointer;
 }
 
 .Nav__profile {
@@ -18,4 +19,5 @@ header {
     padding: 8px;
     background-color: var(--color-1-c);
     color: var(--color-white);
+    cursor: pointer;
 }

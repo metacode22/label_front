@@ -37,6 +37,10 @@ function UserGrass(){
     )
 }
 
+function EditImage(e){
+    e.preventDefault();
+}
+
 function UserPage(){
     const [UserName, setUserName] = useState('5in9u');
     const [UserBio, setUserBio] = useState('Book is my life📚')
@@ -48,14 +52,15 @@ function UserPage(){
         <main className='UserPage__main'>
             <aside className='Profile__edit'>
                 <img src={process.env.PUBLIC_URL + '/images/default_profile.png'} id='Default__profile__image'></img>
-                <button type='button' id='Profile__edit__icon'/>                
+                <button type='button' id='Profile__edit__icon' onClick={EditImage}/>
                 <input type='file' hidden={true}  id='my-input'/>
-                <p>Name</p>
-                <input type='text' placeholder={UserName}></input>
-                <p>Bio</p>
-                <input type='text' placeholder={UserBio}></input>
-                <p>Email</p>
-                <input type='text' placeholder={UserEmail}></input>
+                <button className='Profile__edit__btn'>프로필 수정</button>
+                <p className='Userpage__default__information'>Name</p>
+                <p className='Userpage__default'>{UserName}</p>
+                <p className='Userpage__default__information'>Bio</p>
+                <p className='Userpage__default'>{UserBio}</p>
+                <p className='Userpage__default__information'>Email</p>
+                <p className='Userpage__default'>{UserEmail}</p>
             </aside>
             <article className='User__book'>
                 <section className='User__book__section'>

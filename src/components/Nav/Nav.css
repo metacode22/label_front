@@ -9,6 +9,7 @@ header {
 
 #Header__logo__image {
     height: 72px;
+    cursor: pointer;
 }
 
 .Nav__profile {

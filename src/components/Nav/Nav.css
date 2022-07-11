@@ -18,4 +18,5 @@ header {
     padding: 8px;
     background-color: var(--color-1-c);
     color: var(--color-white);
+    cursor: pointer;
 }

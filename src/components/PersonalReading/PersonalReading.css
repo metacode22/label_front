@@ -3,7 +3,7 @@
 }
 
 .PersonalReading__pages {
-    margin: 60px auto;
+    margin: 30px auto;
     /* margin-right: 60px; */
     border: 1px solid black;
     border-radius: var(--border-radius);
@@ -12,6 +12,7 @@
     height: 600px;
     
     display: flex;
+    flex-direction: column;
 }
 
 .PersonalReading__pages__leftPage,
@@ -22,7 +23,7 @@
 }
 
 .PersonalReading__mostLabeled {
-    margin: 60px auto;
+    margin: 30px auto;
     /* border: 1px solid black; */
     height: 600px;
     
@@ -49,4 +50,9 @@
     padding-top: 30px;
     height: 60px;
     text-align: center;
+}
+
+.PersonalReading__pages__buttons {
+    display: flex;
+    justify-content: center;
 }

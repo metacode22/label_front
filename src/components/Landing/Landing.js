@@ -5,7 +5,7 @@ function Landing() {
         <main className="Landing__main">
             <article className="Landing__article">
             </article>
-            <aside>
+            <aside className='Landing__aside'>
                 <div className="Landing__login">
                     <h1 className="Landing__login--loginText">Log In</h1>
                     <div className="Landing__login--socialLogin">

@@ -1,0 +1,33 @@
+.UserPage__main{
+    display: flex;
+}
+
+.Profile__edit{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    flex-basis: 25%;
+    background-color: var(--color-lightGrey);
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+}
+
+#Default__profile__image{
+    width: 55%;
+}
+
+#Profile__edit__icon{
+    all: unset;
+    position: relative;
+    width: 15%;
+    padding-bottom: 15%;
+    left: 70px;
+    bottom: 60px;
+    background: url('../../../public/images/profile_edit_icon.png') center/cover repeat;
+    cursor: pointer;
+}
+
+.User__book{
+    flex-basis: 75%;
+}

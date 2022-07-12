@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import './UserPage.css'
 
 function UserGrass(){
@@ -37,24 +37,39 @@ function UserGrass(){
     )
 }
 
-function EditImage(e){
-    e.preventDefault();
-}
-
 function UserPage(){
     const [UserName, setUserName] = useState('5in9u');
     const [UserBio, setUserBio] = useState('Book is my life📚')
     const [UserEmail, setUserEmail] = useState('5in9u@gmail.com')
 
     const [UserBook, setUserBook] = useState(['받은 책들 이름들'])
+
+    const [Image, setImage] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
+    const fileInput = useRef(null)
+
+    const onChange = (e) => {
+        if(e.target.files[0]){
+                setImage(e.target.files[0])
+            }else{ //업로드 취소할 시 기본으로 바뀌게 했는데, {Image}로 하면 기존의 것으로 바뀔까?
+                setImage("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
+                return
+            }
+            //화면에 프로필 사진 표시
+            const reader = new FileReader();
+            reader.onload = () => {
+                if(reader.readyState === 2){
+                    setImage(reader.result)
+                }
+            }
+            reader.readAsDataURL(e.target.files[0])
+    }
     
     return (
         <main className='UserPage__main'>
             <aside className='Profile__edit'>
-                <img src={process.env.PUBLIC_URL + '/images/default_profile.png'} id='Default__profile__image'></img>
-                <button type='button' id='Profile__edit__icon' onClick={EditImage}/>
-                <input type='file' hidden={true}  id='my-input'/>
-                <button className='Profile__edit__btn'>프로필 수정</button>
+                <img src={Image} id='Default__profile__image' onClick={()=> {fileInput.current.click()}}></img>
+                <input type='file' style={{display: 'none'}} accepet='image/*' name='profile_img' onChange={onChange} ref={fileInput}></input>
+                {/* <button className='Profile__edit__btn'>프로필 수정</button> */}
                 <p className='Userpage__default__information'>Name</p>
                 <p className='Userpage__default'>{UserName}</p>
                 <p className='Userpage__default__information'>Bio</p>

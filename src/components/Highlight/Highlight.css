@@ -10,7 +10,6 @@
     align-items: center;
     margin-top: 13vh;
     flex: 2 1 0;
-
 }
 
 .Highlight__book__image{
@@ -19,10 +18,6 @@
     /* background: url('') center/cover repeat; */
     width: 200px;
     height: 300px;
-}
-
-.Highlight__book__text{
-    
 }
 
 .Highlight__book__reading__btn{
@@ -36,15 +31,33 @@
     width: 200px;
 }
 
+.Highlight__book__reading__btn:hover{
+    background-color: var(--color-2-a);
+}
+
+.Highlight__book__reading__btn:active{
+    box-shadow: var(--box-shadow);
+    position: var(--position);
+    top: var(--top);
+}
+
 .Highlight__list__article{
     flex: 2 1 0;
     margin-top: 13vh;
-
 }
 
 .Highlight__list__btn{
     margin-top: 8vh;
-    
+}
+
+.Highlight__list__btn1:hover, .Highlight__list__btn2:hover{
+    background-color: var(--color-2-a);
+}
+
+.Highlight__list__btn1:active, .Highlight__list__btn2:active{
+    box-shadow: var(--box-shadow);
+    position: var(--position);
+    top: var(--top);
 }
 
 .Highlight__list__btn1, .Highlight__list__btn2{
@@ -81,7 +94,6 @@
 .Highlight__export{
     flex: 2 1 0;
     margin-top: 30vh;
-
 }
 
 .Highlight__export__btn{
@@ -92,17 +104,55 @@
     height: 30px;
     font-size: large;
     color: white;
-    margin-right: 380px;
+    margin-right: 330px;
+}
+
+.Highlight__export__btn:hover{
+    background-color: var(--color-2-a);
+}
+
+.Highlight__export__btn:active{
+    box-shadow: var(--box-shadow);
+    position: var(--position);
+    top: var(--top);
+}
+
+.li__color__edit{
+    text-align: left;
+}
+
+.li__color__edit li{
+    cursor: pointer;
+    /* margin: 3px; */
+}
+
+.li__color__edit li[data-level="1"]:hover{
+    background-color: var(--color-pink);
+    display: inline;
+}
+
+.li__color__edit li[data-level="2"]:hover{
+    background-color: var(--color-green);
+    display: inline;
+}
+
+.li__color__edit li[data-level="3"]:hover{
+    background-color: var(--color-blue);
+    display: inline;
+}
+
+.li__color__edit li[data-level="0"] {
+    list-style: none;
 }
 
 .li__color__edit li[data-level="1"]::marker {
-    color: palevioletred;
+    color: var(--color-pink);
 }
 
 .li__color__edit li[data-level="2"]::marker {
-    color: rgba(0, 255, 0, 0.534);
+    color: var(--color-green);
 }
 
 .li__color__edit li[data-level="3"]::marker {
-    color: skyblue;
+    color: var(--color-blue);
 }

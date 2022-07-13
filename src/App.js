@@ -11,6 +11,8 @@ import PersonalReading from './components/PersonalReading/PersonalReading.js';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 
 function App() {
+	
+	
   	return (
 		<div className="App">
 			<Nav></Nav>

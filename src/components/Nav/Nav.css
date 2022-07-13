@@ -20,4 +20,5 @@ header {
     background-color: var(--color-1-c);
     color: var(--color-white);
     cursor: pointer;
+    margin-left: 8px;
 }

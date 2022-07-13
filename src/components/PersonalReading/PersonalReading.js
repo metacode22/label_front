@@ -1,7 +1,7 @@
 import './PersonalReading.css'
 import HTMLRenderer from 'react-html-renderer'
 import axios from 'axios';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, createElement } from 'react';
 import React, { Component } from 'react';
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
@@ -15,11 +15,14 @@ import { HighlightableTextArea } from 'react-highlight-popover';
 import SelectionHighlighter from 'react-highlight-selection';
 
 function PersonalReading() {
-    const [html, setHtml] = useState('');
-    const [currentPageNumber, setCurrentPageNumber] = useState(2);
+    let pdfIdx = 1;
+    let highlightData = useRef();
+    let [html, setHtml] = useState('');
+    
+    const [currentPageNumber, setCurrentPageNumber] = useState(8);
     
     useEffect(() => {
-        axios.get(`http://3.35.27.172:3000/1/${currentPageNumber}`)
+        axios.get(`http://3.35.27.172:3000/pdfs/${pdfIdx}/${currentPageNumber}`)
         .then((response) => {
             setHtml(response.data.result.pageHtml);
         })
@@ -100,30 +103,208 @@ function PersonalReading() {
     
     if (highlightButton) {
         highlightButton.addEventListener('click', (event) => {
-            const selectedText = window.getSelection().toString().trim();
+            // const selectedText = window.getSelection().toString().trim();
             
             // firefox에서는 range 객체를 여러 개 뽑을 수 있으나(여러 개 drag가 가능하나) chrome에서는 1개의 range 객체만 뽑을 수 있도록 지원한다.
-            const range = window.getSelection().getRangeAt(0);
-            const span = document.createElement('mark');
             
-            span.classList.add('highlighted');
-            span.appendChild(range.extractContents());
-            console.log("span2 : ", span);
-            range.insertNode(span);
+            // console.log('range:', range);
+            // console.log(selectedText);
             
-            console.log('range:', range);
-            console.log('span:', span);
-            console.log(selectedText);
+            // indexOfFirstElement, offsetOfFirstElement, yOfFirstElement
+            // indexOfEndElement, offsetOfEndElement, yOfEndElement
+            
+            const selectedText = window.getSelection();
+            const selectedElement = selectedText.getRangeAt(0);
+            // start container
+            const firstElement = selectedElement.startContainer;
+            console.log('firstElement:', firstElement);
+            // start container를 담고있는 문장 node list 길이
+            const lenOfFirstElement = firstElement.parentElement.childNodes.length;
+            console.log('node length:', lenOfFirstElement);
+            // start node의 index
+            let indexOfFirstElement = 0;
+            // start node의 index를 탐색하여 저장
+            for(let i = 0; i < lenOfFirstElement; i++) {
+                if (firstElement === firstElement.parentElement.childNodes[i]) {
+                    indexOfFirstElement = i;
+                }
+            }
+            console.log('indexOfFirstElement = ', indexOfFirstElement);
+            // 시작 노드의 offset
+            const offsetOfFirstElement = selectedElement.startOffset;
+            console.log('offsetOfFirstElement =', offsetOfFirstElement);
+
+            // end contatiner
+            const endElement = selectedElement.endContainer;
+            console.log('endElement:', endElement);
+            // end container를 담고있는 문장 node list 길이
+            const lenOfEndElement = endElement.parentElement.childNodes.length;
+            console.log('end length:', lenOfEndElement);
+            // end node의 index
+            let indexOfEndElement = 0;
+            // end node의 index를 탐색하여 저장
+            for(let i = 0; i < lenOfEndElement; i++) {
+                if (endElement === endElement.parentElement.childNodes[i]) {
+                    indexOfEndElement = i;
+                }
+            }
+            console.log('indexOfEndElement = ', indexOfEndElement);
+            // end node의 offset
+            const offsetOfEndElement = selectedElement.endOffset;
+            console.log('offsetOfEndElement =', offsetOfEndElement);
+            
+            // class y값 뽑기
+            let yOfFirstElement = firstElement.parentElement.classList;
+            
+            if (yOfFirstElement.length <= 3) {
+                yOfFirstElement = firstElement.parentElement.parentElement.classList;
+            }
+            
+            let yOfEndElement = endElement.parentElement.classList;
+            
+            if (yOfEndElement.length <=3 ) {
+                yOfEndElement = endElement.parentElement.parentElement.classList;
+            }
+            
+            let selectedTextData = window.getSelection().toString().trim();
+            
+            console.log('yOfFirstElement =', yOfFirstElement[4]);
+            console.log('yOfEndElement =', yOfEndElement[4]);
+            
+            
+            // pdfIdx, pageNum, startLine, startOffset, startNode, endLine, endOffset, endNode
+            
+            axios.post('http://3.35.27.172:3000/highlights', {
+                "pdfIdx": pdfIdx,
+                "pageNum": currentPageNumber,
+                "startLine": yOfFirstElement[4],
+                "startOffset": offsetOfFirstElement,
+                "startNode": indexOfFirstElement,
+                "endLine": yOfEndElement[4],
+                "endOffset": offsetOfEndElement,
+                "endNode": indexOfEndElement,
+                "data": selectedTextData
+            })
+            .then((response) => {
+                console.log('POST 성공');
+                console.log(response);
+            })
+            .catch(() => {
+                console.log('POST 실패');
+                console.log(error.response);
+            })
+            
+            
+            console.log((pdfIdx));
+            console.log((currentPageNumber));
+            console.log((yOfFirstElement[4]));
+            console.log((offsetOfFirstElement));
+            console.log((indexOfFirstElement));
+            console.log((yOfEndElement[4]));
+            console.log((offsetOfEndElement));
+            console.log((indexOfEndElement));
+            console.log(selectedTextData);
+            
+            // const range = window.getSelection().getRangeAt(0);
+            // const span = document.createElement('span');
+            
+            // span.classList.add('highlighted');
+            // span.appendChild(range.extractContents());
+            // range.insertNode(span);
+            
+            // console.log(document.getSelection().getRangeAt(0));
         })
     }
     
+    // /highlights/pdfs/:pdfIdx/pages/:pageNum
     useEffect(() => {
-        let temp = document.querySelector('.y3');
-        if (temp) {
-            document.querySelector('.y3').classList.add('highlighted');
-        }
-    });
-        
+        axios.get(`http://3.35.27.172:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
+            .then((response) => {
+                highlightData = response.data.result;
+                
+                // 이중 for문 사용 필요
+                for (let i = 0; i < highlightData.length; i++) {
+                    
+                    let startNode = highlightData[i].startNode;
+                    let startOffset = highlightData[i].startOffset;
+                    let startLineDom = document.getElementsByClassName(`${highlightData[i].startLine}`);
+                    let startLineDomChildNodes = startLineDom[0].childNodes;
+                    
+                    let endNode = highlightData[i].endNode;
+                    let endOffset = highlightData[i].endOffset;
+                    let endLineDom = document.getElementsByClassName(`${highlightData[i].endLine}`);
+                    let endLineDomChildNodes = endLineDom[0].childNodes;
+                    
+                    console.log(startLineDomChildNodes[startNode]);
+                    
+                    let span = document.createElement('span');
+                    
+                    // y9, yb
+                    // 서버로부터 받아온 클래스 이름
+                    const fromClassName = `${highlightData[i].startLine}`;
+                    const toClassName = `${highlightData[i].endLine}`;
+                    // 서버로부터 받아온 start index, 첫 번째 문자 y 제거
+                    const startIndex = fromClassName.slice(1);              // 9
+                    const parsedStartIndex = parseInt(startIndex, 16);      // 9
+                    // 서버로부터 받아온 end index
+                    const endIndex = toClassName.slice(1);                  // b
+                    const parsedEndIndex = parseInt(endIndex, 16);          // 11
+
+                    // 9 ~ 11
+                    for (let i = parsedStartIndex; i <= parsedEndIndex; i++) {
+                        let curIndex = 'y' + i.toString(16);                // y9 ~ yb
+                        const curElement = document.getElementsByClassName(curIndex);
+                        
+                        const range = document.createRange();
+                        if (parsedStartIndex === parsedEndIndex) {
+                            range.setStart(curElement[0].childNodes[startNode], startOffset);
+                            range.setEnd(curElement[0].childNodes[endNode], endOffset);
+                            
+                            const newNode = document.createElement("span");
+                            newNode.style.color = 'white';
+                            newNode.style.backgroundColor = 'black';
+                            newNode.appendChild(range.extractContents());
+                            range.insertNode(newNode);
+                            
+                            break;
+                        }
+                        
+                        
+                        if (i === parsedStartIndex) {
+                            range.setStart(curElement[0].childNodes[startNode], startOffset);
+                            range.setEnd(curElement[0].childNodes[curElement[0].childNodes.length - 1], curElement[0].childNodes[curElement[0].childNodes.length - 1].length);
+                        
+                            const newNode = document.createElement("span");
+                            newNode.style.color = 'white';
+                            newNode.style.backgroundColor = 'black';
+                            newNode.appendChild(range.extractContents());
+                            range.insertNode(newNode);
+                        } else if (i === parsedEndIndex) {
+                            range.setStart(curElement[0].childNodes[0], 0);
+                            range.setEnd(curElement[0].childNodes[endNode], endOffset);
+                            
+                            const newNode = document.createElement("span");
+                            newNode.style.color = 'white';
+                            newNode.style.backgroundColor = 'black';
+                            newNode.appendChild(range.extractContents());
+                            range.insertNode(newNode);
+                        } else {
+                            const tempChildNode = curElement[0].childNodes;
+                            range.setStart(tempChildNode[0], 0);
+                            range.setEnd(tempChildNode[tempChildNode.length - 1], tempChildNode[tempChildNode.length - 1].length);  
+                            const newNode = document.createElement("span");
+                            newNode.style.color = 'white';
+                            newNode.style.backgroundColor = 'black';
+                            newNode.appendChild(range.extractContents());
+                            range.insertNode(newNode);
+                        }
+                    }    
+                }
+            })
+            .catch((err) => {
+                console.log('error');
+        })
+    })
     
     return (
         <>

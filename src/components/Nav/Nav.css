@@ -20,4 +20,15 @@ header {
     background-color: var(--color-1-c);
     color: var(--color-white);
     cursor: pointer;
+    margin: 8px;
+}
+
+.Nav__profile:hover{
+    background-color: var(--color-2-a);
+}
+
+.Nav__profile:active{
+    box-shadow: var(--box-shadow);
+    position: var(--position);
+    top: var(--top);
 }

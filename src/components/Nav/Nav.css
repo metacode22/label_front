@@ -20,6 +20,7 @@ header {
     background-color: var(--color-1-c);
     color: var(--color-white);
     cursor: pointer;
+    margin: 8px;
 }
 
 .Nav__profile:hover{

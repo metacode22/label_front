@@ -10,8 +10,8 @@ import { faTags } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function PersonalReading() {
-    let [html, setHtml] = useState('');
-    let [currentPageNumber, setCurrentPageNumber] = useState(2);
+    const [html, setHtml] = useState('');
+    const [currentPageNumber, setCurrentPageNumber] = useState(2);
     
     useEffect(() => {
         axios.get(`http://3.35.27.172:3000/1/${currentPageNumber}`)
@@ -24,8 +24,8 @@ function PersonalReading() {
     }, [currentPageNumber])
     
     /* highlight 기능 구현하기 */
-    let selectableTextArea = document.querySelectorAll(".PersonalReading__pages__rightPage");
-    let highlightButton = document.querySelector("#HighlightButton");
+    const selectableTextArea = document.querySelectorAll(".PersonalReading__pages__rightPage");
+    const highlightButton = document.querySelector("#HighlightButton");
     
     // selectableTextArea 영역에서만 selectableTextAreaMouseUp을 더했으므로
     // selectableTextArea에서만 selectableTextAreaMouseUp 함수가 실행될 수 있다.
@@ -77,7 +77,7 @@ function PersonalReading() {
     document.addEventListener("mousedown", documentMouseDown);
 
     function documentMouseDown(event) {
-        let highlightButton = document.querySelector("#HighlightButton");
+        const highlightButton = document.querySelector("#HighlightButton");
         if (highlightButton.style.display == "block" && event.target.id != 'HighlightButton') {
                 highlightButton.style.display = "none";
                 highlightButton.classList.remove("btnEntrance");
@@ -87,9 +87,23 @@ function PersonalReading() {
     
     if (highlightButton) {
         highlightButton.addEventListener('click',(event) => {
-            let selectedText = window.getSelection().toString().trim();
-            console.log(window.getSelection());
-            // console.log(selectedText);
+            const selectedText = window.getSelection().toString().trim();
+            
+            // firefox에서는 range 객체를 여러 개 뽑을 수 있으나(여러 개 drag가 가능하나) chrome에서는 1개의 range 객체만 뽑을 수 있도록 지원한다.
+            const range = window.getSelection().getRangeAt(0);
+            const span = document.createElement('span');
+            
+            span.classList.add('highlighted');
+            // span.classList.add('')
+            // span.style.display = 'inline-block';
+            span.appendChild(range.extractContents());
+            // span.innerHTML = `<span>${selectedText}</span>`
+            range.insertNode(span);
+            
+            // axios.get('')
+            console.log('range:', range);
+            console.log('span:', span);
+            console.log(selectedText);
         })
     }
     

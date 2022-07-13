@@ -107,6 +107,10 @@
     animation-name: btnEntrance;
 }
 
+.highlighted {
+    background-color: yellow;
+}
+
 @keyframes btnEntrance {
     0% {
         opacity: 0;

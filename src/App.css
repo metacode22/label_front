@@ -17,6 +17,17 @@
 	--color-darkWhite: rgba(61, 59, 59, 0.247);
     --color-lightGrey: #F7F7F7;
     --color-userpage-block: #E1E1E1;
+
+    /* highlight color */
+    --color-pink: #ffdcdb;
+    --color-green: #ceffc9;
+    --color-blue: paleturquoise;
+
+
+    /* button effect */
+    --box-shadow: 1px 1px 0 rgb(0,0,0,0.5);
+    --position: relative;
+    --top:2px;
 	
 	/* Font Size */
 	
@@ -24,6 +35,7 @@
 	
 	/* Border Radius */
 	--border-radius: 4px;
+
 	/* Animation */
 	
 	/* Width */

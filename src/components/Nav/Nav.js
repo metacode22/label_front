@@ -28,7 +28,7 @@ function NavLogIn() {
 	return (
 		<header>
 			<div className="Header__logo">
-				<img src={process.env.PUBLIC_URL + '/images/label_logo.png'} id="Header__logo__image"></img>
+				<img src={process.env.PUBLIC_URL + '/images/label_logo.png'} id="Header__logo__image"  onClick={() => { navigate('/library') }}></img>
 			</div>
 			<nav>
 				<button className="Nav__profile">My Labels</button>

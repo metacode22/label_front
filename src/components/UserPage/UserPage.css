@@ -14,25 +14,23 @@
 }
 
 #Default__profile__image{
-    width: 55%;
+    width: 12rem;
+    height: 12rem;
+    border-radius: 100%;
+    margin: 10px;
+    cursor: pointer;
+    border: 1px solid var(--color-darkWhite);
 }
 
-#Profile__edit__icon{
-    all: unset;
-    position: relative;
-    width: 15%;
-    padding-bottom: 15%;
-    left: 70px;
-    bottom: 60px;
-    background: url('../../../public/images/profile_edit_icon.png') center/cover repeat;
-    cursor: pointer;
+#Default__profile__image:hover{
+    background-color: var(--color-userpage-block);
 }
 
-.Profile__edit__btn{
+/* .Profile__edit__btn{
     cursor: pointer;
     position: relative;
-    bottom: 25px;
-}
+    margin: 15px;
+} */
 
 .Userpage__default__information{
     font-weight: bold;
@@ -47,6 +45,11 @@
     margin: 3px;
     padding: 8px;
     text-align: center;
+    cursor: pointer;
+}
+
+.Userpage__default:hover{
+    background-color: var(--color-1-a);
 }
 
 .User__book{
@@ -81,6 +84,16 @@
     padding:8px;
     margin: 5px;
     cursor: pointer;
+}
+
+.User__book__list:hover{
+    background-color: var(--color-1-a);
+}
+
+.User__book__list:active{
+    box-shadow: var(--box-shadow);
+    position: var(--position);
+    top: var(--top);
 }
 
 /* 아래는 잔디 CSS */

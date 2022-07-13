@@ -52,18 +52,21 @@
     margin-top: 8vh;
 }
 
-.Highlight__list__btn1:hover, .Highlight__list__btn2:hover{
+.Highlight__list__btn2{
+    cursor: pointer;
+}
+
+.Highlight__list__btn2:hover{
     background-color: var(--color-2-a);
 }
 
-.Highlight__list__btn1:active, .Highlight__list__btn2:active{
+.Highlight__list__btn2:active{
     box-shadow: var(--box-shadow);
     position: var(--position);
     top: var(--top);
 }
 
 .Highlight__list__btn1, .Highlight__list__btn2{
-    cursor: pointer;
     border-radius: var(--border-radius);
     border: none;
     height: 30px;

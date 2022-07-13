@@ -13,6 +13,50 @@
     justify-content: space-between;
 }
 
+#img{
+    transition: .5s ease;
+    /* backface-visibility: hidden; */
+}
+
+#img:hover{
+    cursor: pointer;
+    opacity: 0.3;
+
+}
+
+.container:hover .middle {
+    opacity: 1;
+}
+ 
+
+
+.text {
+    background-color: #04AA6D;
+    color: black;
+    font-size: 16px;
+    padding: 16px 32px;
+    border: 1px solid red;
+    transition: .5s ease;
+    /* opacity: 0.2; */
+    /* position: absolute; */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+#img:active{
+    box-shadow: var(--box-shadow);
+    position: var(--position);
+    top: var(--top);
+}
+
+/* .Library__recentlyRead__cards__container[level='1']{
+    background: url('../../../public/images/jacobfugger.png') center/cover repeat;
+
+} */
+
 .Library__recentlyRead__cards__card {
     height: 360px;
     width: 240px;

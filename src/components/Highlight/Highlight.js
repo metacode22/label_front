@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Highlight.css'
 
 function HighlightList(){
@@ -29,12 +30,14 @@ function HighlightList(){
 }
 
 function Highlight(){
+    let navigate = useNavigate();
+
     return (
         <main className='Highlight__main'>
             <aside className='Highlight__book'>
-                <p className='Highlight__book__image'>책 이미지 들어감</p>
+                <p className='Highlight__book__image'></p>
                 <p className='Highlight__book__text'>중괄호% of the book read</p>
-                <button className='Highlight__book__reading__btn'>Continue reading</button>
+                <button className='Highlight__book__reading__btn' onClick={()=>{navigate('/personalreading')}}>Continue reading</button>
             </aside>
             <article className='Highlight__list__article'>
                 <section className='Highlight__list__title'>

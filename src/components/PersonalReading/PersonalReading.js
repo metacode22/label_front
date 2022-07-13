@@ -19,7 +19,7 @@ function PersonalReading() {
     const [currentPageNumber, setCurrentPageNumber] = useState(2);
     
     useEffect(() => {
-        axios.get(`http://3.35.27.172:3000/1/${currentPageNumber}`)
+        axios.get(`http://3.35.27.172:3000/pdfs/1/${currentPageNumber}`)
         .then((response) => {
             setHtml(response.data.result.pageHtml);
         })
@@ -120,7 +120,7 @@ function PersonalReading() {
     useEffect(() => {
         let temp = document.querySelector('.y3');
         if (temp) {
-            document.querySelector('.y3').classList.add('highlighted');
+            // document.querySelector('.y3').classList.add('highlighted');
         }
     });
         

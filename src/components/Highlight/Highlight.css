@@ -15,9 +15,11 @@
 .Highlight__book__image{
     border: 1px solid var(--color-darkWhite);
     border-radius: var(--border-radius);
-    /* background: url('') center/cover repeat; */
-    width: 200px;
-    height: 300px;
+    background: url('../../../public/images/jacobfugger.png') center/cover repeat;
+    /* width: 200px; */
+    /* height: 300px; */
+    width: 300px;
+    height: 400px;
 }
 
 .Highlight__book__reading__btn{

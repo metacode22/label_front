@@ -42,7 +42,7 @@ function Library() {
                     </div>
                     <div className="Library__recentlyRead__cards__container">
                         {/* ↓ 나중에 지워야할 부분, 중간 발표때 하려고 */}
-                        <img src={process.env.PUBLIC_URL + '/images/jacobfugger.png'} id='img' onClick={()=>navigate('/personalreading')}></img>
+                        <img src={process.env.PUBLIC_URL + '/images/jacobfugger.png'} id='img' onClick={()=>navigate('/personalreading')} style={{ borderRadius: '8px'}}></img>
                     {/* 1 */}
                         {/* {booksRecent.map(function(element, index) {
                             return (
@@ -64,7 +64,7 @@ function Library() {
                     </div>
                 </section>
                 <section className="Library__recommend">
-                    <h2>How about this one?</h2>
+                    {/* <h2>How about this one?</h2> */}
                 </section>
             </article>
         </main>

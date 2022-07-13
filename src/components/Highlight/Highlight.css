@@ -48,6 +48,10 @@
     margin-top: 13vh;
 }
 
+.Highlight__list__btn__temp {
+    display: flex;
+}
+
 .Highlight__list__btn{
     margin-top: 8vh;
 }
@@ -76,6 +80,12 @@
 
 .Highlight__list__title{
     margin-top: -5vh;
+    
+    display: flex;
+    flex-direction: column;
+    /* justify-content: flex-start; */
+    align-items:flex-start;
+    margin-left: 30px;
 }
 
 .Highlight__list__title__name{
@@ -95,7 +105,7 @@
 }
 .Highlight__export{
     flex: 2 1 0;
-    margin-top: 30vh;
+    margin-top: 28vh;
 }
 
 .Highlight__export__btn{
@@ -106,7 +116,11 @@
     height: 30px;
     font-size: large;
     color: white;
-    margin-right: 330px;
+    position: relative;
+    top: 0;
+    right: 120px;
+    /* margin-right: 330px; */
+    /* margin: auto; */
 }
 
 .Highlight__export__btn:hover{
@@ -129,18 +143,24 @@
 }
 
 .li__color__edit li[data-level="1"]:hover{
-    background-color: var(--color-pink);
+    /* background-color: var(--color-pink); */
     display: inline;
+    background-color: black;
+    color: var(--color-white);
 }
 
 .li__color__edit li[data-level="2"]:hover{
-    background-color: var(--color-green);
+    /* background-color: var(--color-green); */
     display: inline;
+    background-color: black;
+    color: var(--color-white);
 }
 
 .li__color__edit li[data-level="3"]:hover{
-    background-color: var(--color-blue);
+    /* background-color: var(--color-blue); */
     display: inline;
+    background-color: black;
+    color: var(--color-white);
 }
 
 .li__color__edit li[data-level="0"] {
@@ -148,13 +168,13 @@
 }
 
 .li__color__edit li[data-level="1"]::marker {
-    color: var(--color-pink);
+    /* color: var(--color-pink); */
 }
 
 .li__color__edit li[data-level="2"]::marker {
-    color: var(--color-green);
+    /* color: var(--color-green); */
 }
 
 .li__color__edit li[data-level="3"]::marker {
-    color: var(--color-blue);
+    /* color: var(--color-blue); */
 }

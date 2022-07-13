@@ -1,7 +1,7 @@
-import './Landing.css'
+import '../Landing/Landing.css'
 import { useNavigate } from 'react-router-dom';
 
-function Landing() {
+function Signup() {
     let navigate = useNavigate();
     
     return (
@@ -10,10 +10,10 @@ function Landing() {
             </article>
             <aside className='Landing__aside'>
                 <div className="Landing__login">
-                    <h1 className="Landing__login--loginText">Log In</h1>
+                    <h1 className="Landing__login--loginText">Sign Up</h1>
                     <div className="Landing__login--socialLogin">
                         <img src={process.env.PUBLIC_URL + '/images/google_login_icon.png'} id='Google__login__icon'></img>
-                        <div>&nbsp;&nbsp;Log in with Google</div>
+                        <div>&nbsp;&nbsp;Sign up with Google</div>
                     </div>
                     <div className="Landing__login--or">or</div>
                     <form action="" method="" className="Landing__login__form">
@@ -23,7 +23,7 @@ function Landing() {
                         <label>
                             <input type="password" placeholder="  Password" className="Landing__login--input"></input>
                         </label>
-                        <button type="submit" className="Landing__login--button" onClick={() => { navigate('/library') }}>Log In</button>
+                        <button type="submit" className="Landing__login--button" onClick={() => { navigate('/') }}>Sign Up</button>
                     </form>
                     <p style={{textAlign: 'center', fontSize: '12px'}}>By continuing, you agree to Label's Terms of Service and Privacy Policy. </p>
                 </div>
@@ -32,4 +32,4 @@ function Landing() {
     );
 }
 
-export default Landing;
+export default Signup;

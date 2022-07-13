@@ -2,12 +2,17 @@ import './PersonalReading.css'
 import HTMLRenderer from 'react-html-renderer'
 import axios from 'axios';
 import { useState, useRef, useEffect } from 'react';
-
-import React from 'react';
+import React, { Component } from 'react';
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
 import { faTags } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+// import Highlighter from 'react-hightlight-colors'
+// import SelectionHighlighter from 'react-highlight-selection';
+
+import { HighlightableTextArea } from 'react-highlight-popover';
+import SelectionHighlighter from 'react-highlight-selection';
 
 function PersonalReading() {
     const [html, setHtml] = useState('');
@@ -21,6 +26,14 @@ function PersonalReading() {
         .catch(() => {
             alert('페이지 로딩에 실패하였습니다.');
         })
+        
+        // axios.get('url')
+        // .then((response) => {
+            
+        // })
+        // .catch(() => {
+            
+        // })
     }, [currentPageNumber])
     
     /* highlight 기능 구현하기 */
@@ -86,26 +99,31 @@ function PersonalReading() {
     }
     
     if (highlightButton) {
-        highlightButton.addEventListener('click',(event) => {
+        highlightButton.addEventListener('click', (event) => {
             const selectedText = window.getSelection().toString().trim();
             
             // firefox에서는 range 객체를 여러 개 뽑을 수 있으나(여러 개 drag가 가능하나) chrome에서는 1개의 range 객체만 뽑을 수 있도록 지원한다.
             const range = window.getSelection().getRangeAt(0);
-            const span = document.createElement('span');
+            const span = document.createElement('mark');
             
             span.classList.add('highlighted');
-            // span.classList.add('')
-            // span.style.display = 'inline-block';
             span.appendChild(range.extractContents());
-            // span.innerHTML = `<span>${selectedText}</span>`
+            console.log("span2 : ", span);
             range.insertNode(span);
             
-            // axios.get('')
             console.log('range:', range);
             console.log('span:', span);
             console.log(selectedText);
         })
     }
+    
+    useEffect(() => {
+        let temp = document.querySelector('.y3');
+        if (temp) {
+            document.querySelector('.y3').classList.add('highlighted');
+        }
+    });
+        
     
     return (
         <>
@@ -115,6 +133,7 @@ function PersonalReading() {
                         나는 첫 번째
                     </section> */}
                     {/* <section className="PersonalReading__pages__rightPage" ref={realPage} dangerouslySetInnerHTML={{ __html: html }}> */}
+
                     <section className="PersonalReading__pages__rightPage">
                         {/* <embed type="text/html" src={process.env.PUBLIC_URL + '/htmlSource/practice2.html'} width="100%" height="100%"></embed> */}
                         {/* <embed type="text/html" src={html} width="100%" height="100%"></embed> */}
@@ -127,8 +146,11 @@ function PersonalReading() {
                         {/* <iframe width="100%" height="100%">
                             <HTMLRenderer html={html}></HTMLRenderer>
                         </iframe> */}
-                        <div style={{margin: 'auto', position: 'relative', width: '100%', height: '100%', overflow: 'hidden'}} dangerouslySetInnerHTML={{ __html: html}}></div>
+                            {/* <TempArea1> */}
+                            <div style={{margin: 'auto', position: 'relative', width: '100%', height: '130%', overflow: 'hidden'}} dangerouslySetInnerHTML={{ __html: html}}></div>
+                            {/* </TempArea1> */}
                     </section>
+                    
                     <div className="PersonalReading__pages__buttons">
                         <button id="previousButton" onClick={() => {setCurrentPageNumber(currentPageNumber - 1)}}>P</button>
                         <button id="nextButton" onClick={() => {setCurrentPageNumber(currentPageNumber + 1)}}>N</button>
@@ -139,8 +161,9 @@ function PersonalReading() {
                     {/* button for highlight */}
                     {/* <button id="HighlightButton"><FontAwesomeIcon icon={faTags} id="fai"></FontAwesomeIcon></button> */}
                     <button id="HighlightButton"></button>
+                    
                 </article>
-                <aside className="PersonalReading__mostLabeled">
+                {/* <aside className="PersonalReading__mostLabeled">
                     <div className="PersonalReading__mostLabeled__chart">
                         <div className="PersonalReading__mostLabeled__chart--title">
                             <h2 className="PersonalReading__mostLabeled__chart--title--text">Most Labeled</h2>
@@ -155,10 +178,33 @@ function PersonalReading() {
                             </ol>
                         </div>
                     </div>
-                </aside>
+                </aside> */}
             </main>
         </>
     );
 }
+
+// class TempArea1 extends Component {
+//     constructor() {
+//       super();
+//       this.selectionHandler = this.selectionHandler.bind(this);
+//     }
+   
+//     selectionHandler(selection) {
+//       //do something with selection
+//       console.log(selection);
+   
+//     }
+//     render() {
+//       const text = `<div style={{margin: 'auto', position: 'relative', width: '100%', height: '100%', overflow: 'hidden'}} dangerouslySetInnerHTML={{ __html: html}}></div>`;
+//       return (
+//         <SelectionHighlighter
+//           text={text}
+//           selectionHandler={this.selectionHandler}
+//           customClass='custom-class'
+//         />
+//       );
+//     }
+//   }
 
 export default PersonalReading;

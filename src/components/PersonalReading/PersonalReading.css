@@ -54,7 +54,8 @@
 
 .PersonalReading__pages__buttons {
     position: relative;
-    bottom: 36px;
+    left: 390px;
+    top: 120px;
     
     display: flex;
     justify-content: center;

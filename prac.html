@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <style type="text/css">
+        #console {
+            width: 300px;
+            height: 20px;
+            border: 1px solid #ccc;
+        }
+        
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+    
+    <script type="text/javascript">
+        function selectText() {
+            var selectionText = "";
+            
+            if (document.getSelection) {
+                selectionText = document.getSelection();
+            } else if (document.selection) {
+                selectionText = document.selection.createRange().text;
+            }
+            
+            return selectionText;
+        }
+        
+        document.onmouseup = function () {
+            document.getElementById("console").innerHTML = selectText();
+        }
+    </script>
+</head>
+<body>
+    <p>hello world, this is jungle.</p>
+    <p>마우스로 드래그해서 선택한 글 나오기</p>
+    <div id="console"></div>
+</body>
+</html>

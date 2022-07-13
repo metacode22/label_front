@@ -1,6 +1,7 @@
 import './Library.css';
 import { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Library() {
     // books라는 데이터를 books.js에 담는 방식도 고려해봐야 될 듯
@@ -29,6 +30,8 @@ function Library() {
         
     //     return CardsArray;
     // }
+
+    let navigate = useNavigate();
     
     return (
         <main>
@@ -38,11 +41,13 @@ function Library() {
                         <h2>Recently Read</h2>
                     </div>
                     <div className="Library__recentlyRead__cards__container">
+                        {/* ↓ 나중에 지워야할 부분, 중간 발표때 하려고 */}
+                        <img src={process.env.PUBLIC_URL + '/images/jacobfugger.png'} id='img' onClick={()=>navigate('/personalreading')}></img>
                     {/* 1 */}
                         {/* {booksRecent.map(function(element, index) {
                             return (
                                 // 백엔드팀이랑 data 네이밍 정할 필요 있음.
-                                <CardRecent bookRecent={element} key={index}></CardRecent>  
+                                <CardRecent bookRecent={element} key={index} level='1'></CardRecent>  
                             );
                         })} */}
                         
@@ -71,6 +76,8 @@ function CardRecent(props) {
         <div className="Library__recentlyRead__cards__card">
             {/* background에 이미지 어떻게 박을까? */}
             <div className="Library__recentlyRead__cards__card__bookImage">
+                <div className="text">read</div>
+
                 {/* CSS hover 필요 */}
                 <button className="Library__recentlyRead__cards__card__bookImage--readButton">Read</button>
                 <button className="Library__recentlyRead__cards__card__bookImage--highlightButton">Highlights</button>

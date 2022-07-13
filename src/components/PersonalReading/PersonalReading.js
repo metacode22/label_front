@@ -11,22 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function PersonalReading() {
     let [html, setHtml] = useState('');
-    let [currentPageNumber, setCurrentPageNumber] = useState(1);
-    
-    let selectableTextArea = useRef();
-    let highlightButton = useRef();
-    
-    // url : 3.35.27.172:3000/1/1 ~ 8
-    /* HTML 데이터 받아오기 */
-    // axios.get(`http://3.35.27.172:3000/1/${currentPageNumber}`)
-    // .then((response) => {
-    //     setHtml(response.data.result.pageHtml);
-    //     // console.log(response.data.result.pageHtml);
-    // })
-    // .catch(() => {
-    //     alert('데이터 로딩에 실패했습니다.');
-    // })
-    
+    let [currentPageNumber, setCurrentPageNumber] = useState(2);
     
     useEffect(() => {
         axios.get(`http://3.35.27.172:3000/1/${currentPageNumber}`)
@@ -36,20 +21,77 @@ function PersonalReading() {
         .catch(() => {
             alert('페이지 로딩에 실패하였습니다.');
         })
-        
-        // let temp = document.querySelectorAll(".PersonalReading__pages__rightPage");
-        // let temp2 = document.querySelector(".PersonalReading__pages__rightPage");
-        
-        // console.log(temp);
-        // temp.forEach((element) => {
-        //     if (element === temp2) {
-        //         console.log(true);
-        //     }
-        // })
-        // console.log(temp2);
-        // console.log(selectableTextArea.current)
-        // selectableTextArea.current.forEach((elem) => {console.log(elem)});
     }, [currentPageNumber])
+    
+    /* highlight 기능 구현하기 */
+    let selectableTextArea = document.querySelectorAll(".PersonalReading__pages__rightPage");
+    let highlightButton = document.querySelector("#HighlightButton");
+    
+    // selectableTextArea 영역에서만 selectableTextAreaMouseUp을 더했으므로
+    // selectableTextArea에서만 selectableTextAreaMouseUp 함수가 실행될 수 있다.
+    // selectableTextArea는 querySelectorAll로, .PersonalReading__pages__rightPage 안의 모든 태그들을 담고 있다.
+    // 그 각 태그들에게 다음과 같은 함수가 더해진다.
+    selectableTextArea.forEach((elem) => {
+        elem.addEventListener("mouseup", selectableTextAreaMouseUp);
+    });
+    
+    function selectableTextAreaMouseUp(event) {
+        setTimeout(() => {
+            // user가 어떤 것을 select(drag) 했는지 탐색한다.
+            // toString으로 문자열을 뽑고, trim으로 문자열 양 옆의 공백을 제거한다.
+            // let selectedText = window.getSelection().toString().trim();
+
+            // selectedText가 공백이 아니라면
+            if (window.getSelection().toString().trim() != 0) {
+                // MouseUp을 한 순간, page에서 마우스가 위치했던 x, y 좌표 값을 얻는다.
+                const x = event.pageX;
+                const y = event.pageY;
+                
+                // 스크롤 유무 차이인듯, 실험해보자.
+                // -> client를 사용하면 user의 화면 위치를 바탕으로 주는 듯 하다.
+                // -> page를 사용해야 해당 page에서 상대적인 위치를 구할 수 있을 것 같다.
+                // const x = event.clientX;
+                // const y = event.clientY;
+                
+                // getComputedStyle로 해당 요소의 style을 담은 object를 가져온 후, width 혹은 height를 취한다.
+                // 이 때 'px'이라는 문자열이 붙은 문자형이기 때문에 slice로 뒤의 'px'를 없앤 후 Number로 숫자형으로 만든다.
+                const highlightButtonWidth = Number(getComputedStyle(highlightButton).width.slice(0, -2));
+                const highlightButtonHeight = Number(getComputedStyle(highlightButton).height.slice(0, -2));
+                
+                // x, y 값을 바탕으로 highlightButton의 위치를 재설정한다.
+                // 버튼의 위치를 단순히 좀 더 정밀하게 조정해줬을 뿐이다. x, y에 빼지고 더해지는 값은 내가 마음대로 조절하면 된다.
+                highlightButton.style.left = `${x - highlightButtonWidth * 0.25}px`;
+                highlightButton.style.top = `${y - highlightButtonHeight * 1.25}px`;
+                
+                // highlightButton이 나타나게 만든다.
+                highlightButton.style.display = 'block';
+                
+                // 3D로, 아예 없는 상태에서 크기가 커지면서 나타나게 만든다.
+                // 근데 쓰면 더 이상할 것 같다. 고려해보자.
+                highlightButton.classList.add('btnEntrance');
+            }
+        }, 0);
+    }
+    
+    // highlightButton이 뜬 상태에서, highlightButton이 아닌 다른 것을 누르면 highlightButton이 사라지게 만든다.
+    document.addEventListener("mousedown", documentMouseDown);
+
+    function documentMouseDown(event) {
+        let highlightButton = document.querySelector("#HighlightButton");
+        if (highlightButton.style.display == "block" && event.target.id != 'HighlightButton') {
+                highlightButton.style.display = "none";
+                highlightButton.classList.remove("btnEntrance");
+                window.getSelection().empty();
+        }
+    }
+    
+    if (highlightButton) {
+        highlightButton.addEventListener('click',(event) => {
+            let selectedText = window.getSelection().toString().trim();
+            console.log(window.getSelection());
+            // console.log(selectedText);
+        })
+    }
     
     return (
         <>
@@ -59,7 +101,7 @@ function PersonalReading() {
                         나는 첫 번째
                     </section> */}
                     {/* <section className="PersonalReading__pages__rightPage" ref={realPage} dangerouslySetInnerHTML={{ __html: html }}> */}
-                    <section className="PersonalReading__pages__rightPage" ref={selectableTextArea}>
+                    <section className="PersonalReading__pages__rightPage">
                         {/* <embed type="text/html" src={process.env.PUBLIC_URL + '/htmlSource/practice2.html'} width="100%" height="100%"></embed> */}
                         {/* <embed type="text/html" src={html} width="100%" height="100%"></embed> */}
                         {/* <HTMLRenderer html={html}></HTMLRenderer> */}
@@ -81,7 +123,8 @@ function PersonalReading() {
                         
                     </div>
                     {/* button for highlight */}
-                    <button id="HighlightButton" ref={highlightButton}><FontAwesomeIcon icon={faTags}></FontAwesomeIcon></button>
+                    {/* <button id="HighlightButton"><FontAwesomeIcon icon={faTags} id="fai"></FontAwesomeIcon></button> */}
+                    <button id="HighlightButton"></button>
                 </article>
                 <aside className="PersonalReading__mostLabeled">
                     <div className="PersonalReading__mostLabeled__chart">
@@ -103,21 +146,5 @@ function PersonalReading() {
         </>
     );
 }
-
-// function HtmlPage() {
-//     let [html, setHtml] = useState('');
-    
-//     axios.get('http://3.35.27.172:3000/1/3')
-//     .then((response) => {
-//         console.log(response);
-//         setHtml(response.data.result.pageHtml);
-//     })
-    
-//     return (
-//         <div dangerouslySetInnerHTML={{
-//             __html: html
-//         }}></div>
-//     )
-// }
 
 export default PersonalReading;

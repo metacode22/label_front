@@ -68,7 +68,7 @@ function Library() {
                     </div>
                 </section>
                 <section className="Library__recommend">
-                    <h2>How about this one?</h2>
+                    {/* <h2>How about this one?</h2> */}
                 </section>
             </article>
         </main>

@@ -5,8 +5,8 @@
 
 .Library__recentlyRead__cards__container {
     width: 100%;
-    border: 1px solid black;
-    height: 420px;
+    /* border: 1px solid black; */
+    height: 280px;
     
     display: flex;
     flex-wrap: nowrap;
@@ -50,8 +50,8 @@
     width: 100px;
     
     cursor: pointer;
-    margin: 30px;
-    margin-top: 50px;
+    margin: 4px;
+    margin-top: 2px;
 
     border-radius: var(--border-radius);
     border: none;

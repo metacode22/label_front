@@ -38,9 +38,26 @@ function UserGrass(){
 }
 
 function UserPage(){
-    const [UserName, setUserName] = useState('5in9u');
+    const [UserName, setUserName] = useState('5in9u')
     const [UserBio, setUserBio] = useState('Book is my life📚')
     const [UserEmail, setUserEmail] = useState('5in9u@gmail.com')
+
+    const [Disable, setDisable] = useState(false);
+    const ChangeInput1 = (e)=>{
+        setUserName(e.target.value)
+    }
+    const ChangeInput2 = (e)=>{
+        setUserBio(e.target.value)
+    }
+    const ChangeInput3 = (e)=>{
+        setUserEmail(e.target.value)
+    }
+    const ChangeDisable = ()=>{
+        setUserName(()=>setUserName(''))
+        setUserBio(()=>setUserBio(''))
+        setUserEmail(()=>setUserEmail(''))
+        setDisable((current)=>!current)
+    }
 
     const [UserBook, setUserBook] = useState(['받은 책들 이름들'])
 
@@ -71,11 +88,13 @@ function UserPage(){
                 <input type='file' style={{display: 'none'}} accepet='image/*' name='profile_img' onChange={onChange} ref={fileInput}></input>
                 {/* <button className='Profile__edit__btn'>프로필 수정</button> */}
                 <p className='Userpage__default__information'>Name</p>
-                <p className='Userpage__default'>{UserName}</p>
+                <input disabled={!Disable} onChange={ChangeInput1} className='Userpage__default' value={Disable ? UserName : UserName}></input>
                 <p className='Userpage__default__information'>Bio</p>
-                <p className='Userpage__default'>{UserBio}</p>
+                <input disabled={!Disable} onChange={ChangeInput2} className='Userpage__default' value={Disable ? UserBio : UserBio}></input>
                 <p className='Userpage__default__information'>Email</p>
-                <p className='Userpage__default'>{UserEmail}</p>
+                <input disabled={!Disable} onChange={ChangeInput3} className='Userpage__default' value={Disable ? UserEmail : UserEmail}></input>
+                <p></p>
+                <button disabled={Disable} onClick={ChangeDisable} className='Userpage__edit__profile'>{!Disable ? '프로필 수정' : '프로필 등록'}</button>
             </aside>
             <article className='User__book'>
                 <section className='User__book__section'>

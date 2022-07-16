@@ -34,6 +34,7 @@
 
 .Userpage__default__information{
     font-weight: bold;
+    cursor: default;
 }
 
 .Userpage__default{
@@ -45,11 +46,23 @@
     margin: 3px;
     padding: 8px;
     text-align: center;
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 
 .Userpage__default:hover{
     background-color: var(--color-1-a);
+}
+
+.Userpage__edit__profile{
+    cursor: pointer;
+    border: 1px solid var(--color-darkWhite);
+    border-radius: var(--border-radius);
+    background-color: #858484;
+    color: white
+}
+
+.Userpage__edit__profile:hover{
+    opacity: 70%;
 }
 
 .User__book{
@@ -76,6 +89,7 @@
     height: 20px;
     margin: 5px;
     padding:8px;
+    cursor: default;
 }
 
 .User__book__list{
@@ -88,12 +102,6 @@
 
 .User__book__list:hover{
     background-color: var(--color-1-a);
-}
-
-.User__book__list:active{
-    box-shadow: var(--box-shadow);
-    position: var(--position);
-    top: var(--top);
 }
 
 /* 아래는 잔디 CSS */

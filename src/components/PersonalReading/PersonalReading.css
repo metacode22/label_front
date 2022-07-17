@@ -1,5 +1,12 @@
 .PersonalReading {
+    width: 1000px;
+    margin: auto;
+    
     display: flex;
+    flex-direction: column;
+    align-items:flex-start;
+    
+    /* justify-content: center; */
 }
 
 .PersonalReading__pages {
@@ -110,7 +117,11 @@
 }
 
 .highlighted {
-    background-color: yellow;
+    font-weight: bold;
+    background-color: var(--color-2-c);
+    border-radius: var(--border-radius-2);
+    
+    animation: highlightSmoothAppear 0.25s;
 }
 
 @keyframes btnEntrance {
@@ -122,3 +133,12 @@
         opacity: 1;
     }
 }
+
+@keyframes highlightSmoothAppear {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }

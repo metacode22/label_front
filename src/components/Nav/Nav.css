@@ -21,6 +21,7 @@ header {
     color: var(--color-white);
     cursor: pointer;
     margin: 8px;
+    font-weight: bold;
 }
 
 .Nav__profile:hover{

@@ -1,47 +1,39 @@
 .Library__container {
+    /* border: 1px solid black; */
     margin: 60px auto;
-    max-width: 1200px;
+    max-width: 1250px;
 }
 
 .Library__recentlyRead__cards__container {
-    width: 100%;
     /* border: 1px solid black; */
-    height: 280px;
+    width: 100%;
+    height: 100%;
     
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     justify-content: space-between;
 }
 
 .Library__recentlyRead__cards__card {
+    /* border: 1px solid black; */
     height: 360px;
     width: 240px;
-    border: 1px solid black;
     
     display: flex;
     flex-direction: column;
+    animation: cardSmoothAppear 0.5s;
 }
 
 .Library__recentlyRead__cards__card__bookImage {
+    /* border: 1px solid black; */
     height: 300px;
     width: 220px;
-    border: 1px solid black;
+    border-radius: var(--border-radius-2);
+    box-shadow: 1px 1px 12px;
     margin: auto;
     
     display: flex;
     flex-direction: column;
-}
-
-.Library__recentlyRead__cards__card__bookImage--wrap{
-    position: absolute;
-    margin: 120px auto;
-    opacity: 0;
-}
-
-.Library__recentlyRead__cards__card__bookImage--wrap:hover{
-    opacity: 1;
-    transition: .3s ease;
-
 }
 
 .Library__recentlyRead__cards__card__bookImage--readButton,
@@ -50,8 +42,8 @@
     width: 100px;
     
     cursor: pointer;
-    margin: 4px;
-    margin-top: 2px;
+    margin: 25px 10px;
+    z-index: 10;
 
     border-radius: var(--border-radius);
     border: none;
@@ -60,15 +52,52 @@
     color: white;
 }
 
+.Library__recentlyRead__cards__card__buttons {
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.Library__recentlyRead__cards__card__buttons:hover {
+    opacity: 1;
+    transition: 0.15s ease;
+}
+
 .Library__recentlyRead__cards__card__bookImage--readButton:hover,
 .Library__recentlyRead__cards__card__bookImage--highlightButton:hover {
     background-color: var(--color-2-a);
 }
 
-.Library__recentlyRead__cards__content {
+.Library__recentlyRead__cards__card__contents {
     margin-top: 6px;
     
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+
+.Library__recentlyRead__cards__card__contents--title {
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.Library__recentlyRead__cards__card__contents--readingPage {
+    /* font-weight: bold; */
+    font-size: 0.75rem;
+}
+
+@keyframes cardSmoothAppear {
+    from {
+      opacity: 0;
+      transform: translateY(5%);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }

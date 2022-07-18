@@ -128,7 +128,7 @@ export const Milkdown: FC<{ value: string }> = ({ value }) => {
                 ctx.set(rootCtx, root);
                 ctx.set(defaultValueCtx, value);
                 ctx.get(listenerCtx).markdownUpdated((_, value) => {
-                    value;
+                    return value;
                     // console.log(value);
                 });
             }).use(block.configure(blockPlugin, {

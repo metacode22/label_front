@@ -42,7 +42,6 @@ Now you can play!
 				<Route path="/personalreading" element={<PersonalReading></PersonalReading>}></Route>
 				<Route path='/userpage/*' element={<UserPage />}></Route>
 				<Route path='/highlight/*' element={<Highlight />}></Route>
-				<Route path='/editor' element={<Editor />}></Route>
 				{/* <Route path='/coeditor' element={<Y />}></Route> */}
                 <Route path='/milkdown' element={
                 <StrictMode>

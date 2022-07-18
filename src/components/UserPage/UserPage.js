@@ -1,5 +1,11 @@
 import { useState, useRef } from 'react';
 import './UserPage.css'
+// import axios from 'axios';
+
+// async function getProfile(){
+//     const response = await axios.get(`http://localhost:8888/profile/${id}`);
+//     return response.json
+// }
 
 function UserGrass(){
     // const squares = document.querySelector('.squares');
@@ -38,7 +44,7 @@ function UserGrass(){
 }
 
 function UserPage(){
-    const [UserName, setUserName] = useState('5in9u')
+    const [UserName, setUserName] = useState(getProfile) //원랜 '5in9u' 이렇ㄱㅔ 적어두었음
     const [UserBio, setUserBio] = useState('Book is my life📚')
     const [UserEmail, setUserEmail] = useState('5in9u@gmail.com')
 
@@ -89,12 +95,13 @@ function UserPage(){
                 {/* <button className='Profile__edit__btn'>프로필 수정</button> */}
                 <p className='Userpage__default__information'>Name</p>
                 <input disabled={!Disable} onChange={ChangeInput1} className='Userpage__default' value={Disable ? UserName : UserName}></input>
+                {/* ↑수정을 해야하는 게, 수정하고 등록버튼을 눌렀을 때는 수정한 이름이 들어와야 함.. 이것도 데이터를 받는 건가? */}
                 <p className='Userpage__default__information'>Bio</p>
                 <input disabled={!Disable} onChange={ChangeInput2} className='Userpage__default' value={Disable ? UserBio : UserBio}></input>
                 <p className='Userpage__default__information'>Email</p>
                 <input disabled={!Disable} onChange={ChangeInput3} className='Userpage__default' value={Disable ? UserEmail : UserEmail}></input>
                 <p></p>
-                <button disabled={Disable} onClick={ChangeDisable} className='Userpage__edit__profile'>{!Disable ? '프로필 수정' : '프로필 등록'}</button>
+                <button type='submit' onClick={ChangeDisable} className='Userpage__edit__profile'>{!Disable ? '프로필 수정' : '프로필 등록'}</button>
             </aside>
             <article className='User__book'>
                 <section className='User__book__section'>

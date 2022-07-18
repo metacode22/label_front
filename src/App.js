@@ -17,10 +17,6 @@ function App() {
 		<div className="App">
 			<Nav></Nav>
 			
-			{/* <Landing></Landing>
-			<Library></Library>
-			<PersonalReading></PersonalReading> */}
-			
 			<Routes>
 				<Route path="/" element={<Landing></Landing>}></Route>
 				<Route path="/signup" element={<Signup></Signup>}></Route>
@@ -30,7 +26,6 @@ function App() {
 				<Route path='/highlight/*' element={<Highlight />}></Route>
 				<Route path='/editor' element={<Editor />}></Route>
 				<Route path='/coeditor' element={<Y />}></Route>
-				{/* <Route path='/editbook/*' element={<EditBook/>}></Route> */}
 			</Routes>
 		</div>
   	);

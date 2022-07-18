@@ -279,7 +279,7 @@ function clickHighlight(pdfIdx, currentPageNumber, highlightButton) {
 
 function HtmlRendered(props) {
     return (
-        <div style={{margin: 'auto', position: 'relative', width: '100%', height: '100%', overflow: 'auto'}} dangerouslySetInnerHTML={{__html: props.html}}></div>
+        <div style={{margin: 'auto', position: 'relative', width: '100%', height: '100%', overflow: 'auto', objectFit: ''}} dangerouslySetInnerHTML={{__html: props.html}}></div>
     )
 }
 

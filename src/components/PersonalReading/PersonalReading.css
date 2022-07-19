@@ -54,16 +54,17 @@
 
 .PersonalReading__pages__buttons {
     position: relative;
-    left: 390px;
-    top: 120px;
+    /* left: 390px; */
+    /* top: 120px; */
     
     display: flex;
     justify-content: center;
 }
 
-#previousButton,
-#nextButton {
+.prevButton,
+.nextButton {
     all: unset;
+    font-size: 1.25rem;
     margin: 0 6px;
     /* border: 2px solid var(--color-white); */
     border-radius: 100%;
@@ -73,10 +74,10 @@
     background-color: var(--color-1-c);
     color: var(--color-white);
     font-weight: bold;
-    cursor: pointer;
+    cursor: pointer
 }
 
-#HighlightButton {
+.HighlightButton {
     width: 2.0rem;
     height: 2.0rem;
     font-size: 1.0rem;
@@ -93,17 +94,17 @@
     transition: color 0.2s, background-color 0.2s ease-in-out;
 }
 
-#HighlightButton:hover {
+.HighlightButton:hover {
     color: var(--color-white);
     background-color: var(--color-1-c);
 }
 
-#HighlightButton i {
+.HighlightButton i {
     pointer-events: none;
 }
 
 .btnEntrance {
-    animation-duration: 0.1s;
+    animation-duration: 0.15s;
     animation-fill-mode: both;
     animation-name: btnEntrance;
 }

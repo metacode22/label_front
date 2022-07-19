@@ -56,8 +56,8 @@
     
 }
 
-.Landing__login--or {
-    padding: 8px 60px;
+.Landing__login--or { 
+    padding: 1rem; 
     display: flex;
     flex-basis: 100%;
     align-items: center;

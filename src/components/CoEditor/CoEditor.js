@@ -38,7 +38,7 @@ const room = "example-room";
 
 const ydoc = new Y.Doc()
 const websocketProvider = new HocuspocusProvider({
-  url: 'ws://127.0.0.1:1234',
+  // url: 'ws://127.0.0.1:1234',
   // parameters: {
   //   key: 'write_bqgvQ3Zwl34V4Nxt43zR',
   // },

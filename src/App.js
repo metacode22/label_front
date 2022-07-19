@@ -6,15 +6,11 @@ import Signup from './components/Signup/Signup.js'
 import UserPage from './components/UserPage/UserPage.js';
 import Highlight from './components/Highlight/Highlight';
 import Library from './components/Library/Library.js';
-import Editor from './components/Editor/tiptap.jsx';
 import Y from './components/CoEditor/CoEditor.js';
 import PersonalReading from './components/PersonalReading/PersonalReading.js';
-// import EditBook from './components/EditBook/EditBook.js'
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 
 function App() {
-	
-	
   	return (
 		<div className="App">
 			<Nav></Nav>
@@ -30,9 +26,7 @@ function App() {
 				<Route path="/personalreading/*" element={<PersonalReading></PersonalReading>}></Route>
 				<Route path='/userpage/*' element={<UserPage />}></Route>
 				<Route path='/highlight/*' element={<Highlight />}></Route>
-				<Route path='/editor' element={<Editor />}></Route>
 				<Route path='/coeditor' element={<Y />}></Route>
-				{/* <Route path='/editbook/*' element={<EditBook/>}></Route> */}
 			</Routes>
 		</div>
   	);

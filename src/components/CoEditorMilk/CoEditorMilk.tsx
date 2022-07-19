@@ -1,3 +1,5 @@
+/* Copyright 2021, Milkdown by Mirone. */
+
 import { defaultValueCtx, Editor, rootCtx } from '@milkdown/core';
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
 import { prism } from '@milkdown/plugin-prism';
@@ -8,6 +10,9 @@ import { ReactEditor, useEditor, useNodeCtx } from '@milkdown/react';
 import { nord } from '@milkdown/theme-nord';
 import { FC, ReactNode, useEffect } from 'react';
 
+import { CodeFence } from './CodeFence';
+import { codeFence } from './CodeFence/codeFence.node';
+import { Image } from './Image';
 import { block, blockPlugin } from '@milkdown/plugin-block';
 import React from 'react';
 
@@ -103,7 +108,6 @@ class CollabManager {
         this.flush(template);
     }
 }
-
 const Link: FC<{ children: ReactNode }> = ({ children }) => {
     const { node } = useNodeCtx();
     return (
@@ -116,7 +120,9 @@ const Link: FC<{ children: ReactNode }> = ({ children }) => {
 export const Milkdown: FC<{ value: string }> = ({ value }) => {
     const { editor, loading, getInstance } = useEditor((root, renderReact) => {
         const nodes = commonmark
+            .configure(image, { view: renderReact(Image) })
             .configure(link, { view: renderReact(Link) })
+            .replace(cmCodeFence, codeFence(renderReact<Node>(CodeFence, { as: 'section' }))());
         const editor = Editor.make()
             .config((ctx) => {
                 ctx.set(rootCtx, root);

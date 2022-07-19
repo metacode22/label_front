@@ -6,20 +6,14 @@ import Signup from './components/Signup/Signup.js'
 import UserPage from './components/UserPage/UserPage.js';
 import Highlight from './components/Highlight/Highlight';
 import Library from './components/Library/Library.js';
-import Editor from './components/Editor/tiptap.jsx';
-import Y from './components/CoEditor/CoEditor.js';
+import Test from './components/Test/Test.js'
 import PersonalReading from './components/PersonalReading/PersonalReading.js';
-
-import TextEditor  from './components/TextEditor/TextEditor.tsx'
-import { Milkdown } from './components/TextEditor/TextEditor';
-
+import { Milkdown } from './components/CoEditorMilk/CoEditorMilk';
 // import EditBook from './components/EditBook/EditBook.js'
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-
+import React, { StrictMode } from 'react';
 
 function App() {
-	let [isLogin, setIsLogin] = useState(false);
 	
 	const markdown = `
 # Milkdown React Test
@@ -32,7 +26,9 @@ milkdown.create();
 ---
 Now you can play!
 `;
-
+    function Test(props){
+        return <Milkdown value={markdown}/>
+    }
   	return (
 		<div className="App">
 			<Nav></Nav>
@@ -44,9 +40,13 @@ Now you can play!
 				<Route path="/personalreading/*" element={<PersonalReading></PersonalReading>}></Route>
 				<Route path='/userpage/*' element={<UserPage />}></Route>
 				<Route path='/highlight/*' element={<Highlight />}></Route>
-				{/* <Route path='/editor' element={<Editor />}></Route> */}
 				{/* <Route path='/coeditor' element={<Y />}></Route> */}
-				<Route path="/texteditor/*" element={<Milkdown value={markdown}></Milkdown>}></Route> 
+                <Route path='/milkdown' element={
+                <StrictMode>
+                    <Test/>
+                </StrictMode>
+                }></Route>
+				{/* <Route path='/editbook/*' element={<EditBook/>}></Route> */}
 			</Routes>
 		</div>
   	);

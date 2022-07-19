@@ -41,7 +41,6 @@ function LoginTemp() {
                 {/* <img src={process.env.PUBLIC_URL + '/images/google_login_icon.png'} id='Google__login__icon'></img> */}
                 {/* <div>&nbsp;&nbsp;log in with Google</div> */}
                 <LoginButton></LoginButton>
-                <LogoutButton></LogoutButton>
             {/* </div> */}
             <div className="Landing__login--or">or</div>
             <form action="" method="" className="Landing__login__form">

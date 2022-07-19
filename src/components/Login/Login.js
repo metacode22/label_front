@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { GoogleLogin } from "react-google-login";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from 'react-cookie';
-import { setCookie } from "../../cookie/cookie";
 
 const clientId = "432604043005-ha7dq6k3unqersiaciethfdi8tr2lcr0.apps.googleusercontent.com";
 
@@ -34,7 +33,7 @@ function Login() {
 
     
     return (
-        <div id="signInButton">
+        <div id="signInButton" style={{textAlign: 'center'}}>
             <GoogleLogin 
                 clientId={clientId}
                 buttonText="Log in with Google"

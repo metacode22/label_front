@@ -14,7 +14,7 @@ function Nav() {
 				{/* <div className="Nav__search"></div> */}
 				{/* <div className="Nav__menu"></div> */}
 				{window.location.href.charAt(window.location.href.length - 1) != "/" ? 
-				<div>
+				<div className="Nav__buttons">
 					<button className="Nav__profile" onClick={() => { navigate('/highlight') }}>My Labels</button>
 					<button className="Nav__profile" onClick={() => { navigate('/library') }}>My Library</button>
 					<Logout></Logout>

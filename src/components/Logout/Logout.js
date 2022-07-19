@@ -26,11 +26,12 @@ function Logout() {
     }
     
     return (
-        <div id="signOutButton">
+        <div id="signOutButton" style={{ marginLeft: '10px'}}>
             <GoogleLogout 
                 clientId={clientId}
                 buttonText={"Logout"}
                 onLogoutSuccess={onSuccess}
+                
             />
         </div>
     )

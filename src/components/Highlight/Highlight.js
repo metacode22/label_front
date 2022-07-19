@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Highlight.css'
+import './Highlight.css';
+import axios from 'axios';
 
 function HighlightList(){
     let [result, setResult] = useState([]);
@@ -19,6 +20,13 @@ function HighlightList(){
         })
     }, []);
 
+    useEffect(() => {
+        axios.get(`http://3.35.27.172:3000/highlights/pdfs/${pdfIdx}`)
+        .then((response) => {
+            console.log(response);
+        })
+    })
+    
     return (
         <div >
             <ul className='li__color__edit'>

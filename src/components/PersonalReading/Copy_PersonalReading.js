@@ -2,64 +2,22 @@ import './PersonalReading.css';
 import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import React from 'react';
-import { useLocation } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
 
 function PersonalReading() {
-    
-    const location = useLocation();
-    console.log('location:', location);
-    let goToThisPageFirst = location.state;
-
-    if (goToThisPageFirst === null) {
-        // 임시로 해둠. AXIOS로 받아와야 함.
-        goToThisPageFirst = 1;
-    }
-
     let pdfIdx = 1;
     let [html, setHtml] = useState(null);
-    let [currentPageNumber, setCurrentPageNumber] = useState(goToThisPageFirst);
+    let [currentPageNumber, setCurrentPageNumber] = useState(3);
     const highlightButton = useRef();
-    const [cookies, setCookie, removeCookie] = useCookies(['id']);
     
     console.log(1, 'rendered');
     useEffect(() => {
-        axios.get(`http://localhost:3001/pdfs/${pdfIdx}/pages/${currentPageNumber}`, {
-            headers: {
-                sessionidforauth: cookies.id
-            }
-        })
-        .then((response) => {
-            console.log('cookies:', response);
-        })
-        
         axios.get(`http://3.35.27.172:3000/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
         .then((response) => {
-            console.log(21, 'useEffect - axios - setHtml');
             setHtml(response.data.result.pageHtml);
-            console.log(22, 'useEffect - axios - setHtml');
+            console.log(2, 'useEffect - axios - setHtml');
         })
         .catch(() => {
             alert('페이지 로딩에 실패하였습니다.');
-        })
-        .then(() => {
-            axios.get(`http://3.35.27.172:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
-            .then((response) => {
-                console.log(4, 'useEffect2 - axios2 - highlightData GET');
-                console.log('highlightData GET Success\nresponse:', response);
-                
-                const highlightData = response.data.result;
-                for (let i = 0; i < highlightData.length; i++) {
-                    doHighlight(highlightData[i]);
-                    console.log(highlightData[i], i);
-                }
-            })
-            .catch((error) => {
-                console.log('highlightData GET Fail\nerror:', error);
-            })
-        })
-        .catch(() => {
-            alert('highlighting에 실패하였습니다.');
         })
         
         let timer = null;
@@ -107,22 +65,22 @@ function PersonalReading() {
         }
     }, [currentPageNumber])
     
-    // useEffect(() => {
-        // axios.get(`http://3.35.27.172:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
-        // .then((response) => {
-        //     console.log(4, 'useEffect2 - axios2 - highlightData GET');
-        //     console.log('highlightData GET Success\nresponse:', response);
+    useEffect(() => {
+        axios.get(`http://3.35.27.172:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
+        .then((response) => {
+            console.log(4, 'useEffect2 - axios2 - highlightData GET');
+            console.log('highlightData GET Success\nresponse:', response);
             
-        //     const highlightData = response.data.result;
-        //     for (let i = 0; i < highlightData.length; i++) {
-        //         doHighlight(highlightData[i]);
-        //         console.log(highlightData[i], i);
-        //     }
-        // })
-        // .catch((error) => {
-        //     console.log('highlightData GET Fail\nerror:', error);
-        // })
-    // }, [currentPageNumber])
+            const highlightData = response.data.result;
+            for (let i = 0; i < highlightData.length; i++) {
+                doHighlight(highlightData[i]);
+                console.log(highlightData[i], i);
+            }
+        })
+        .catch((error) => {
+            console.log('highlightData GET Fail\nerror:', error);
+        })
+    }, [currentPageNumber])
 
     return (
         <main className="PersonalReading">
@@ -151,9 +109,8 @@ function PersonalReading() {
 }
 
 function drawHighlight(range, node) {
-    // node.classList.add('hello');
-    // node.style.color = "white";
-    // node.style.backgroundColor = "black";
+    node.style.color = "white";
+    node.style.backgroundColor = "black";
     node.appendChild(range.extractContents());
     range.insertNode(node);
 }
@@ -188,7 +145,6 @@ function doHighlight(highlightData) {
                 //         && currentElement.childNodes[indexOfSelectedStartContainer].length >= offsetOfSelectedStartContainer) {
                         
                         const newNode = document.createElement("span");
-                        newNode.classList.add('highlighted');
                         if (decimalYOfSelectedStartContainer === decimalYOfSelectedEndContainer) {
                             newRange.setStart(currentElement.childNodes[indexOfSelectedStartContainer], offsetOfSelectedStartContainer);
                             newRange.setEnd(currentElement.childNodes[indexOfSelectedEndContainer], offsetOfSelectedEndContainer);
@@ -301,7 +257,7 @@ function clickHighlight(pdfIdx, currentPageNumber, highlightButton) {
 
 function HtmlRendered(props) {
     return (
-        <div style={{margin: 'auto', position: 'relative', width: '100%', height: '100%', overflow: 'auto', objectFit: ''}} dangerouslySetInnerHTML={{__html: props.html}}></div>
+        <div style={{margin: 'auto', position: 'relative', width: '100%', height: '100%', overflow: 'auto'}} dangerouslySetInnerHTML={{__html: props.html}}></div>
     )
 }
 

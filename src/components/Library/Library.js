@@ -2,17 +2,30 @@ import './Library.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 function Library() {
-    // useEffect(() => {
-    //     axios.get('url')
-    //     .then((response) => {
-    //         console.log('axios GET Success:', response);
-    //     })
-    //     .catch((error) => {
-    //         console.log('axops GET Fail:', error);
-    //     })
-    // }, [])
+    const [cookies, setCookie, removeCookie] = useCookies(['id']);
+    let navigate = useNavigate();
+    console.log(cookies.id);
+    
+    useEffect(() => {
+        axios.post('http://localhost:3001/auth/test', {
+            forauthorization: cookies.id
+            // credentials: "same-origin",
+        })
+        .then((response) => {
+            // console.log('Authorize Success:', response);
+            if (response.data.isSuccess === false) {
+                console.log('Authorize Fail')
+                navigate('/');
+            }
+        })
+        .catch((error) => {
+            console.log(cookies.id);
+            console.log('Post Authorize Error', error);
+        })
+    })
     
     return (
         <main>

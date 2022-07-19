@@ -2,15 +2,38 @@ import './PersonalReading.css';
 import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import React from 'react';
+import { useCookies } from 'react-cookie';
+import { useLocation } from 'react-router-dom';
 
 function PersonalReading() {
+    const location = useLocation();
+    let goToThisPage = location.state;
+    
+    if (goToThisPage === null) {
+        // currentPageNumber 받아와야 함.
+        // axios.get()
+        
+        // 임시
+        goToThisPage = 1;
+    }
+    
     let pdfIdx = 1;
     let [html, setHtml] = useState(null);
-    let [currentPageNumber, setCurrentPageNumber] = useState(3);
+    let [currentPageNumber, setCurrentPageNumber] = useState(goToThisPage);
     const highlightButton = useRef();
+    const [cookies, setCookie, removeCookie] = useCookies(['id']);
     
     console.log(1, 'rendered');
     useEffect(() => {
+        axios.get(`http://localhost:3001/pdfs/${pdfIdx}/pages/${currentPageNumber}`, {
+            headers: {
+                sessionidforauth: cookies.id
+            }
+        })
+        .then((response) => {
+            console.log('cookies:', response);
+        })
+        
         axios.get(`http://3.35.27.172:3000/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
         .then((response) => {
             console.log(21, 'useEffect - axios - setHtml');

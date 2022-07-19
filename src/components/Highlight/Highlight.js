@@ -10,26 +10,26 @@ function HighlightList(props){
     const [Hover, setHover] = useState(0);
 
     let navigate = useNavigate();
-    // const handlerOver = (e)=>{
-    //     setHover(()=>{
-    //         return onMouseOver(1);
-    //     });
-    // }
-    
-    
-    
-    
+    let pdfIdx = 1;
+    const [highlightData, setHighlightData] = useState('');
 
+    useEffect(() => {
+        axios.get(`http://3.35.27.172:3000/highlights/pdfs/${pdfIdx}`)
+        .then((response) => {
+            console.log(response);
+        })
+    })
+    
     return (
         <div >
-            <ul className='li__color__edit' onClick={() => {navigate('/personalreading')}}><b>ch.1</b>
+            <ul className='li__color__edit'><b>ch.1</b>
                 <li data-level="0"></li> {/* ← 이거 남겨야 합니다!! */}
                 {/* <li data-level="${level}"></li> */}
                 {/* 클릭 이벤트도 발생시켜야함 text눌렀을 때, hover도 있고 */}
                 {/* <li data-level="1" onMouseOver={(e)=>{this.handlerOver(e);}} onMouseOut={(e)=>{this.handlerOut(e);}}>{HighlightText[0]}</li> */}
-                <li data-level="1">p.7 의심되는 자의 무덤을 파서 시체의 썩어 가는 살을</li>
-                <li data-level="2">p.8 신이 그가 많은 돈을 벌기를 바라지 않았다면 그에게 그런 재능을 주지 않았으리라는 것이었다.</li>
-                <li data-level="3">p.8 자본주의와 공산주의의 첫 대규모 충돌인 독일 농민 전쟁에서는 전쟁 자금을 지원해 자유 기업 체제의 조기 붕괴를 막기도 했다.</li>
+                <li data-level="1" onClick={() => {navigate('/personalreading', { state: 3 })}}>p.7 의심되는 자의 무덤을 파서 시체의 썩어 가는 살을</li>
+                <li data-level="2" onClick={() => {navigate('/personalreading', { state: 4 })}}>p.8 신이 그가 많은 돈을 벌기를 바라지 않았다면 그에게 그런 재능을 주지 않았으리라는 것이었다.</li>
+                <li data-level="3" onClick={() => {navigate('/personalreading', { state: 5 })}}>p.8 자본주의와 공산주의의 첫 대규모 충돌인 독일 농민 전쟁에서는 전쟁 자금을 지원해 자유 기업 체제의 조기 붕괴를 막기도 했다.</li>
             </ul>
         </div>
     )
@@ -51,7 +51,7 @@ function Highlight(){
             <article className='Highlight__list__article'>
                 <section className='Highlight__list__title'>
                     <p style={{ marginBottom: '5px'}} className='Highlight__list__title__name'>자본가의 탄생</p>
-                    <h2 style={{ marginTop: '0px'}}>자본은 어떻게 종교와 정치를 압도했는가</h2>
+                <h2 style={{ marginTop: '0px'}}>자본은 어떻게 종교와 정치를 압도했는가</h2>
                     <p className='Highlight__list__title__author'>JACOB FUGGER</p>
                 </section>
                 <section className='Highlight__list__btn'>

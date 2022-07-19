@@ -11,15 +11,20 @@ import Y from './components/CoEditor/CoEditor.js';
 import PersonalReading from './components/PersonalReading/PersonalReading.js';
 // import EditBook from './components/EditBook/EditBook.js'
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 function App() {
+	let [isLogin, setIsLogin] = useState(false);
+	
+	
+	
   	return (
 		<div className="App">
 			<Nav></Nav>
 			
 			<Routes>
 				<Route path="/" element={<Landing></Landing>}></Route>
-				<Route path="/signup" element={<Signup></Signup>}></Route>
+				{/* <Route path="/signup" element={<Signup></Signup>}></Route> */}
 				<Route path="/library/*" element={<Library></Library>}></Route>
 				<Route path="/personalreading/*" element={<PersonalReading></PersonalReading>}></Route>
 				<Route path='/userpage/*' element={<UserPage />}></Route>

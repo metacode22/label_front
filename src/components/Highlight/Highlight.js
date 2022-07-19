@@ -61,13 +61,14 @@ function HighlightListShow(props) {
 
         for (let i = 0; i < props.length; i++) {
             // result.push(<li data-level={i + 1}>p.{props.list[i].pageNum}, {props.list[i].data}</li>) // 나중에 색 구분할 거면 이렇게 써야함
-            result.push(<li key={i} onClick={()=>{navigate(`/personalreading/pdfs/${props.list[i].userBookIdx}/pages/${props.list[i].pageNum}`)}}>p.{props.list[i].pageNum}, {props.list[i].data}</li>)
+            // result.push(<li key={i} onClick={()=>{navigate(`/personalreading/pdfs/${props.list[i].userBookIdx}/pages/${props.list[i].pageNum}`)}}>p.{props.list[i].pageNum}, {props.list[i].data}</li>)
+            result.push(<li key={i} onClick={()=>{navigate(`/personalreading`, { state: props.list[i].pageNum})}}>p.{props.list[i].pageNum}, {props.list[i].data}</li>)
         }
 
         return result;
     }
 
-    return rendering()
+    return rendering() 
 }
 
 function TitleShow(props){

@@ -2,11 +2,21 @@ import './PersonalReading.css';
 import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 
 function PersonalReading() {
+    const location = useLocation();
+    console.log('location:', location);
+    let goToThisPageFirst = location.state;
+
+    if (goToThisPageFirst === null) {
+        // 임시로 해둠. AXIOS로 받아와야 함.
+        goToThisPageFirst = 1;
+    }
+
     let pdfIdx = 1;
     let [html, setHtml] = useState(null);
-    let [currentPageNumber, setCurrentPageNumber] = useState(2);
+    let [currentPageNumber, setCurrentPageNumber] = useState(goToThisPageFirst);
     const highlightButton = useRef();
     
     console.log(1, 'rendered');

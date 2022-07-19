@@ -9,13 +9,29 @@ import Library from './components/Library/Library.js';
 import Editor from './components/Editor/tiptap.jsx';
 import Y from './components/CoEditor/CoEditor.js';
 import PersonalReading from './components/PersonalReading/PersonalReading.js';
-import TextEditor  from './components/TextEditor/TextEditor'
+
+import TextEditor  from './components/TextEditor/TextEditor.tsx'
+import { Milkdown } from './components/TextEditor/TextEditor';
+
 // import EditBook from './components/EditBook/EditBook.js'
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
+
 function App() {
 	let [isLogin, setIsLogin] = useState(false);
+	
+	const markdown = `
+# Milkdown React Test
+> [Milkdown](https://milkdown.dev/) is an editor.
+![cat](https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/VAN_CAT.png/440px-VAN_CAT.png)
+\`\`\`javascript [Sample]
+const milkdown = new Milkdown();
+milkdown.create();
+\`\`\`
+---
+Now you can play!
+`;
 
   	return (
 		<div className="App">
@@ -30,7 +46,7 @@ function App() {
 				<Route path='/highlight/*' element={<Highlight />}></Route>
 				{/* <Route path='/editor' element={<Editor />}></Route> */}
 				{/* <Route path='/coeditor' element={<Y />}></Route> */}
-				<Route path="/texteditor/*" element={<TextEditor></TextEditor>}></Route> 
+				<Route path="/texteditor/*" element={<Milkdown value={markdown}></Milkdown>}></Route> 
 			</Routes>
 		</div>
   	);

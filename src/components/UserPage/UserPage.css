@@ -3,7 +3,7 @@
 }
 
 .Profile__edit{
-    height: 100vh;
+    height: 100;
     display: flex;
     flex-direction: column;
     flex-basis: 25%;
@@ -55,21 +55,13 @@
 }
 
 .User__book{
-    margin: 60px;
     flex-basis: 75%;
-    height: 100vh;
-    
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
 .User__book__section{
-    width: 100%;
     display: flex;
     flex-direction: column;
-    margin: 50px 100px;
+    margin: 100px;
     text-align: center;
 }
 
@@ -84,7 +76,7 @@
     font-weight: bold;
     width: 10%;
     height: 20px;
-    /* margin: 5px; */
+    margin: 5px;
     padding:8px;
 }
 
@@ -92,7 +84,7 @@
     width: 40%;
     height: 20px;
     padding:8px;
-    /* margin: 5px; */
+    margin: 5px;
     cursor: pointer;
 }
 
@@ -113,10 +105,6 @@ grid-template-areas: "empty months"
                         "days squares";
 grid-template-columns: auto 1fr;
 grid-gap: 10px;
-margin-left: 0;
-margin-right: 0;
-padding-left: 0;
-padding-right: 0;
 }
 
 .months {
@@ -158,10 +146,10 @@ font-size: 12px;
 }
 
 .graph {
-/* padding: 10px; */
+padding: 10px;
 border: 1px var(--color-darkWhite) solid;
 border-radius: var(--border-radius);
-/* margin: 10px; */
+margin: 10px;
 }
 
 .days li:nth-child(odd) {

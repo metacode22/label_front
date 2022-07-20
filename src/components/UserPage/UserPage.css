@@ -22,19 +22,25 @@
     border: 1px solid var(--color-darkWhite);
 }
 
-#Default__profile__image:hover{
-    background-color: var(--color-userpage-block);
+#Profile__edit__icon{
+    all: unset;
+    position: relative;
+    width: 15%;
+    padding-bottom: 15%;
+    left: 70px;
+    bottom: 60px;
+    background: url('../../../public/images/profile_edit_icon.png') center/cover repeat;
+    cursor: pointer;
 }
 
-/* .Profile__edit__btn{
+.Profile__edit__btn{
     cursor: pointer;
     position: relative;
-    margin: 15px;
-} */
+    bottom: 25px;
+}
 
 .Userpage__default__information{
     font-weight: bold;
-    cursor: default;
 }
 
 .Userpage__default{
@@ -46,23 +52,6 @@
     margin: 3px;
     padding: 8px;
     text-align: center;
-    /* cursor: pointer; */
-}
-
-.Userpage__default:hover{
-    background-color: var(--color-1-a);
-}
-
-.Userpage__edit__profile{
-    cursor: pointer;
-    border: 1px solid var(--color-darkWhite);
-    border-radius: var(--border-radius);
-    background-color: #858484;
-    color: white
-}
-
-.Userpage__edit__profile:hover{
-    opacity: 70%;
 }
 
 .User__book{
@@ -89,7 +78,6 @@
     height: 20px;
     margin: 5px;
     padding:8px;
-    cursor: default;
 }
 
 .User__book__list{
@@ -98,10 +86,6 @@
     padding:8px;
     margin: 5px;
     cursor: pointer;
-}
-
-.User__book__list:hover{
-    background-color: var(--color-1-a);
 }
 
 /* 아래는 잔디 CSS */
@@ -176,7 +160,11 @@ visibility: hidden;
 background-color: #ebedf0;
 }
 
-.squares li[data-level="1"] {
+.squares li[data-level='1']{
+    background-color: #c6e48b;
+}
+
+/* .squares li[data-level="1"] {
 background-color: #c6e48b;
 }
 
@@ -186,4 +174,4 @@ background-color: #7bc96f;
 
 .squares li[data-level="3"] {
 background-color: #196127;
-}
+} */

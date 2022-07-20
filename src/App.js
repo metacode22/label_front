@@ -33,13 +33,9 @@ Now you can play!
 		<div className="App">
 			<Nav></Nav>
 			
-			{/* <Landing></Landing>
-			<Library></Library>
-			<PersonalReading></PersonalReading> */}
-			
 			<Routes>
 				<Route path="/" element={<Landing></Landing>}></Route>
-				<Route path="/signup" element={<Signup></Signup>}></Route>
+				{/* <Route path="/signup" element={<Signup></Signup>}></Route> */}
 				<Route path="/library/*" element={<Library></Library>}></Route>
 				<Route path="/personalreading/*" element={<PersonalReading></PersonalReading>}></Route>
 				<Route path='/userpage/*' element={<UserPage />}></Route>

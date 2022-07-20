@@ -7,56 +7,86 @@ import UserPage from "./components/UserPage/UserPage.js";
 import Highlight from "./components/Highlight/Highlight";
 import Library from "./components/Library/Library.js";
 import PersonalReading from "./components/PersonalReading/PersonalReading.js";
-import { Milkdown } from "./components/CoEditorMilk/CoEditorMilk";
+import { TextEditor } from "./components/TextEditor/TextEditor";
+import { HighlightCollection } from "./components/TextEditor/HighlightCollection";
 // import EditBook from './components/EditBook/EditBook.js'
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
 function App() {
-    let [flag, setFlag] = useState(false);
-    let [markdown, setMarkdown] = useState(`
-# Milkdown React Test
-> [Milkdown](https://milkdown.dev/) is an editor.
-![cat](https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/VAN_CAT.png/440px-VAN_CAT.png)
-\`\`\`javascript [Sample]
-const milkdown = new Milkdown();
-milkdown.create();
-\`\`\`
----
-Now you can play!
-`);
+    let [flagForTextEditor, setFlagForTextEditor] = useState(false);
+    let [flagForHighlightCollection, setFlagForHighlightCollection] = useState(true);
+    let [markdownForTextEditor, setMarkdownForTextEditor] = useState('');
+    let [markdownForHighlightCollection, setMarkdownForHighlightCollection] = useState('');
     let pdfIdx = 1;
-    let currentPageNumber = 6;
-    axios.get(`http://3.35.27.172:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
-    .then((response) => {
-        setMarkdown(response.data.result[1].data + response.data.result[0].data);
-        setFlag(true);
+    let pageNumberForTextEditor = 7;
+    let pageNumberForHighlightCollection = 8;
+    
+    useEffect(() => {
+        axios.get(`http://3.35.27.172:3000/highlights/pdfs/${pdfIdx}/pages/${pageNumberForTextEditor}`)
+            .then((response) => {
+                let markdown = '';
+                
+                for (let i = 0; i < response.data.result.length; i++) {
+                    markdown += '- ' + response.data.result[i].data;
+                    markdown += `\n`;
+                }
+
+                return markdown
+        })
+        .then((result) => {
+            axios.get(`http://3.35.27.172:3000/highlights/pdfs/${pdfIdx}/pages/${pageNumberForHighlightCollection}`)
+            .then((response) => {
+                let markdown = '';
+                
+                for (let i = 0; i < response.data.result.length; i++) {
+                    markdown += '- ' + response.data.result[i].data;
+                    markdown += '\n';
+                }
+                
+                setMarkdownForTextEditor(result);
+                setFlagForTextEditor(true);
+                setMarkdownForHighlightCollection(markdown);
+                setFlagForHighlightCollection(true);
+            })
+        })
     })
-    console.log(markdown);
+    
+    console.log(1);
+    
     return (
         <div className="App">
             <Nav></Nav>
 
             <Routes>
                 <Route path="/" element={<Landing></Landing>}></Route>
-                {/* <Route path="/signup" element={<Signup></Signup>}></Route> */}
                 <Route path="/library/*" element={<Library></Library>}></Route>
-                <Route
-                    path="/personalreading/*"
-                    element={<PersonalReading></PersonalReading>}
-                ></Route>
+                <Route path="/personalreading/*" element={<PersonalReading></PersonalReading>}></Route>
                 <Route path="/userpage/*" element={<UserPage />}></Route>
                 <Route path="/highlight/*" element={<Highlight />}></Route>
-                {/* <Route path='/coeditor' element={<Y />}></Route> */}
-                <Route
-                    path="/milkdown"
-                    element={flag ? <Milkdown value={markdown}></Milkdown> : null}
-                ></Route>
-                {/* <Route path='/editbook/*' element={<EditBook/>}></Route> */}
+                <Route path="/milkdown" element={flagForTextEditor ?
+                    <div style={{ display: "flex"}}>
+                        <TextEditor value={markdownForTextEditor}></TextEditor>
+                        {flagForHighlightCollection ? 
+                            <HighlightCollection value={markdownForHighlightCollection}></HighlightCollection> 
+                            : null}
+                    </div>
+                    : null}>
+                </Route>
             </Routes>
         </div>
     );
 }
 
 export default App;
+
+// # Milkdown React Test
+// > [Milkdown](https://milkdown.dev/) is an editor.
+// ![cat](https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/VAN_CAT.png/440px-VAN_CAT.png)
+// \`\`\`javascript [Sample]
+// const milkdown = new Milkdown();
+// milkdown.create();
+// \`\`\`
+// ---
+// Now you can play!

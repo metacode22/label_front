@@ -22,6 +22,7 @@ import { gfm } from '@milkdown/preset-gfm';
 // import { nord } from '@milkdown/theme-nord';
 import { WebsocketProvider } from 'y-websocket';
 import { Doc } from 'yjs';
+// import './CoEditorMilk.css'
 
 import axios from 'axios';
 
@@ -66,7 +67,7 @@ class CollabManager {
         this.wsProvider?.destroy();
 
         this.doc = new Doc();
-        this.wsProvider = new WebsocketProvider('ws://localhost:3000', this.room, this.doc, { connect: autoConnect });
+        this.wsProvider = new WebsocketProvider('ws://54.180.115.190:3000', this.room, this.doc, { connect: autoConnect });
         this.wsProvider.awareness.setLocalStateField('user', options[rndInt]);
         this.wsProvider.on('status', (payload: { status: string }) => {
             if (status$) {
@@ -120,6 +121,7 @@ const Link: FC<{ children: ReactNode }> = ({ children }) => {
 };
 
 export const Milkdown: FC<{ value: string }> = ({ value }) => {
+    
     const { editor, loading, getInstance } = useEditor((root, renderReact) => {
         const nodes = commonmark
             .configure(image, { view: renderReact(Image) })
@@ -190,5 +192,5 @@ export const Milkdown: FC<{ value: string }> = ({ value }) => {
         }
     }, [getInstance, loading]);
 
-    return <ReactEditor editor={editor} />;
+    return <ReactEditor editor={editor}/>;
 };

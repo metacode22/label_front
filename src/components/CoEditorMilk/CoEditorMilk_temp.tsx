@@ -120,7 +120,18 @@ const Link: FC<{ children: ReactNode }> = ({ children }) => {
 };
 
 export const Milkdown: FC<{ value: string }> = ({ value }) => {
+    // let pdfIdx = 1;
+    // let currentPageNumber = 6;
+    // let [temp, setTemp] = useState('');
+    // axios.get(`http://3.35.27.172:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
+    // .then((response) => {
+    //     setTemp(response.data.result[1].data + response.data.result[0].data);
+    // })
+    // console.log(temp);
+    
+    // const들을 let으로 바꿔도 동작한다.
     const { editor, loading, getInstance } = useEditor((root, renderReact) => {
+        
         const nodes = commonmark
             .configure(image, { view: renderReact(Image) })
             .configure(link, { view: renderReact(Link) })
@@ -130,6 +141,9 @@ export const Milkdown: FC<{ value: string }> = ({ value }) => {
             .config((ctx) => {
                 ctx.set(rootCtx, root);
                 ctx.set(defaultValueCtx, value);
+
+                
+                
                 ctx.get(listenerCtx).markdownUpdated((_, value) => {
                     return value;
                     // console.log(value);

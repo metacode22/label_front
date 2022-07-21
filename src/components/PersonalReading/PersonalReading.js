@@ -5,7 +5,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
-function PersonalReading() {
+function PersonalReading(props) {
     
     const location = useLocation();
     console.log('location:', location);
@@ -106,23 +106,6 @@ function PersonalReading() {
             clearTimeout(timer);
         }
     }, [currentPageNumber])
-    
-    // useEffect(() => {
-        // axios.get(`http://3.35.27.172:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
-        // .then((response) => {
-        //     console.log(4, 'useEffect2 - axios2 - highlightData GET');
-        //     console.log('highlightData GET Success\nresponse:', response);
-            
-        //     const highlightData = response.data.result;
-        //     for (let i = 0; i < highlightData.length; i++) {
-        //         doHighlight(highlightData[i]);
-        //         console.log(highlightData[i], i);
-        //     }
-        // })
-        // .catch((error) => {
-        //     console.log('highlightData GET Fail\nerror:', error);
-        // })
-    // }, [currentPageNumber])
 
     return (
         <main className="PersonalReading">
@@ -143,7 +126,8 @@ function PersonalReading() {
                     <button className="nextButton" onClick={() => { setCurrentPageNumber(currentPageNumber + 1) }}>&gt;</button>
                 </div>
             </article>
-            <button className="HighlightButton" onClick={() => { 
+            <button className="HighlightButton" onClick={() => {
+                props.setCount(props.count + 1);
                 clickHighlight(pdfIdx, currentPageNumber, highlightButton);
             }} ref={highlightButton} value='this is for documentMouseDown'></button>
         </main>

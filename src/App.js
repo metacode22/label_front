@@ -15,8 +15,10 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 function App() {
-    let [flagForTextEditor, setFlagForTextEditor] = useState(false);
-    let [flagForHighlightCollection, setFlagForHighlightCollection] = useState(true);
+    let [count, setCount] = useState(0);
+    
+    let [flagForTextEditor, setFlagForTextEditor] = useState(0);
+    let [flagForHighlightCollection, setFlagForHighlightCollection] = useState(0);
     let [markdownForTextEditor, setMarkdownForTextEditor] = useState('');
     let [markdownForHighlightCollection, setMarkdownForHighlightCollection] = useState('');
     let pdfIdx = 1;
@@ -27,33 +29,34 @@ function App() {
         axios.get(`http://3.35.27.172:3000/highlights/pdfs/${pdfIdx}/pages/${pageNumberForTextEditor}`)
             .then((response) => {
                 let markdown = '';
-                
+                markdown += '- 전체 선택\n';
+                // markdown += '\n';
                 for (let i = 0; i < response.data.result.length; i++) {
                     markdown += '- ' + response.data.result[i].data;
                     markdown += `\n`;
                 }
-
-                return markdown
+                
+                setMarkdownForTextEditor(markdown);
+                setFlagForTextEditor(flagForTextEditor + 1);
         })
-        .then((result) => {
-            axios.get(`http://3.35.27.172:3000/highlights/pdfs/${pdfIdx}/pages/${pageNumberForHighlightCollection}`)
+        
+        axios.get(`http://3.35.27.172:3000/highlights/pdfs/${pdfIdx}/pages/${pageNumberForHighlightCollection}`)
             .then((response) => {
                 let markdown = '';
-                
+                markdown += '- 전체 선택\n';
+                // markdown += '\n';
                 for (let i = 0; i < response.data.result.length; i++) {
                     markdown += '- ' + response.data.result[i].data;
                     markdown += '\n';
                 }
                 
-                setMarkdownForTextEditor(result);
-                setFlagForTextEditor(true);
+                console.log('axios2');
+                // setMarkdownForTextEditor(prevMarkdown);
+                // setFlagForTextEditor(true);
                 setMarkdownForHighlightCollection(markdown);
-                setFlagForHighlightCollection(true);
+                setFlagForHighlightCollection(flagForHighlightCollection + 1);
             })
-        })
-    })
-    
-    console.log(1);
+    }, [count])
     
     return (
         <div className="App">
@@ -62,17 +65,23 @@ function App() {
             <Routes>
                 <Route path="/" element={<Landing></Landing>}></Route>
                 <Route path="/library/*" element={<Library></Library>}></Route>
-                <Route path="/personalreading/*" element={<PersonalReading></PersonalReading>}></Route>
+                <Route path="/personalreading/*" element={<PersonalReading count={count} setCount={setCount}></PersonalReading>}></Route>
                 <Route path="/userpage/*" element={<UserPage />}></Route>
                 <Route path="/highlight/*" element={<Highlight />}></Route>
-                <Route path="/milkdown" element={flagForTextEditor ?
-                    <div style={{ display: "flex"}}>
-                        <TextEditor value={markdownForTextEditor}></TextEditor>
-                        {flagForHighlightCollection ? 
-                            <HighlightCollection value={markdownForHighlightCollection}></HighlightCollection> 
-                            : null}
+                <Route path="/milkdown" element={
+                    // flagForTextEditor ?
+                    // <div style={{ display: "flex"}}>
+                    //     <TextEditor value={markdownForTextEditor}></TextEditor>
+                    //     {flagForHighlightCollection ? 
+                    //         <HighlightCollection value={markdownForHighlightCollection}></HighlightCollection> 
+                    //         : null}
+                    // </div>
+                    // : null
+                    <div style={{display: 'flex'}}>
+                        {flagForTextEditor && <TextEditor value={markdownForTextEditor}></TextEditor>}
+                        {flagForHighlightCollection && <HighlightCollection value={markdownForHighlightCollection}></HighlightCollection>}
                     </div>
-                    : null}>
+                    }>
                 </Route>
             </Routes>
         </div>

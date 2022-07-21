@@ -88,6 +88,10 @@
     cursor: pointer;
 }
 
+.User__book__list:hover{
+    background-color: rgb(201, 199, 197);
+}
+
 /* 아래는 잔디 CSS */
 :root {
     --square-size: 15px;
@@ -158,6 +162,7 @@ visibility: hidden;
 
 .squares li {
 background-color: #ebedf0;
+border-radius: var(--border-radius);
 }
 
 .squares li[data-level='1']{

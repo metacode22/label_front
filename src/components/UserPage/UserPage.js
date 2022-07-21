@@ -11,8 +11,8 @@ function CommitGrass(){
     let [result, setResult] = useState([]);
 
     useEffect(() => {
-        let userIdx = 5;
-        fetch(`http://3.35.27.172:3000/commits/users/${userIdx}`)
+        // let userIdx = 5;
+        fetch(`http://localhost:3000/login/testbutton`) //실제 서버에서 받으면 개인 유저 1명만 부를 수 있게
         .then(res=>{
             return res.json()
         })
@@ -55,16 +55,24 @@ function CommitGrass(){
 }
 
 const CommitGrassShow = (props) => {
-    const rendering = () => {
-        const result = Array();
 
-        for (let i = 1; i < 365; i++) {
-            let level = [Math.floor(Math.random() * 2)];
-            result.push(<li key={i} data-level={level}></li>)
+    if (props.date.length != 0) {
+
+        const rendering = () => {
+            const result = Array();
+
+            //실제 서버로 한 사람씩 조회하면 데이터는 1명씩만 뜰테니까, 원래라면 date만 쓰면 될듯?
+            for (let i = 0; i<365; i++){
+                if (props.date[1].commitGrass[i] !== '0'){ // 1일 때만 들어가게
+                    result.push(<li key={i} data-level={1}></li>)
+                } else if (props.date[1].commitGrass[i-1] == '0') { //0이라면 빈 값이 들어가게
+                    result.push(<li key={i} ></li>)
+                }
+            }
+            return result;
         }
-        return result;
+        return rendering()
     }
-    return rendering()
 }
 
 function UserPage(){

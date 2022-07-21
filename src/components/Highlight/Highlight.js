@@ -129,7 +129,7 @@ function Highlight(){
                 </section>
             </article>
             <aside className='Highlight__export'>
-                <button className='Highlight__export__btn' onClick={() => { navigate('/coeditor') }}>Export</button>
+                <button className='Highlight__export__btn' onClick={() => { navigate('/milkdown') }}>Export</button>
             </aside>
         </main>
     )

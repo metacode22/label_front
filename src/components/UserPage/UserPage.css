@@ -22,17 +22,6 @@
     border: 1px solid var(--color-darkWhite);
 }
 
-#Profile__edit__icon{
-    all: unset;
-    position: relative;
-    width: 15%;
-    padding-bottom: 15%;
-    left: 70px;
-    bottom: 60px;
-    background: url('../../../public/images/profile_edit_icon.png') center/cover repeat;
-    cursor: pointer;
-}
-
 .Profile__edit__btn{
     cursor: pointer;
     position: relative;
@@ -90,6 +79,15 @@
 
 .User__book__list:hover{
     background-color: rgb(201, 199, 197);
+}
+
+.User__grass__from{
+    margin: 0 0 0 10px;
+}
+
+#User__grass__btn{
+    cursor: pointer;
+    margin: 0 0 0 5px;
 }
 
 /* 아래는 잔디 CSS */

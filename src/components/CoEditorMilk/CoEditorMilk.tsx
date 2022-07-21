@@ -30,7 +30,7 @@ Now you can play!
 `;
 
 const options = [
-    { color: '#5e81AC', name: 'milkdown user 1' },
+    { color: '#5e81AC', name: '2or0' },
     { color: '#8FBCBB', name: 'milkdown user 2' },
     { color: '#dbfdbf', name: 'milkdown user 3' },
     { color: '#D08770', name: 'milkdown user 4' },
@@ -49,7 +49,7 @@ const toggle$ = document.getElementById('toggle');
 
 const autoConnect = true;
 class CollabManager {
-    private room = 'milkdown';
+    private room = '정글b반';
     private doc!: Doc;
     private wsProvider!: WebsocketProvider;
 
@@ -64,8 +64,9 @@ class CollabManager {
         this.wsProvider?.destroy();
 
         this.doc = new Doc();
-        this.wsProvider = new WebsocketProvider('ws://localhost:3000', this.room, this.doc, { connect: autoConnect });
-        this.wsProvider.awareness.setLocalStateField('user', options[rndInt]);
+        this.wsProvider = new WebsocketProvider('ws://52.79.241.238:3000', '안뇽', this.doc, { connect: autoConnect });
+        this.wsProvider.awareness.setLocalStateField('user', options[0]);
+        this.wsProvider.awareness.setLocalStateField('room', '안뇽'); //this.room 으로 바꿔야 함 'my room'들을
         this.wsProvider.on('status', (payload: { status: string }) => {
             if (status$) {
                 status$.innerText = payload.status;

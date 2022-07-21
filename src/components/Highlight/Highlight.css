@@ -148,11 +148,13 @@
 
 .li__color__edit li:hover{
     display: inline;
-    background-color: black;
-    color: var(--color-white);
+    background-color: var(--color-2-c);
+    font-weight: bold;
+    border-radius: 4px;
 } 
 /* 일단 한 색깔만 하게 했음 ↑ 색 구분하려면 아래 주석 때린 거 hover, marker 해야함 */
 
+/* ↓ 아래 코드가 있어야지 한 칸이 유지가 됩니다. */
 .li__color__edit li[data-level="0"] {
     list-style: none;
 }

@@ -1,19 +1,22 @@
 import { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './UserPage.css'
+import Loading from '../Loading/Loading';
+
 
 function CommitGrass(){
-    let [result, setResult] = useState([]);    
+    let [result, setResult] = useState([]);
+    const [isLoading,setIsLoading] = useState(true);
 
     useEffect(() => {
-        // let userIdx = 5;
-        fetch(`http://localhost:3000/login/testbutton`) //실제 서버에서 받으면 개인 유저 1명만 부를 수 있게
+        let userIdx = 5;
+        fetch(`http://3.35.27.172:3000/commits/users/${userIdx}`)
         .then(res=>{
             return res.json()
         })
         .then(res=>{
             setResult(res.result);
             // console.log(res.result);
+            setIsLoading(false)
         })
     }, [])
 
@@ -45,64 +48,32 @@ function CommitGrass(){
             <ul className="squares">
                 <CommitGrassShow date={result} length={result.length}></CommitGrassShow>
             </ul>
+            {
+                isLoading
+                && <Loading />
+            }
         </div>
     )
 }
 
 const CommitGrassShow = (props) => {
-
-    if (props.date.length != 0) {
-
-        const rendering = () => {
-            const result = Array();
-
-            //실제 서버로 한 사람씩 조회하면 데이터는 1명씩만 뜰테니까, 원래라면 date만 쓰면 될듯?
-            for (let i = 0; i<365; i++){
-                if (props.date[0].commitGrass[i] !== '0'){ // 1일 때만 들어가게
-                    result.push(<li key={i} data-level={1}></li>)
-                } else if (props.date[0].commitGrass[i] == '0') { //0이라면 빈 값이 들어가게
-                    result.push(<li key={i} ></li>)
-                }
-            }
-            return result;
-        }
-        return rendering()
-    }
-}
-
-const UserBookList = ()=>{
-    let [result, setResult] = useState([]);
-
-    let userIdx = 1;
-
-    useEffect(()=>{
-        fetch(`http://3.35.27.172:3000/users/${userIdx}/pdfs`)
-        .then(res=>{
-            return res.json()
-        })
-        .then(res=>{
-            setResult(res.result);
-            console.log(res.result);
-        })
-    }, [])
-
-    return (
-        <UserBookShow list={result} length={result.length}></UserBookShow>
-    )
-}
-
-const UserBookShow = (props)=>{
-    let navigate = useNavigate();
-
-    const rendering = ()=>{
+    const rendering = () => {
         const result = Array();
 
-        //현재는 index가 하나밖에 없어서 코드가 이렇습니다. 그리고 나중에 navigate 여러권이 되면 highlight 몇번째로 보낼지도 해야합니다.
-        // key값도 넣어줘야함
-        result.push(
-            <p className='User__book__list' onClick={()=>{navigate(`/highlight`)}}>{props.list.pdfName}</p>
-        )
-        return result
+        for (let i = 1; i < 365; i++) {
+            let level = [Math.floor(Math.random() * 2)];
+            result.push(<li key={i} data-level={level}></li>)
+        }
+
+        /*         for (let i = 0; i < props.length; i++) {
+            if (props.date[i].commitMessage != '') {
+                    result.push(<li key={i} data-level={1}></li>)
+            } else {
+                    result.push(<li key={i} ></li>)
+            }
+        } */
+
+        return result;
     }
     return rendering()
 }
@@ -129,9 +100,9 @@ function UserPage(){
         setDisable((current)=>!current)
     }
 
-    // 밑에가 기본 아바타 이미지 창
-    // const [Image, setImage] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
-    const [Image, setImage] = useState("https://blog.kakaocdn.net/dn/k3zUb/btrHSzU2GD1/wFGBTGPD5VF0jDtvnL5lD1/img.png")
+    const [UserBook, setUserBook] = useState(['받은 책들 이름들'])
+
+    const [Image, setImage] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
     const fileInput = useRef(null)
 
     const onChange = (e) => {
@@ -156,6 +127,7 @@ function UserPage(){
             <aside className='Profile__edit'>
                 <img src={Image} id='Default__profile__image' onClick={()=> {fileInput.current.click()}}></img>
                 <input type='file' style={{display: 'none'}} accepet='image/*' name='profile_img' onChange={onChange} ref={fileInput}></input>
+                {/* <button className='Profile__edit__btn'>프로필 수정</button> */}
                 <p className='Userpage__default__information'>Name</p>
                 <input disabled={!Disable} onChange={ChangeInput1} className='Userpage__default' value={Disable ? UserName : UserName}></input>
                 {/* ↑수정을 해야하는 게, 수정하고 등록버튼을 눌렀을 때는 수정한 이름이 들어와야 함.. 이것도 데이터를 받는 건가? */}
@@ -169,17 +141,13 @@ function UserPage(){
             <article className='User__book'>
                 <section className='User__book__section'>
                     <div className='User__book__menu'>My Library</div>
-                    <UserBookList></UserBookList>
-                    {/* 현재 있는 책이 적어서 적어둔 란 (밑에는) */}
-                    <p className='User__book__list'>받은 책 이름</p>
-                    <p className='User__book__list'>받은 책 이름</p>
-                    <p className='User__book__list'>받은 책 이름</p>
+                    <p className='User__book__list'>{UserBook}</p>
+                    <p className='User__book__list'>{UserBook}</p>
+                    <p className='User__book__list'>{UserBook}</p>
+                    <p className='User__book__list'>{UserBook}</p>
+                    <p className='User__book__list'>{UserBook}</p>
                 </section>
-                <section>
-                    <form className='User__grass__from'>
-                        <input placeholder='input commit message...'></input>
-                        <button id='User__grass__btn' type='submit' formAction='/userpage'>push</button> {/* formaction 서버에 보내게 url쓰면 전송되지 않을까? */}
-                    </form>
+                <section className='User__glass'>
                     <CommitGrass></CommitGrass>
                 </section>
             </article>

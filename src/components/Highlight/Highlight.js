@@ -15,17 +15,9 @@ function HighlightList(){
         })
         .then(res => {
             setResult(res.result);
-            console.log(res.result);
-
+            // console.log(res.result);
         })
     }, []);
-
-    useEffect(() => {
-        axios.get(`http://3.35.27.172:3000/highlights/pdfs/${pdfIdx}`)
-        .then((response) => {
-            console.log(response);
-        })
-    })
     
     return (
         <div >
@@ -49,9 +41,8 @@ function TitleList(){
         })
         .then(res => {
             setResult(res.result);
-            console.log(res.result);
+            // console.log(res.result);
             // console.log(res.result.pdfName)
-
         })
     }, []);
 

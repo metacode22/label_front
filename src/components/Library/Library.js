@@ -26,6 +26,21 @@ function Library() {
             console.log('Post Authorize Error', error);
         })
     })
+
+    let [result,setResult] = useState([]);
+
+    let userIdx = 1;
+
+    useEffect(()=>{
+        fetch(`http://3.35.27.172:3000/users/${userIdx}/pdfs`)
+        .then(res=>{
+            return res.json()
+        })
+        .then(res=>{
+            setResult(res.result);
+            console.log(res);
+        })
+    }, []);
     
     return (
         <main>
@@ -35,7 +50,7 @@ function Library() {
                         <h2>Recently Read</h2>
                     </div>
                     <div className="Library__recentlyRead__cards__container">
-                        <CardRecentShow></CardRecentShow>
+                        <CardRecentShow result={result}></CardRecentShow>
                     </div>
                 </section>
                 <section className="Library__recommend">
@@ -46,12 +61,13 @@ function Library() {
     );
 }
 
-function CardRecentShow() {
+function CardRecentShow(props) {
     const rendering = () => {
         const result = Array();
         
+        //일단 인덱스가 작아서 이렇게 처리한 것
         for (let index = 0; index < 5; index++) {
-            result.push(<CardRecent key={index}></CardRecent>);
+            result.push(<CardRecent key={index} result={props.result}></CardRecent>);
         }
         
         return result;
@@ -62,7 +78,7 @@ function CardRecentShow() {
 
 function CardRecent(props) {
     let navigate = useNavigate();
-    
+    console.log(props);
     return (
         <div className="Library__recentlyRead__cards__card">
             <div className='Library__recentlyRead__cards__card__bookImage' style={{
@@ -74,10 +90,11 @@ function CardRecent(props) {
                 <div className="Library__recentlyRead__cards__card__buttons">
                     <button className="Library__recentlyRead__cards__card__bookImage--readButton" onClick={()=>navigate('/personalreading')}>Read</button>
                     <button className="Library__recentlyRead__cards__card__bookImage--highlightButton" onClick={()=>navigate('/highlight')}>Highlights</button>
+                    <button className="Library__recentlyRead__cards__card__bookImage--EditorButton" onClick={()=>navigate('/milkdown')}>Editor</button>
                 </div>
             </div>
             <div className="Library__recentlyRead__cards__card__contents">
-                <div className="Library__recentlyRead__cards__card__contents--title">I'm Title</div>
+                <div className="Library__recentlyRead__cards__card__contents--title">{props.result.pdfName}</div>
                 <div className="Library__recentlyRead__cards__card__contents--readingPage">I'm ReadingPage</div>
             </div>
         </div>

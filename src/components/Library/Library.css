@@ -36,9 +36,14 @@
     flex-direction: column;
 }
 
+.Library__recentlyRead__cards__card__bookImage:hover{
+    opacity: 90%;
+}
+
 .Library__recentlyRead__cards__card__bookImage--readButton,
-.Library__recentlyRead__cards__card__bookImage--highlightButton {
-    height: 50px;
+.Library__recentlyRead__cards__card__bookImage--highlightButton,
+.Library__recentlyRead__cards__card__bookImage--EditorButton {
+    height: 45px;
     width: 100px;
 
     cursor: pointer;
@@ -69,7 +74,8 @@
 }
 
 .Library__recentlyRead__cards__card__bookImage--readButton:hover,
-.Library__recentlyRead__cards__card__bookImage--highlightButton:hover {
+.Library__recentlyRead__cards__card__bookImage--highlightButton:hover,
+.Library__recentlyRead__cards__card__bookImage--EditorButton:hover {
     background-color: var(--color-2-a);
 }
 

@@ -17,6 +17,7 @@ function Nav() {
 				<div className="Nav__buttons">
 					<button className="Nav__profile" onClick={() => { navigate('/highlight') }}>My Labels</button>
 					<button className="Nav__profile" onClick={() => { navigate('/library') }}>My Library</button>
+					<button className="Nav__profile" onClick={() => { navigate('/userpage') }}>My Page</button>
 					<Logout></Logout>
 				</div> : 
 				<></>}

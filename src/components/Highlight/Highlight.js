@@ -15,17 +15,9 @@ function HighlightList(){
         })
         .then(res => {
             setResult(res.result);
-            console.log(res.result);
-
+            // console.log(res.result);
         })
     }, []);
-
-    useEffect(() => {
-        axios.get(`http://3.35.27.172:3000/highlights/pdfs/${pdfIdx}`)
-        .then((response) => {
-            console.log(response);
-        })
-    })
     
     return (
         <div >
@@ -49,9 +41,8 @@ function TitleList(){
         })
         .then(res => {
             setResult(res.result);
-            console.log(res.result);
+            // console.log(res.result);
             // console.log(res.result.pdfName)
-
         })
     }, []);
 
@@ -129,7 +120,7 @@ function Highlight(){
                 </section>
             </article>
             <aside className='Highlight__export'>
-                <button className='Highlight__export__btn' onClick={() => { navigate('/milkdown') }}>Export</button>
+                <button className='Highlight__export__btn' onClick={() => { navigate('/milkdown') }}>Editor</button>
             </aside>
         </main>
     )

@@ -8,11 +8,11 @@ import { codeFence as cmCodeFence, commonmark, image, link } from '@milkdown/pre
 import { Node } from '@milkdown/prose/model';
 import { ReactEditor, useEditor, useNodeCtx } from '@milkdown/react';
 import { nord } from '@milkdown/theme-nord';
-import { FC, ReactNode, useEffect } from 'react';
+import { FC, ReactNode, useEffect, useState } from 'react';
 
 import { CodeFence } from './CodeFence';
 import { codeFence } from './CodeFence/codeFence.node';
-import { Image } from './Image';
+// import { Image } from './Image';
 import { block, blockPlugin } from '@milkdown/plugin-block';
 import React from 'react';
 
@@ -22,6 +22,9 @@ import { gfm } from '@milkdown/preset-gfm';
 // import { nord } from '@milkdown/theme-nord';
 import { WebsocketProvider } from 'y-websocket';
 import { Doc } from 'yjs';
+// import './CoEditorMilk.css'
+
+import axios from 'axios';
 
 const markdown = `
 # Milkdown Collaborative Example
@@ -49,7 +52,11 @@ const toggle$ = document.getElementById('toggle');
 
 const autoConnect = true;
 class CollabManager {
+<<<<<<< HEAD:src/components/CoEditorMilk/CoEditorMilk.tsx
     private room = '정글b반';
+=======
+    private room = '안뇽';
+>>>>>>> 91c82642e7eefc4a470de5499cb81d2ba6455bf7:src/components/TextEditor/TextEditor_Hyejin.tsx
     private doc!: Doc;
     private wsProvider!: WebsocketProvider;
 
@@ -60,13 +67,19 @@ class CollabManager {
     }
 
     flush(template: string) {
-        this.doc?.destroy();
+        // this.doc?.destroy();
         this.wsProvider?.destroy();
 
         this.doc = new Doc();
+<<<<<<< HEAD:src/components/CoEditorMilk/CoEditorMilk.tsx
         this.wsProvider = new WebsocketProvider('ws://52.79.241.238:3000', '안뇽', this.doc, { connect: autoConnect });
         this.wsProvider.awareness.setLocalStateField('user', options[0]);
         this.wsProvider.awareness.setLocalStateField('room', '안뇽'); //this.room 으로 바꿔야 함 'my room'들을
+=======
+        this.wsProvider = new WebsocketProvider('ws://3.34.137.168:3000', '안뇽', this.doc, { connect: autoConnect });
+        this.wsProvider.awareness.setLocalStateField('user', options[rndInt]);
+        this.wsProvider.awareness.setLocalStateField('room', '안뇽');
+>>>>>>> 91c82642e7eefc4a470de5499cb81d2ba6455bf7:src/components/TextEditor/TextEditor_Hyejin.tsx
         this.wsProvider.on('status', (payload: { status: string }) => {
             if (status$) {
                 status$.innerText = payload.status;
@@ -118,19 +131,42 @@ const Link: FC<{ children: ReactNode }> = ({ children }) => {
     );
 };
 
-export const Milkdown: FC<{ value: string }> = ({ value }) => {
+export const TextEditor: React.FC<{ value: string }> = ({ value }) => {
+    const [page, setPage] = useState('');
+    
+    useEffect(() => {
+        async function getPage() {
+            await axios.get(`http://3.35.27.172:3000/highlights/pdfs/${1}/pages/${7}`)
+            .then((response) => {
+                let markdown = '';
+                
+                for (let i = 0; i < response.data.result.length; i++) {
+                    markdown += response.data.result[i].data;
+                }
+                
+                setPage(markdown);
+                
+                console.log('markdown', markdown);
+            })
+        }
+        
+        console.log('useEffect');
+        getPage();
+    }, []);
+    
     const { editor, loading, getInstance } = useEditor((root, renderReact) => {
-        const nodes = commonmark
-            .configure(image, { view: renderReact(Image) })
-            .configure(link, { view: renderReact(Link) })
-            .replace(cmCodeFence, codeFence(renderReact<Node>(CodeFence, { as: 'section' }))());
+        // const nodes = commonmark
+            // .configure(image, { view: renderReact(Image) })
+            // .configure(link, { view: renderReact(Link) })
+            // .replace(cmCodeFence, codeFence(renderReact<Node>(CodeFence, { as: 'section' }))());
+            
         const editor = Editor.make()
             .config((ctx) => {
                 ctx.set(rootCtx, root);
-                ctx.set(defaultValueCtx, value);
+                ctx.set(defaultValueCtx, page);
                 ctx.get(listenerCtx).markdownUpdated((_, value) => {
-                    return value;
                     // console.log(value);
+                    return value;
                 });
             }).use(block.configure(blockPlugin, {
                 configBuilder: (ctx) => {
@@ -148,8 +184,7 @@ export const Milkdown: FC<{ value: string }> = ({ value }) => {
             // .create();
         
             return editor
-            
-    });
+    }, [page]);
     
     useEffect(() => {
         if (!loading) {
@@ -158,7 +193,7 @@ export const Milkdown: FC<{ value: string }> = ({ value }) => {
                 const collabService = ctx.get(collabServiceCtx);
                 const collabManager = new CollabManager(collabService);
                 collabManager.flush(markdown);
-        
+                console.log('hi');
                 if (connect$) {
                     connect$.onclick = () => {
                         collabManager.connect();
@@ -189,5 +224,5 @@ export const Milkdown: FC<{ value: string }> = ({ value }) => {
         }
     }, [getInstance, loading]);
 
-    return <ReactEditor editor={editor} />;
+    return <ReactEditor editor={editor}/>;
 };

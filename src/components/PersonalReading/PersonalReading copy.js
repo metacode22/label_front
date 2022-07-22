@@ -1,4 +1,4 @@
-import styles from './PersonalReading.module.css';
+import './PersonalReading.css';
 import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import React from 'react';
@@ -125,7 +125,7 @@ function PersonalReading() {
     // }, [currentPageNumber])
 
     return (
-        <main className={styles.read}>
+        <main className="PersonalReading">
             <div>
                 <input type="number" onKeyUp={(event) => {
                     // enter 클릭 시
@@ -134,16 +134,16 @@ function PersonalReading() {
                     }
                 }}></input><span>{currentPageNumber}</span>
             </div>
-            <article className={styles.readPage}>
-                <section className={styles.viewer}>
+            <article className="PersonalReading__pages">
+                <section className="PersonalReading__pages__rightPage">
                     <HtmlRendered html={html}></HtmlRendered>
                 </section>
                 <div>
-                    <button className={styles.prevBtn} onClick={() => { setCurrentPageNumber(currentPageNumber - 1) }}>&lt;</button>
-                    <button className={styles.nextBtn} onClick={() => { setCurrentPageNumber(currentPageNumber + 1) }}>&gt;</button>
+                    <button className="prevButton" onClick={() => { setCurrentPageNumber(currentPageNumber - 1) }}>&lt;</button>
+                    <button className="nextButton" onClick={() => { setCurrentPageNumber(currentPageNumber + 1) }}>&gt;</button>
                 </div>
             </article>
-            <button className={styles.highlightBtn} onClick={() => { 
+            <button className="HighlightButton" onClick={() => { 
                 clickHighlight(pdfIdx, currentPageNumber, highlightButton);
             }} ref={highlightButton} value='this is for documentMouseDown'></button>
         </main>
@@ -301,7 +301,7 @@ function clickHighlight(pdfIdx, currentPageNumber, highlightButton) {
 
 function HtmlRendered(props) {
     return (
-        <div dangerouslySetInnerHTML={{__html: props.html}}></div>
+        <div style={{margin: 'auto', position: 'relative', width: '100%', height: '100%', overflow: 'auto', objectFit: ''}} dangerouslySetInnerHTML={{__html: props.html}}></div>
     )
 }
 

@@ -52,11 +52,7 @@ const toggle$ = document.getElementById('toggle');
 
 const autoConnect = true;
 class CollabManager {
-<<<<<<< HEAD:src/components/CoEditorMilk/CoEditorMilk.tsx
     private room = '정글b반';
-=======
-    private room = '안뇽';
->>>>>>> 91c82642e7eefc4a470de5499cb81d2ba6455bf7:src/components/TextEditor/TextEditor_Hyejin.tsx
     private doc!: Doc;
     private wsProvider!: WebsocketProvider;
 
@@ -71,15 +67,9 @@ class CollabManager {
         this.wsProvider?.destroy();
 
         this.doc = new Doc();
-<<<<<<< HEAD:src/components/CoEditorMilk/CoEditorMilk.tsx
-        this.wsProvider = new WebsocketProvider('ws://52.79.241.238:3000', '안뇽', this.doc, { connect: autoConnect });
-        this.wsProvider.awareness.setLocalStateField('user', options[0]);
-        this.wsProvider.awareness.setLocalStateField('room', '안뇽'); //this.room 으로 바꿔야 함 'my room'들을
-=======
         this.wsProvider = new WebsocketProvider('ws://3.34.137.168:3000', '안뇽', this.doc, { connect: autoConnect });
         this.wsProvider.awareness.setLocalStateField('user', options[rndInt]);
         this.wsProvider.awareness.setLocalStateField('room', '안뇽');
->>>>>>> 91c82642e7eefc4a470de5499cb81d2ba6455bf7:src/components/TextEditor/TextEditor_Hyejin.tsx
         this.wsProvider.on('status', (payload: { status: string }) => {
             if (status$) {
                 status$.innerText = payload.status;

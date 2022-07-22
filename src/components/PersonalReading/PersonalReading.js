@@ -1,4 +1,4 @@
-import styles from './PersonalReading.module.css';
+import './PersonalReading.css';
 import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import React from 'react';
@@ -6,6 +6,7 @@ import { useLocation } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
 import HighlightList from './HighlightList.js'
+import { TextEditor } from '../TextEditor/TextEditor.tsx'
 
 function PersonalReading(props) {
     
@@ -112,15 +113,13 @@ function PersonalReading(props) {
     return (
         <main className="PersonalReading">
             <article className="PersonalReading__pages">
-                <span style={{ top:'10px',position: 'relative' }}>
-                    <input type="number" onKeyUp={(event) => {
-                        // enter 클릭 시
-                        if (window.event.keyCode === 13) {
-                            console.log(typeof event.target.value);
-                            setCurrentPageNumber(Number(event.target.value));
-                        }
-                    }}></input><span>{currentPageNumber}</span>
-                </span>
+                <input type="number" onKeyUp={(event) => {
+                    // enter 클릭 시
+                    if (window.event.keyCode === 13) {
+                        console.log(typeof event.target.value);
+                        setCurrentPageNumber(Number(event.target.value));
+                    }
+                }}></input><span>{currentPageNumber}</span>
                 
                 <section className="PersonalReading__pages__rightPage">
 
@@ -130,15 +129,19 @@ function PersonalReading(props) {
                 </section>
 
                 <div>
-                    <button className={styles.prevBtn} onClick={() => { setCurrentPageNumber(currentPageNumber - 1) }}>&lt;</button>
-                    <button className={styles.nextBtn} onClick={() => { setCurrentPageNumber(currentPageNumber + 1) }}>&gt;</button>
+                    <button className="prevButton"  onClick={() => { setCurrentPageNumber(currentPageNumber - 1) }}>&lt;</button>
+                    <button className="nextButton" onClick={() => { setCurrentPageNumber(currentPageNumber + 1) }}>&gt;</button>
                 </div>
             </article>
-            <button className={styles.highlightBtn} onClick={() => { 
-                clickHighlight(pdfIdx, currentPageNumber, highlightButton);
-            }} ref={highlightButton} value='this is for documentMouseDown'></button>
             
-            <HighlightList></HighlightList>
+            <button className="HighlightButton" onClick={() => { 
+                clickHighlight(pdfIdx, currentPageNumber, highlightButton);
+            }} ref={highlightButton} value='this is for documentMouseDown'>hi</button>
+            
+            <div>
+                <HighlightList currentPageNumber={currentPageNumber}></HighlightList>
+                <TextEditor></TextEditor>
+            </div>
         </main>
     )
 }

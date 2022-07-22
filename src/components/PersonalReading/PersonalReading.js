@@ -5,6 +5,8 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
+import HighlightList from './HighlightList.js'
+
 function PersonalReading(props) {
     
     const location = useLocation();
@@ -109,27 +111,35 @@ function PersonalReading(props) {
 
     return (
         <main className="PersonalReading">
-            <div>
-                <input type="number" onKeyUp={(event) => {
-                    // enter 클릭 시
-                    if (window.event.keyCode === 13) {
-                        setCurrentPageNumber(event.target.value);
-                    }
-                }}></input><span>{currentPageNumber}</span>
-            </div>
             <article className="PersonalReading__pages">
+                <span style={{ top:'10px',position: 'relative' }}>
+                    <input type="number" onKeyUp={(event) => {
+                        // enter 클릭 시
+                        if (window.event.keyCode === 13) {
+                            console.log(typeof event.target.value);
+                            setCurrentPageNumber(Number(event.target.value));
+                        }
+                    }}></input><span>{currentPageNumber}</span>
+                </span>
+                
                 <section className="PersonalReading__pages__rightPage">
+
+                    {/* <iframe src="https://drive.google.com/file/d/11fpmErf61E_JEBmqgK5lvPZKgSK9j3Nt/view?usp=sharing#grid" width="100%" height="100%"></iframe> */}
                     <HtmlRendered html={html}></HtmlRendered>
+
                 </section>
+
                 <div>
                     <button className="prevButton" onClick={() => { setCurrentPageNumber(currentPageNumber - 1) }}>&lt;</button>
                     <button className="nextButton" onClick={() => { setCurrentPageNumber(currentPageNumber + 1) }}>&gt;</button>
                 </div>
             </article>
+            
             <button className="HighlightButton" onClick={() => {
-                props.setCount(props.count + 1);
                 clickHighlight(pdfIdx, currentPageNumber, highlightButton);
             }} ref={highlightButton} value='this is for documentMouseDown'></button>
+            
+            <HighlightList></HighlightList>
         </main>
     )
 }

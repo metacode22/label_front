@@ -150,6 +150,30 @@ function UserPage(){
             }
             reader.readAsDataURL(e.target.files[0])
     }
+
+    //commit push하는 곳
+    const onSubmit = (e)=>{
+        e.preventDefault();
+        console.log(CommitPush.current.value);
+
+        fetch(`http://3.35.27.172:3000/commits`, {
+            method: 'post',
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                pdfIdx: 1,
+                commitMessage: CommitPush.current.value
+            })
+        }).then(res => {
+            if (res.ok) {
+                // console.log(res)
+                alert('commit push!')
+            }
+        })
+    }
+    
+    const CommitPush = useRef(null);
     
     return (
         <main className='UserPage__main'>
@@ -164,7 +188,7 @@ function UserPage(){
                 <p className='Userpage__default__information'>Email</p>
                 <input disabled={!Disable} onChange={ChangeInput3} className='Userpage__default' value={Disable ? UserEmail : UserEmail}></input>
                 <p></p>
-                <button type='submit' onClick={ChangeDisable} className='Userpage__edit__profile'>{!Disable ? '프로필 수정' : '프로필 등록'}</button>
+                {/* <button type='submit' onClick={ChangeDisable} className='Userpage__edit__profile'>{!Disable ? '프로필 수정' : '프로필 등록'}</button> */}
             </aside>
             <article className='User__book'>
                 <section className='User__book__section'>
@@ -176,9 +200,9 @@ function UserPage(){
                     <p className='User__book__list'>받은 책 이름</p>
                 </section>
                 <section>
-                    <form className='User__grass__from'>
-                        <input placeholder='input commit message...'></input>
-                        <button id='User__grass__btn' type='submit' formAction='/userpage'>push</button> {/* formaction 서버에 보내게 url쓰면 전송되지 않을까? */}
+                    <form onSubmit={onSubmit} className='User__grass__from'>
+                        <input ref={CommitPush} placeholder='input commit message...'></input>
+                        <button id='User__grass__btn' type='submit'>push</button> {/* formaction 서버에 보내게 url쓰면 전송되지 않을까? */}
                     </form>
                     <CommitGrass></CommitGrass>
                 </section>

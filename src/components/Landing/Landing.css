@@ -18,10 +18,7 @@
 }
 
 .Landing__login {
-    padding: 180px 30px;
-    /* height: 100vh; */
-    
-    display: flex;
+    margin-top: 200px;
     flex-direction: column;
 }
 

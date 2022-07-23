@@ -101,7 +101,7 @@ function Highlight(){
         <main className='Highlight__main'>
             <aside className='Highlight__book'>
                 <p className='Highlight__book__image'></p>
-                <p className='Highlight__book__text'><b>12%</b> of the book read</p>
+                <p className='Highlight__book__text'><b>186</b> / 234</p>
                 <button className='Highlight__book__reading__btn' onClick={()=>{navigate('/personalreading')}}>Continue reading</button>
             </aside>
             <article className='Highlight__list__article'>

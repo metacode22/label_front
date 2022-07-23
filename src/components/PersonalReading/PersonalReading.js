@@ -118,33 +118,36 @@ function PersonalReading(props) {
     }, [currentPageNumber])
 
     return (
+        // <main className={styles.read}>
         <main className="PersonalReading">
+            {/* <article className={styles.readPage}> */}
             <article className="PersonalReading__pages">
-                <input type="number" onKeyUp={(event) => {
-                    // enter 클릭 시
-                    if (window.event.keyCode === 13) {
-                        setCurrentPageNumber(Number(event.target.value));
-                    }
-                }}></input><span>{currentPageNumber}</span>
+                <span style={{ fontWeight: 'bold', left: '900px', top:'50px', position: 'relative', zIndex: 1 }}>
+                    <input placeholder={currentPageNumber} style={{width:'30px'}} type="number" onKeyUp={(event) => {
+                        // enter 클릭 시
+                        if (window.event.keyCode === 13) {
+                            console.log(typeof event.target.value);
+                            setCurrentPageNumber(Number(event.target.value));
+                        }
+                    }}></input><span> / {currentPageNumber}</span>
+                    {/* ↑ 여기를 끝페이지가 나오게끔 하는 게 더 나은 것 같습니다. */}
+                </span>
                 
+                {/* <section className={styles.viewer} id='view'> */}
                 <section className="PersonalReading__pages__rightPage">
-
                     {/* <iframe type='text/html' src="https://label-book-storage.s3.ap-northeast-2.amazonaws.com/Invoice_Page_34.html" width="100%" height="100%"></iframe> */}
                     <HtmlRendered html={html}></HtmlRendered>
-
-                </section>
-
-                <div>
+                    {/* <button className={styles.prevBtn} onClick={() => { setCurrentPageNumber(currentPageNumber - 1) }}></button>
+                    <button className={styles.nextBtn} onClick={() => { setCurrentPageNumber(currentPageNumber + 1) }}></button> */}
                     <button className="prevButton" onClick={() => { setCurrentPageNumber(currentPageNumber - 1) }}>&lt;</button>
                     <button className="nextButton" onClick={() => { setCurrentPageNumber(currentPageNumber + 1) }}>&gt;</button>
-                </div>
+                </section>
             </article>
             
             <button className="HighlightButton" onClick={() => { 
                 clickHighlight(pdfIdx, currentPageNumber, highlightButton, resetCount, setResetCount);
             }} ref={highlightButton} value='this is for documentMouseDown'>
             </button>
-            
             <div>
                 <HighlightList currentPageNumber={currentPageNumber} resetCount={resetCount}></HighlightList>
                 {/* <TextEditor></TextEditor> */}

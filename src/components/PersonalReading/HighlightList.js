@@ -59,7 +59,7 @@ function HighlightCards(props) {
         <>
             {props.highlightData.map(function(element, index) {
                 return (
-                    <Card sx={{ minWidth: 275, marginBottom: 1 }} key={index}>
+                    <Card sx={{ maxWidth: 200, minWidth: 275, marginBottom: 1 }} key={index}>
                         <CardHeader 
                             sx={{ paddingBottom: 0 }} 
                             avatar={<Avatar sx={{ bgcolor: '#4DABB3', width: 10, height: 10}} aria-label="recipe">{''}</Avatar>}

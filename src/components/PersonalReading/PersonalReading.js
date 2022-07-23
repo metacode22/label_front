@@ -159,66 +159,48 @@ function drawHighlight(range, node) {
 }
 
 function doHighlight(highlightData) {
-    // let timer = setTimeout(() => {
-        // if (document.getElementsByClassName(`y${index.toString(16)}`)[0] === undefined) {
-        //     doHighlight(highlightData, index);
-        //     clearTimeout(timer);
-        // } else {
-
-            const yOfSelectedStartContainer = highlightData.startLine;
-            const offsetOfSelectedStartContainer = highlightData.startOffset;
-            const indexOfSelectedStartContainer = highlightData.startNode;
-            
-            const yOfSelectedEndContainer = highlightData.endLine;
-            const offsetOfSelectedEndContainer = highlightData.endOffset;
-            const indexOfSelectedEndContainer = highlightData.endNode;
-            
-            const decimalYOfSelectedStartContainer = parseInt(yOfSelectedStartContainer.slice(1), 16);
-            const decimalYOfSelectedEndContainer =  parseInt(yOfSelectedEndContainer.slice(1), 16);
-            
-            // currentElement를 잘 잡지 못해서 에러가 난다.
-            for (let i = decimalYOfSelectedStartContainer; i <= decimalYOfSelectedEndContainer; i++) {
-                const currentElement = document.getElementsByClassName(`y${i.toString(16)}`)[0];
-                const newRange = document.createRange();
+    const yOfSelectedStartContainer = highlightData.startLine;
+    const offsetOfSelectedStartContainer = highlightData.startOffset;
+    const indexOfSelectedStartContainer = highlightData.startNode;
+    
+    const yOfSelectedEndContainer = highlightData.endLine;
+    const offsetOfSelectedEndContainer = highlightData.endOffset;
+    const indexOfSelectedEndContainer = highlightData.endNode;
+    
+    const decimalYOfSelectedStartContainer = parseInt(yOfSelectedStartContainer.slice(1), 16);
+    const decimalYOfSelectedEndContainer =  parseInt(yOfSelectedEndContainer.slice(1), 16);
+    
+    // currentElement를 잘 잡지 못해서 에러가 난다.
+    for (let i = decimalYOfSelectedStartContainer; i <= decimalYOfSelectedEndContainer; i++) {
+        const currentElement = document.getElementsByClassName(`y${i.toString(16)}`)[0];
+        const newRange = document.createRange();
                 
-                // if (currentElement != undefined) {
-                //     if (typeof(currentElement.childNodes[indexOfSelectedStartContainer]) === "object" 
-                //         && typeof(currentElement.childNodes[indexOfSelectedEndContainer]) === "object" 
-                //         && currentElement.childNodes[indexOfSelectedEndContainer].length >= offsetOfSelectedEndContainer
-                //         && currentElement.childNodes[indexOfSelectedStartContainer].length >= offsetOfSelectedStartContainer) {
-                        
-                        const newNode = document.createElement("span");
-                        newNode.classList.add('highlighted');
-                        if (decimalYOfSelectedStartContainer === decimalYOfSelectedEndContainer) {
-                            newRange.setStart(currentElement.childNodes[indexOfSelectedStartContainer], offsetOfSelectedStartContainer);
-                            newRange.setEnd(currentElement.childNodes[indexOfSelectedEndContainer], offsetOfSelectedEndContainer);
-                            
-                            drawHighlight(newRange, newNode);
-                            return;
-                        }
-                        
-                        if (i === decimalYOfSelectedStartContainer) {
-                            newRange.setStart(currentElement.childNodes[indexOfSelectedStartContainer], offsetOfSelectedStartContainer);
-                            newRange.setEnd(currentElement.childNodes[currentElement.childNodes.length - 1], currentElement.childNodes[currentElement.childNodes.length - 1].length);
-                            
-                        } else if (i === decimalYOfSelectedEndContainer) {
-                            newRange.setStart(currentElement.childNodes[0], 0);
-                            newRange.setEnd(currentElement.childNodes[indexOfSelectedEndContainer], offsetOfSelectedEndContainer);
-                            
-                        } else {
-                            newRange.setStart(currentElement.childNodes[0], 0);
-                            newRange.setEnd(currentElement.childNodes[currentElement.childNodes.length - 1], currentElement.childNodes[currentElement.childNodes.length - 1].length);
-                            
-                        }
-                        
-                        drawHighlight(newRange, newNode);
-                    // }
-                // }
-            }
+        const newNode = document.createElement("span");
+        newNode.classList.add('highlighted');
+        if (decimalYOfSelectedStartContainer === decimalYOfSelectedEndContainer) {
+            newRange.setStart(currentElement.childNodes[indexOfSelectedStartContainer], offsetOfSelectedStartContainer);
+            newRange.setEnd(currentElement.childNodes[indexOfSelectedEndContainer], offsetOfSelectedEndContainer);
             
-            // clearTimeout(timer);
-        // }
-    // }, 100);
+            drawHighlight(newRange, newNode);
+            return;
+        }
+        
+        if (i === decimalYOfSelectedStartContainer) {
+            newRange.setStart(currentElement.childNodes[indexOfSelectedStartContainer], offsetOfSelectedStartContainer);
+            newRange.setEnd(currentElement.childNodes[currentElement.childNodes.length - 1], currentElement.childNodes[currentElement.childNodes.length - 1].length);
+            
+        } else if (i === decimalYOfSelectedEndContainer) {
+            newRange.setStart(currentElement.childNodes[0], 0);
+            newRange.setEnd(currentElement.childNodes[indexOfSelectedEndContainer], offsetOfSelectedEndContainer);
+            
+        } else {
+            newRange.setStart(currentElement.childNodes[0], 0);
+            newRange.setEnd(currentElement.childNodes[currentElement.childNodes.length - 1], currentElement.childNodes[currentElement.childNodes.length - 1].length);
+            
+        }
+        
+        drawHighlight(newRange, newNode);
+    }
 }
 
 function clickHighlight(pdfIdx, currentPageNumber, highlightButton, resetCount, setResetCount) {

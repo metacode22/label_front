@@ -68,8 +68,8 @@ function PersonalReading(props) {
                 console.log('highlightData GET Fail\nerror:', error);
             })
         })
-        .catch(() => {
-            alert('highlighting에 실패하였습니다.');
+        .catch((error) => {
+            console.log('highlightData를 불러오는 데에 실패, error', error);
         })
         
         let timer = null;

@@ -11,26 +11,23 @@ import IconButton from '@mui/material/IconButton';
 
 function HighlightList(props) {
     let [highlightData, setHighlightData] = useState([]);
-    let [updateHighlightList, setUpdateHighlightList] = useState(true);
+    // let [updateHighlightList, setUpdateHighlightList] = useState(true);
     
     useEffect(() => {
         async function getHighlightData() {
             await axios.get(`http://3.35.27.172:3000/highlights/pdfs/${1}/pages/${props.currentPageNumber}`)
             .then((response) => {
-                console.log(response.data.result);
-                console.log(highlightData);
                 setHighlightData(response.data.result);
             })
         }
         
         getHighlightData();
-
     }, [props.currentPageNumber, props.resetCount])
-    console.log(highlightData);
+    
     return (
         <aside className={styles.wrap}>
             <div className={styles.container}>
-                <HighlightCards highlightData={highlightData} style={{ overflow: 'scroll' }} updateHighlightList={updateHighlightList} setUpdateHighlightList={setUpdateHighlightList}></HighlightCards>
+                <HighlightCards highlightData={highlightData} style={{ overflow: 'scroll' }} setHighlightData={setHighlightData} currentPageNumber={props.currentPageNumber}></HighlightCards>
             </div>
         </aside>
     )
@@ -41,13 +38,20 @@ function HighlightCards(props) {
         event.dataTransfer.setData('text/plain', event.target.innerHTML);
     }
     
-    function deleteHighlight(highlightIdx) {
-        axios.delete(`http://3.35.27.172:3000/highlights/${highlightIdx}`)
+    async function deleteHighlight(highlightIdx, setHighlightData, currentPageNumber) {
+        await axios.delete(`http://3.35.27.172:3000/highlights/${highlightIdx}`)
         .then((response) => {
             console.log('highlight delete response:', response);
         })
         .catch((error) => {
             console.log('highlight delete error:', error);
+        })
+        .then(async () => {
+            await axios.get(`http://3.35.27.172:3000/highlights/pdfs/${1}/pages/${currentPageNumber}`)
+            .then((response) => {
+                console.log(response);
+                setHighlightData(response.data.result);
+            })
         })
     }
     
@@ -66,7 +70,7 @@ function HighlightCards(props) {
                             }
                             action={
                                 <IconButton onClick={() => {
-                                    deleteHighlight(element.highlightIdx);
+                                    deleteHighlight(element.highlightIdx, props.setHighlightData, props.currentPageNumber);
                                 }}>
                                     <ClearIcon fontSize="small"></ClearIcon>
                                 </IconButton>

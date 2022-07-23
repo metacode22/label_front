@@ -5,15 +5,19 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
-function PersonalReading() {
+import HighlightList from './HighlightList.js'
+import { TextEditor } from '../TextEditor/TextEditor.tsx'
+
+function PersonalReading(props) {
+    
+    let [resetCount, setResetCount] = useState(0);
     
     const location = useLocation();
-    console.log('location:', location);
     let goToThisPageFirst = location.state;
 
     if (goToThisPageFirst === null) {
         // 임시로 해둠. AXIOS로 받아와야 함.
-        goToThisPageFirst = 1;
+        goToThisPageFirst = 18;
     }
 
     let pdfIdx = 1;
@@ -24,24 +28,31 @@ function PersonalReading() {
     
     console.log(1, 'rendered');
     useEffect(() => {
-        axios.get(`http://localhost:3001/pdfs/${pdfIdx}/pages/${currentPageNumber}`, {
-            headers: {
-                sessionidforauth: cookies.id
-            }
-        })
-        .then((response) => {
-            console.log('cookies:', response);
-        })
+        /* Authorization */
+        // axios.get(`http://localhost:3001/pdfs/${pdfIdx}/pages/${currentPageNumber}`, {
+        //     headers: {
+        //         sessionidforauth: cookies.id
+        //     }
+        // })
+        // .then((response) => {
+        //     console.log('cookies:', response);
+        // })
+        // .catch((error) => {
+        //     console.log('Authorization Fail, error:', error);
+        // })
         
         axios.get(`http://3.35.27.172:3000/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
         .then((response) => {
-            console.log(21, 'useEffect - axios - setHtml');
             setHtml(response.data.result.pageHtml);
-            console.log(22, 'useEffect - axios - setHtml');
+            console.log(2, 'useEffect - axios - setHtml');
         })
         .catch(() => {
             alert('페이지 로딩에 실패하였습니다.');
         })
+        // axios.get('https://label-book-storage.s3.ap-northeast-2.amazonaws.com/Invoice_Page_34.html')
+        // .then((response) => {
+        //     setHtml(response.data);
+        // })
         .then(() => {
             axios.get(`http://3.35.27.172:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
             .then((response) => {
@@ -51,7 +62,6 @@ function PersonalReading() {
                 const highlightData = response.data.result;
                 for (let i = 0; i < highlightData.length; i++) {
                     doHighlight(highlightData[i]);
-                    console.log(highlightData[i], i);
                 }
             })
             .catch((error) => {
@@ -87,7 +97,7 @@ function PersonalReading() {
         const selectableTextArea = document.querySelectorAll(".PersonalReading__pages__rightPage");
         
         selectableTextArea.forEach((element) => {
-            element.addEventListener("mouseup", selectableTextAreaMouseUp)
+            element?.addEventListener("mouseup", selectableTextAreaMouseUp)
         })
         
         function documentMouseDown(event) {
@@ -106,54 +116,44 @@ function PersonalReading() {
             clearTimeout(timer);
         }
     }, [currentPageNumber])
-    
-    // useEffect(() => {
-        // axios.get(`http://3.35.27.172:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
-        // .then((response) => {
-        //     console.log(4, 'useEffect2 - axios2 - highlightData GET');
-        //     console.log('highlightData GET Success\nresponse:', response);
-            
-        //     const highlightData = response.data.result;
-        //     for (let i = 0; i < highlightData.length; i++) {
-        //         doHighlight(highlightData[i]);
-        //         console.log(highlightData[i], i);
-        //     }
-        // })
-        // .catch((error) => {
-        //     console.log('highlightData GET Fail\nerror:', error);
-        // })
-    // }, [currentPageNumber])
 
     return (
         <main className="PersonalReading">
-            <div>
+            <article className="PersonalReading__pages">
                 <input type="number" onKeyUp={(event) => {
                     // enter 클릭 시
                     if (window.event.keyCode === 13) {
-                        setCurrentPageNumber(event.target.value);
+                        setCurrentPageNumber(Number(event.target.value));
                     }
                 }}></input><span>{currentPageNumber}</span>
-            </div>
-            <article className="PersonalReading__pages">
+                
                 <section className="PersonalReading__pages__rightPage">
+
+                    {/* <iframe type='text/html' src="https://label-book-storage.s3.ap-northeast-2.amazonaws.com/Invoice_Page_34.html" width="100%" height="100%"></iframe> */}
                     <HtmlRendered html={html}></HtmlRendered>
+
                 </section>
+
                 <div>
                     <button className="prevButton" onClick={() => { setCurrentPageNumber(currentPageNumber - 1) }}>&lt;</button>
                     <button className="nextButton" onClick={() => { setCurrentPageNumber(currentPageNumber + 1) }}>&gt;</button>
                 </div>
             </article>
+            
             <button className="HighlightButton" onClick={() => { 
-                clickHighlight(pdfIdx, currentPageNumber, highlightButton);
-            }} ref={highlightButton} value='this is for documentMouseDown'></button>
+                clickHighlight(pdfIdx, currentPageNumber, highlightButton, resetCount, setResetCount);
+            }} ref={highlightButton} value='this is for documentMouseDown'>
+            </button>
+            
+            <div>
+                <HighlightList currentPageNumber={currentPageNumber} resetCount={resetCount}></HighlightList>
+                {/* <TextEditor></TextEditor> */}
+            </div>
         </main>
     )
 }
 
 function drawHighlight(range, node) {
-    // node.classList.add('hello');
-    // node.style.color = "white";
-    // node.style.backgroundColor = "black";
     node.appendChild(range.extractContents());
     range.insertNode(node);
 }
@@ -198,9 +198,6 @@ function doHighlight(highlightData) {
                         }
                         
                         if (i === decimalYOfSelectedStartContainer) {
-                            console.log(currentElement);
-                            console.log(currentElement.childNodes)
-                            console.log(indexOfSelectedStartContainer);
                             newRange.setStart(currentElement.childNodes[indexOfSelectedStartContainer], offsetOfSelectedStartContainer);
                             newRange.setEnd(currentElement.childNodes[currentElement.childNodes.length - 1], currentElement.childNodes[currentElement.childNodes.length - 1].length);
                             
@@ -224,7 +221,7 @@ function doHighlight(highlightData) {
     // }, 100);
 }
 
-function clickHighlight(pdfIdx, currentPageNumber, highlightButton) {
+function clickHighlight(pdfIdx, currentPageNumber, highlightButton, resetCount, setResetCount) {
     const selectedText = window.getSelection().toString().trim();
     const selectedRange = window.getSelection().getRangeAt(0);
 
@@ -291,6 +288,7 @@ function clickHighlight(pdfIdx, currentPageNumber, highlightButton) {
     })
     .then((response) => {
         console.log('Highlight POST Success\nresponse:', response);
+        setResetCount((resetCount) => {return resetCount + 1});
     })
     .catch((error) => {
         console.log('Highlight POST Fail\nerror:', error);
@@ -301,7 +299,7 @@ function clickHighlight(pdfIdx, currentPageNumber, highlightButton) {
 
 function HtmlRendered(props) {
     return (
-        <div style={{margin: 'auto', position: 'relative', width: '100%', height: '100%', overflow: 'auto', objectFit: ''}} dangerouslySetInnerHTML={{__html: props.html}}></div>
+        <div dangerouslySetInnerHTML={{__html: props.html}}></div>
     )
 }
 

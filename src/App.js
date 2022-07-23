@@ -7,7 +7,6 @@ import UserPage from "./components/UserPage/UserPage.js";
 import Highlight from "./components/Highlight/Highlight";
 import Library from "./components/Library/Library.js";
 import PersonalReading from "./components/PersonalReading/PersonalReading.js";
-import Practice from "./components/Practice/Practice"
 import { TextEditor } from "./components/TextEditor/TextEditor";
 import { HighlightCollection } from "./components/TextEditor/HighlightCollection";
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
@@ -26,11 +25,9 @@ function App() {
                 <Route path="/milkdown" element={
                     <div className="TextEditor__container" style={{ display: 'flex' }}>
                         <TextEditor></TextEditor>
-                        <Practice></Practice>
                         <HighlightCollection></HighlightCollection>
                     </div>
                 }></Route>
-                <Route path="/practice" element={<Practice></Practice>}></Route>
             </Routes>
         </div>
     );

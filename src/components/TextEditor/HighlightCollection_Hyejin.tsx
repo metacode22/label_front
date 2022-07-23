@@ -14,7 +14,7 @@
     
 //     useEffect(() => {
 //         async function getPage() {
-//             await axios.get(`http://3.35.27.172:3000/highlights/pdfs/${1}/pages/${7}`)
+//             await axios.get(`http://43.200.26.215:3000/highlights/pdfs/${1}/pages/${7}`)
 //             .then((response) => {
 //                 let markdown = '';
                 

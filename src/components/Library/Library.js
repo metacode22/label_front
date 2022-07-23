@@ -7,7 +7,6 @@ import { useCookies } from 'react-cookie';
 function Library() {
     const [cookies, setCookie, removeCookie] = useCookies(['id']);
     let navigate = useNavigate();
-    console.log(cookies.id);
     
     useEffect(() => {
         axios.post('http://localhost:3001/auth/test', {
@@ -39,6 +38,9 @@ function Library() {
         .then(res=>{
             setResult(res.result);
             console.log(res);
+        })
+        .catch((error) => {
+            console.log(error);
         })
     }, []);
     

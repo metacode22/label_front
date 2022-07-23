@@ -86,7 +86,7 @@ function PersonalReading(props) {
         
         console.log(3, 'useEffect - axios - 이후');
         
-        const selectableTextArea = document.querySelectorAll(".PersonalReading__pages__rightPage");
+        const selectableTextArea = document.querySelectorAll("#view");
         
         selectableTextArea.forEach((element) => {
             element.addEventListener("mouseup", selectableTextAreaMouseUp)
@@ -110,29 +110,25 @@ function PersonalReading(props) {
     }, [currentPageNumber])
 
     return (
-        <main className="PersonalReading">
-            <article className="PersonalReading__pages">
-                <span style={{ top:'10px',position: 'relative' }}>
-                    <input type="number" onKeyUp={(event) => {
+        <main className={styles.read}>
+            <article className={styles.readPage}>
+                <span style={{ fontWeight: 'bold', left: '900px', top:'50px', position: 'relative', zIndex: 1 }}>
+                    <input placeholder={currentPageNumber} style={{width:'30px'}} type="number" onKeyUp={(event) => {
                         // enter 클릭 시
                         if (window.event.keyCode === 13) {
                             console.log(typeof event.target.value);
                             setCurrentPageNumber(Number(event.target.value));
                         }
-                    }}></input><span>{currentPageNumber}</span>
+                    }}></input><span> / {currentPageNumber}</span>
+                    {/* ↑ 여기를 끝페이지가 나오게끔 하는 게 더 나은 것 같습니다. */}
                 </span>
                 
-                <section className="PersonalReading__pages__rightPage">
-
+                <section className={styles.viewer} id='view'>
                     {/* <iframe src="https://drive.google.com/file/d/11fpmErf61E_JEBmqgK5lvPZKgSK9j3Nt/view?usp=sharing#grid" width="100%" height="100%"></iframe> */}
                     <HtmlRendered html={html}></HtmlRendered>
-
+                    <button className={styles.prevBtn} onClick={() => { setCurrentPageNumber(currentPageNumber - 1) }}></button>
+                    <button className={styles.nextBtn} onClick={() => { setCurrentPageNumber(currentPageNumber + 1) }}></button>
                 </section>
-
-                <div>
-                    <button className={styles.prevBtn} onClick={() => { setCurrentPageNumber(currentPageNumber - 1) }}>&lt;</button>
-                    <button className={styles.nextBtn} onClick={() => { setCurrentPageNumber(currentPageNumber + 1) }}>&gt;</button>
-                </div>
             </article>
             <button className={styles.highlightBtn} onClick={() => { 
                 clickHighlight(pdfIdx, currentPageNumber, highlightButton);

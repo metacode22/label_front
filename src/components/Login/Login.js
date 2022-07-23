@@ -33,7 +33,7 @@ function Login() {
 
     
     return (
-        <div id="signInButton" style={{textAlign: 'center'}}>
+        <div id="signInButton" style={{textAlign: 'center', marginTop:'50px'}}>
             <GoogleLogin 
                 clientId={clientId}
                 buttonText="Log in with Google"

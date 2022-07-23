@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import React from 'react';
+import './TextEditor.css';
 
 import { ReactEditor, useEditor } from '@milkdown/react';
 import { defaultValueCtx, Editor, rootCtx } from '@milkdown/core';
@@ -13,10 +14,13 @@ import { tooltip } from '@milkdown/plugin-tooltip';
 import { history } from '@milkdown/plugin-history';
 import { commonmark } from '@milkdown/preset-commonmark';
 import { menu } from '@milkdown/plugin-menu';
+
+// collaborative
 import { collaborative, CollabService, collabServiceCtx } from '@milkdown/plugin-collaborative';
 
 import { WebsocketProvider } from 'y-websocket';
 import { Doc } from 'yjs';
+
 
 // const options = [
 //     { color: '#5e81AC', name: 'milkdown user 1' },
@@ -102,24 +106,24 @@ import { Doc } from 'yjs';
 export const TextEditor: React.FC<{ value: string}> = ({ value }) => {
     let [markdown, setMarkdown] = useState('');
     
-    useEffect(() => {
-        async function getMarkdown() {
-            await axios.get(`http://3.35.27.172:3000/highlights/pdfs/${1}/pages/${7}`)
-            .then((response) => {
-                let markdown = '';
+    // useEffect(() => {
+    //     async function getMarkdown() {
+    //         await axios.get(`http://3.35.27.172:3000/highlights/pdfs/${1}/pages/${7}`)
+    //         .then((response) => {
+    //             let markdown = '';
                 
-                for (let i = 0; i < response.data.result.length; i++) {
-                    markdown += '- ';
-                    markdown += response.data.result[i].data;
-                    markdown += '\n';
-                }
+    //             for (let i = 0; i < response.data.result.length; i++) {
+    //                 markdown += '- ';
+    //                 markdown += response.data.result[i].data;
+    //                 markdown += '\n';
+    //             }
                 
-                setMarkdown(markdown);
-            })
-        }
+    //             setMarkdown(markdown);
+    //         })
+    //     }
         
-        getMarkdown();
-    }, []);
+    //     getMarkdown();
+    // }, []);
     
     // [], dependency 에 아무것도 안 넣어서 useEditor가 다시 실행되지 않았었다.
     let { editor, loading, getInstance } = useEditor((root, renderReact) => {
@@ -141,6 +145,14 @@ export const TextEditor: React.FC<{ value: string}> = ({ value }) => {
         
         return editor;
     }, [markdown]) 
+    
+    useEffect(() => {
+        // document.querySelector('.ProseMirror.editor')?.setAttribute('contenteditable', 'false');
+        document.querySelector('.ProseMirror.editor')?.setAttribute('ondrop', 'drop_handler(event)');
+        document.querySelector('.ProseMirror.editor')?.setAttribute('ondragover', 'dragover_handler(event)');
+        // document.querySelector('.ProseMirror.editor')?.setAttribute('style', 'overflow: hidden');
+        // console.log(document.querySelector('.ProseMirror.editor')?.attributes);
+    });
     
     // useEffect(() => {
     //     if (!loading) {

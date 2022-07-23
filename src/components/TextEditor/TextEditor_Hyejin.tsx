@@ -52,7 +52,11 @@ const toggle$ = document.getElementById('toggle');
 
 const autoConnect = true;
 class CollabManager {
+<<<<<<< HEAD
     private room = '안뇽';
+=======
+    private room = '정글b반';
+>>>>>>> e233396002fac7a57e9518d4f60e60113d9b65b7
     private doc!: Doc;
     private wsProvider!: WebsocketProvider;
 

@@ -1,4 +1,4 @@
-import styles from './PersonalReading.module.css';
+import './PersonalReading.css';
 import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import React from 'react';
@@ -6,16 +6,18 @@ import { useLocation } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
 import HighlightList from './HighlightList.js'
+import { TextEditor } from '../TextEditor/TextEditor.tsx'
 
 function PersonalReading(props) {
     
+    let [resetCount, setResetCount] = useState(0);
+    
     const location = useLocation();
-    console.log('location:', location);
     let goToThisPageFirst = location.state;
 
     if (goToThisPageFirst === null) {
         // 임시로 해둠. AXIOS로 받아와야 함.
-        goToThisPageFirst = 1;
+        goToThisPageFirst = 18;
     }
 
     let pdfIdx = 1;
@@ -26,24 +28,31 @@ function PersonalReading(props) {
     
     console.log(1, 'rendered');
     useEffect(() => {
-        axios.get(`http://localhost:3001/pdfs/${pdfIdx}/pages/${currentPageNumber}`, {
-            headers: {
-                sessionidforauth: cookies.id
-            }
-        })
-        .then((response) => {
-            console.log('cookies:', response);
-        })
+        /* Authorization */
+        // axios.get(`http://localhost:3001/pdfs/${pdfIdx}/pages/${currentPageNumber}`, {
+        //     headers: {
+        //         sessionidforauth: cookies.id
+        //     }
+        // })
+        // .then((response) => {
+        //     console.log('cookies:', response);
+        // })
+        // .catch((error) => {
+        //     console.log('Authorization Fail, error:', error);
+        // })
         
         axios.get(`http://3.35.27.172:3000/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
         .then((response) => {
-            console.log(21, 'useEffect - axios - setHtml');
             setHtml(response.data.result.pageHtml);
-            console.log(22, 'useEffect - axios - setHtml');
+            console.log(2, 'useEffect - axios - setHtml');
         })
         .catch(() => {
             alert('페이지 로딩에 실패하였습니다.');
         })
+        // axios.get('https://label-book-storage.s3.ap-northeast-2.amazonaws.com/Invoice_Page_34.html')
+        // .then((response) => {
+        //     setHtml(response.data);
+        // })
         .then(() => {
             axios.get(`http://3.35.27.172:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
             .then((response) => {
@@ -53,7 +62,6 @@ function PersonalReading(props) {
                 const highlightData = response.data.result;
                 for (let i = 0; i < highlightData.length; i++) {
                     doHighlight(highlightData[i]);
-                    console.log(highlightData[i], i);
                 }
             })
             .catch((error) => {
@@ -86,10 +94,10 @@ function PersonalReading(props) {
         
         console.log(3, 'useEffect - axios - 이후');
         
-        const selectableTextArea = document.querySelectorAll("#view");
+        const selectableTextArea = document.querySelectorAll(".PersonalReading__pages__rightPage");
         
         selectableTextArea.forEach((element) => {
-            element.addEventListener("mouseup", selectableTextAreaMouseUp)
+            element?.addEventListener("mouseup", selectableTextAreaMouseUp)
         })
         
         function documentMouseDown(event) {
@@ -110,8 +118,10 @@ function PersonalReading(props) {
     }, [currentPageNumber])
 
     return (
-        <main className={styles.read}>
-            <article className={styles.readPage}>
+        // <main className={styles.read}>
+        <main className="PersonalReading">
+            {/* <article className={styles.readPage}> */}
+            <article className="PersonalReading__pages">
                 <span style={{ fontWeight: 'bold', left: '900px', top:'50px', position: 'relative', zIndex: 1 }}>
                     <input placeholder={currentPageNumber} style={{width:'30px'}} type="number" onKeyUp={(event) => {
                         // enter 클릭 시
@@ -123,97 +133,80 @@ function PersonalReading(props) {
                     {/* ↑ 여기를 끝페이지가 나오게끔 하는 게 더 나은 것 같습니다. */}
                 </span>
                 
-                <section className={styles.viewer} id='view'>
-                    {/* <iframe src="https://drive.google.com/file/d/11fpmErf61E_JEBmqgK5lvPZKgSK9j3Nt/view?usp=sharing#grid" width="100%" height="100%"></iframe> */}
+                {/* <section className={styles.viewer} id='view'> */}
+                <section className="PersonalReading__pages__rightPage">
+                    {/* <iframe type='text/html' src="https://label-book-storage.s3.ap-northeast-2.amazonaws.com/Invoice_Page_34.html" width="100%" height="100%"></iframe> */}
                     <HtmlRendered html={html}></HtmlRendered>
-                    <button className={styles.prevBtn} onClick={() => { setCurrentPageNumber(currentPageNumber - 1) }}></button>
-                    <button className={styles.nextBtn} onClick={() => { setCurrentPageNumber(currentPageNumber + 1) }}></button>
+                    {/* <button className={styles.prevBtn} onClick={() => { setCurrentPageNumber(currentPageNumber - 1) }}></button>
+                    <button className={styles.nextBtn} onClick={() => { setCurrentPageNumber(currentPageNumber + 1) }}></button> */}
+                    <button className="prevButton" onClick={() => { setCurrentPageNumber(currentPageNumber - 1) }}>&lt;</button>
+                    <button className="nextButton" onClick={() => { setCurrentPageNumber(currentPageNumber + 1) }}>&gt;</button>
                 </section>
             </article>
-            <button className={styles.highlightBtn} onClick={() => { 
-                clickHighlight(pdfIdx, currentPageNumber, highlightButton);
-            }} ref={highlightButton} value='this is for documentMouseDown'></button>
             
-            <HighlightList></HighlightList>
+            <button className="HighlightButton" onClick={() => { 
+                clickHighlight(pdfIdx, currentPageNumber, highlightButton, resetCount, setResetCount);
+            }} ref={highlightButton} value='this is for documentMouseDown'>
+            </button>
+            <div>
+                <HighlightList currentPageNumber={currentPageNumber} resetCount={resetCount}></HighlightList>
+                {/* <TextEditor></TextEditor> */}
+            </div>
         </main>
     )
 }
 
 function drawHighlight(range, node) {
-    // node.classList.add('hello');
-    // node.style.color = "white";
-    // node.style.backgroundColor = "black";
     node.appendChild(range.extractContents());
     range.insertNode(node);
 }
 
 function doHighlight(highlightData) {
-    // let timer = setTimeout(() => {
-        // if (document.getElementsByClassName(`y${index.toString(16)}`)[0] === undefined) {
-        //     doHighlight(highlightData, index);
-        //     clearTimeout(timer);
-        // } else {
-
-            const yOfSelectedStartContainer = highlightData.startLine;
-            const offsetOfSelectedStartContainer = highlightData.startOffset;
-            const indexOfSelectedStartContainer = highlightData.startNode;
-            
-            const yOfSelectedEndContainer = highlightData.endLine;
-            const offsetOfSelectedEndContainer = highlightData.endOffset;
-            const indexOfSelectedEndContainer = highlightData.endNode;
-            
-            const decimalYOfSelectedStartContainer = parseInt(yOfSelectedStartContainer.slice(1), 16);
-            const decimalYOfSelectedEndContainer =  parseInt(yOfSelectedEndContainer.slice(1), 16);
-            
-            // currentElement를 잘 잡지 못해서 에러가 난다.
-            for (let i = decimalYOfSelectedStartContainer; i <= decimalYOfSelectedEndContainer; i++) {
-                const currentElement = document.getElementsByClassName(`y${i.toString(16)}`)[0];
-                const newRange = document.createRange();
+    const yOfSelectedStartContainer = highlightData.startLine;
+    const offsetOfSelectedStartContainer = highlightData.startOffset;
+    const indexOfSelectedStartContainer = highlightData.startNode;
+    
+    const yOfSelectedEndContainer = highlightData.endLine;
+    const offsetOfSelectedEndContainer = highlightData.endOffset;
+    const indexOfSelectedEndContainer = highlightData.endNode;
+    
+    const decimalYOfSelectedStartContainer = parseInt(yOfSelectedStartContainer.slice(1), 16);
+    const decimalYOfSelectedEndContainer =  parseInt(yOfSelectedEndContainer.slice(1), 16);
+    
+    // currentElement를 잘 잡지 못해서 에러가 난다.
+    for (let i = decimalYOfSelectedStartContainer; i <= decimalYOfSelectedEndContainer; i++) {
+        const currentElement = document.getElementsByClassName(`y${i.toString(16)}`)[0];
+        const newRange = document.createRange();
                 
-                // if (currentElement != undefined) {
-                //     if (typeof(currentElement.childNodes[indexOfSelectedStartContainer]) === "object" 
-                //         && typeof(currentElement.childNodes[indexOfSelectedEndContainer]) === "object" 
-                //         && currentElement.childNodes[indexOfSelectedEndContainer].length >= offsetOfSelectedEndContainer
-                //         && currentElement.childNodes[indexOfSelectedStartContainer].length >= offsetOfSelectedStartContainer) {
-                        
-                        const newNode = document.createElement("span");
-                        newNode.classList.add('highlighted');
-                        if (decimalYOfSelectedStartContainer === decimalYOfSelectedEndContainer) {
-                            newRange.setStart(currentElement.childNodes[indexOfSelectedStartContainer], offsetOfSelectedStartContainer);
-                            newRange.setEnd(currentElement.childNodes[indexOfSelectedEndContainer], offsetOfSelectedEndContainer);
-                            
-                            drawHighlight(newRange, newNode);
-                            return;
-                        }
-                        
-                        if (i === decimalYOfSelectedStartContainer) {
-                            console.log(currentElement);
-                            console.log(currentElement.childNodes)
-                            console.log(indexOfSelectedStartContainer);
-                            newRange.setStart(currentElement.childNodes[indexOfSelectedStartContainer], offsetOfSelectedStartContainer);
-                            newRange.setEnd(currentElement.childNodes[currentElement.childNodes.length - 1], currentElement.childNodes[currentElement.childNodes.length - 1].length);
-                            
-                        } else if (i === decimalYOfSelectedEndContainer) {
-                            newRange.setStart(currentElement.childNodes[0], 0);
-                            newRange.setEnd(currentElement.childNodes[indexOfSelectedEndContainer], offsetOfSelectedEndContainer);
-                            
-                        } else {
-                            newRange.setStart(currentElement.childNodes[0], 0);
-                            newRange.setEnd(currentElement.childNodes[currentElement.childNodes.length - 1], currentElement.childNodes[currentElement.childNodes.length - 1].length);
-                            
-                        }
-                        
-                        drawHighlight(newRange, newNode);
-                    // }
-                // }
-            }
+        const newNode = document.createElement("span");
+        newNode.classList.add('highlighted');
+        if (decimalYOfSelectedStartContainer === decimalYOfSelectedEndContainer) {
+            newRange.setStart(currentElement.childNodes[indexOfSelectedStartContainer], offsetOfSelectedStartContainer);
+            newRange.setEnd(currentElement.childNodes[indexOfSelectedEndContainer], offsetOfSelectedEndContainer);
             
-            // clearTimeout(timer);
-        // }
-    // }, 100);
+            drawHighlight(newRange, newNode);
+            return;
+        }
+        
+        if (i === decimalYOfSelectedStartContainer) {
+            newRange.setStart(currentElement.childNodes[indexOfSelectedStartContainer], offsetOfSelectedStartContainer);
+            newRange.setEnd(currentElement.childNodes[currentElement.childNodes.length - 1], currentElement.childNodes[currentElement.childNodes.length - 1].length);
+            
+        } else if (i === decimalYOfSelectedEndContainer) {
+            newRange.setStart(currentElement.childNodes[0], 0);
+            newRange.setEnd(currentElement.childNodes[indexOfSelectedEndContainer], offsetOfSelectedEndContainer);
+            
+        } else {
+            newRange.setStart(currentElement.childNodes[0], 0);
+            newRange.setEnd(currentElement.childNodes[currentElement.childNodes.length - 1], currentElement.childNodes[currentElement.childNodes.length - 1].length);
+            
+        }
+        
+        drawHighlight(newRange, newNode);
+    }
 }
 
-function clickHighlight(pdfIdx, currentPageNumber, highlightButton) {
+function clickHighlight(pdfIdx, currentPageNumber, highlightButton, resetCount, setResetCount) {
     const selectedText = window.getSelection().toString().trim();
     const selectedRange = window.getSelection().getRangeAt(0);
 
@@ -280,6 +273,7 @@ function clickHighlight(pdfIdx, currentPageNumber, highlightButton) {
     })
     .then((response) => {
         console.log('Highlight POST Success\nresponse:', response);
+        setResetCount((resetCount) => {return resetCount + 1});
     })
     .catch((error) => {
         console.log('Highlight POST Fail\nerror:', error);

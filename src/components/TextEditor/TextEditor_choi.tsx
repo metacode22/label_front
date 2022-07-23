@@ -12,7 +12,6 @@
 
 // import { CodeFence } from './CodeFence';
 // import { codeFence } from './CodeFence/codeFence.node';
-// import { Image } from './Image';
 // import { block, blockPlugin } from '@milkdown/plugin-block';
 // import React from 'react';
 

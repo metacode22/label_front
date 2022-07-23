@@ -1,0 +1,11 @@
+.ProseMirror .editor {
+    width: 400px;
+    height: 100px;
+    /* overflow: scroll; */
+}
+
+.milkdown-menu-wrapper {
+    overflow: scroll;
+    width: 600px;
+    height: 300px;
+}

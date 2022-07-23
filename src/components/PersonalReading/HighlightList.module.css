@@ -1,5 +1,11 @@
-.container {
+.wrap {
     border: 1px solid black;
-    /* height: 600px; */
-    width: 300px;
+    /* height: 300px; */
+    
+    /* width: 300px; */
+}
+
+.container {
+    /* height: 300px; */
+    /* overflow: scroll; */
 }

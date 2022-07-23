@@ -106,24 +106,24 @@ import { Doc } from 'yjs';
 export const TextEditor: React.FC<{ value: string}> = ({ value }) => {
     let [markdown, setMarkdown] = useState('');
     
-    useEffect(() => {
-        async function getMarkdown() {
-            await axios.get(`http://3.35.27.172:3000/highlights/pdfs/${1}/pages/${7}`)
-            .then((response) => {
-                let markdown = '';
+    // useEffect(() => {
+    //     async function getMarkdown() {
+    //         await axios.get(`http://3.35.27.172:3000/highlights/pdfs/${1}/pages/${7}`)
+    //         .then((response) => {
+    //             let markdown = '';
                 
-                for (let i = 0; i < response.data.result.length; i++) {
-                    markdown += '- ';
-                    markdown += response.data.result[i].data;
-                    markdown += '\n';
-                }
+    //             for (let i = 0; i < response.data.result.length; i++) {
+    //                 markdown += '- ';
+    //                 markdown += response.data.result[i].data;
+    //                 markdown += '\n';
+    //             }
                 
-                setMarkdown(markdown);
-            })
-        }
+    //             setMarkdown(markdown);
+    //         })
+    //     }
         
-        getMarkdown();
-    }, []);
+    //     getMarkdown();
+    // }, []);
     
     // [], dependency 에 아무것도 안 넣어서 useEditor가 다시 실행되지 않았었다.
     let { editor, loading, getInstance } = useEditor((root, renderReact) => {

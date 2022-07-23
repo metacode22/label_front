@@ -8,6 +8,10 @@
     /* justify-content: center; */
 }
 
+/* .PageContainer {
+    width: 100px;
+} */
+
 .PersonalReading__pages {
     margin: 30px auto;
     /* margin-right: 60px; */
@@ -57,9 +61,8 @@
 .HighlightButton {
     width: 2.0rem;
     height: 2.0rem;
-    font-size: 1.0rem;
+    /* font-size: 1.0rem; */
     color: var(--color-1-c);
-    background-color: var(--color-white);
     cursor: pointer;
     border: 2px solid var(--color-1-c);
     border-radius: 50%;
@@ -69,6 +72,8 @@
     z-index: 10;
     display: none;
     transition: color 0.2s, background-color 0.2s ease-in-out;
+    /* background: url('../../../public/images/highlighter.png') center/cover no-repeat; */
+    background-color: var(--color-white);
 }
 
 .HighlightButton:hover {

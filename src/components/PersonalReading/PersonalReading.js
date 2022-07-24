@@ -1,88 +1,74 @@
 import "./PersonalReading.css";
-import axios from "axios";
+import axios from 'axios';
 import { useState, useEffect, useRef } from "react";
-import React from "react";
-import { useLocation } from "react-router-dom";
-import { useCookies } from "react-cookie";
+import { useLocation } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
-import HighlightList from "./HighlightList.js";
-import { TextEditor } from "../TextEditor/TextEditor.tsx";
+// sideComponents
+import { TextEditor } from "./sideComponents/TextEditor/TextEditor.tsx";
+import PageRendered from "./sideComponents/PageRendered/PageRendered.js";
+import HighlightList from "./sideComponents/HighlightList/HighlightList.js";
+
+// sideFunction for highlighting
 
 function PersonalReading(props) {
-    let [resetCount, setResetCount] = useState(0);
-
-    const location = useLocation();
-    let goToThisPageFirst = location.state;
-
-    if (goToThisPageFirst === null) {
-        // 임시로 해둠. AXIOS로 받아와야 함.
-        goToThisPageFirst = 18;
-    }
-
+    let [mode, setMode] = useState(true);
+    let [html, setHtml] = useState('');
+    let [updateHighlightList, setUpdateHighlightList] = useState(true);
+    
+    // 수정 필요, props로 받아야 할 듯.
+    // library에서 넘어올 때 currentPageNumber를 유저로부터 가져와야 함.
+    // redux?
+    let [currentPageNumber, setCurrentPageNumber] = useState(20);
+    
+    // library에서 넘어올 때 받아와야 할 듯.
+    // useLocation
     let pdfIdx = 1;
-    let [html, setHtml] = useState(null);
-    let [currentPageNumber, setCurrentPageNumber] = useState(goToThisPageFirst);
+    
+    // highlight Button
     const highlightButton = useRef();
-    const [cookies, setCookie, removeCookie] = useCookies(["id"]);
-
-    console.log(1, "rendered");
+    
     useEffect(() => {
-        /* Authorization */
-        // axios.get(`http://localhost:3001/pdfs/${pdfIdx}/pages/${currentPageNumber}`, {
-        //     headers: {
-        //         sessionidforauth: cookies.id
-        //     }
-        // })
+        // axios.get('https:/label-book-storage.s3.ap-northeast-2.amazonaws.com/1_23.html')
         // .then((response) => {
-        //     console.log('cookies:', response);
+        //     console.log(response);
         // })
-        // .catch((error) => {
-        //     console.log('Authorization Fail, error:', error);
-        // })
-
-        axios
-            .get(
-                `http://43.200.26.215:3000/pdfs/${pdfIdx}/pages/${currentPageNumber}`
-            )
+        
+        axios.get(`http://43.200.26.215:3000/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
             .then((response) => {
-                setHtml(response.data.result.pageHtml);
-                console.log(2, "useEffect - axios - setHtml");
+                console.log('pageLink GET response:', response);      
+                
+                return response.data.result.pageLink;
             })
-            .catch(() => {
-                alert("페이지 로딩에 실패하였습니다.");
+            .catch((error) => {
+                console.log('pageLink GET Fail, error:', error);
             })
-            // axios.get('https://label-book-storage.s3.ap-northeast-2.amazonaws.com/Invoice_Page_34.html')
-            // .then((response) => {
-            //     setHtml(response.data);
-            // })
-            .then(() => {
-                axios
-                    .get(
-                        `http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`
-                    )
+            .then((pageLink) => {
+                axios.get(`${pageLink}`)
                     .then((response) => {
-                        console.log(
-                            4,
-                            "useEffect2 - axios2 - highlightData GET"
-                        );
-                        console.log(
-                            "highlightData GET Success\nresponse:",
-                            response
-                        );
-
-                        const highlightData = response.data.result;
-                        for (let i = 0; i < highlightData.length; i++) {
-                            doHighlight(highlightData[i]);
+                        console.log('html GET response:', response);
+                        setHtml(response.data);
+                    })
+            })
+            .catch((error) => {
+                console.log('html GET Fail, error:', error);
+            })
+            .then(() => {
+                axios.get(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
+                    .then((response) => {
+                        console.log('highlight data GET response:', response);
+    
+                        for(let i = 0; i < response.data.result.length; i++) {
+                            doHighlight(response.data.result[i], response.data.result[i].highlightIdx);
                         }
                     })
-                    .catch((error) => {
-                        console.log("highlightData GET Fail\nerror:", error);
-                    });
+                    // .catch((error) => {
+                    //     console.log('highlight data GET Fail, error:', error);
+                    // })
             })
-            .catch(() => {
-                alert("highlighting에 실패하였습니다.");
-            });
-
+            
+        
+        /* ------------------------------------------------------------ */    
         let timer = null;
         function selectableTextAreaMouseUp(event) {
             const highlightButtonCurrent = highlightButton.current;
@@ -92,38 +78,20 @@ function PersonalReading(props) {
                     const x = event.pageX;
                     const y = event.pageY;
 
-                    const highlightButtonCurrentWidth = Number(
-                        getComputedStyle(highlightButtonCurrent).width.slice(
-                            0,
-                            -2
-                        )
-                    );
-                    const highlightButtonCurrentHeight = Number(
-                        getComputedStyle(highlightButtonCurrent).width.slice(
-                            0,
-                            -2
-                        )
-                    );
+                    const highlightButtonCurrentWidth = Number(getComputedStyle(highlightButtonCurrent).width.slice(0, -2));
+                    const highlightButtonCurrentHeight = Number(getComputedStyle(highlightButtonCurrent).width.slice(0, -2));
 
-                    highlightButtonCurrent.style.left = `${
-                        x - highlightButtonCurrentWidth * 0.25
-                    }px`;
-                    highlightButtonCurrent.style.top = `${
-                        y - highlightButtonCurrentHeight * 1.25
-                    }px`;
+                    highlightButtonCurrent.style.left = `${x - highlightButtonCurrentWidth * 0.25}px`;
+                    highlightButtonCurrent.style.top = `${y - highlightButtonCurrentHeight * 1.25}px`;
                     highlightButtonCurrent.style.display = "block";
                     highlightButtonCurrent.classList.add("btnEntrance");
                 }
             }, 0);
         }
+        
+        const selectableTextArea = document.querySelectorAll(".PersonalReading__mainPage--readingPage");
 
-        console.log(3, "useEffect - axios - 이후");
-
-        const selectableTextArea = document.querySelectorAll(
-            ".PersonalReading__pages__rightPage"
-        );
-
-        selectableTextArea.forEach((element) => {
+        selectableTextArea?.forEach((element) => {
             element?.addEventListener("mouseup", selectableTextAreaMouseUp);
         });
 
@@ -143,93 +111,78 @@ function PersonalReading(props) {
 
         return () => {
             document.removeEventListener("mousedown", documentMouseDown);
+            selectableTextArea?.forEach((element) => {
+                element?.removeEventListener("mouseup", selectableTextAreaMouseUp);
+            });
             clearTimeout(timer);
         };
-    }, [currentPageNumber]);
-
+        
+    }, [currentPageNumber])
+    /* ------------------------------------------------------------ */
+    
     return (
         <main className="PersonalReading">
-            <article className="PersonalReading__pages">
-                <span
-                    style={{
-                        fontWeight: "bold",
-                        left: "900px",
-                        top: "40px",
-                        position: "relative",
-                        zIndex: 1,
-                    }}
-                >
-                    <input
-                        placeholder={currentPageNumber}
-                        style={{ width: "30px" }}
-                        type="number"
-                        onKeyUp={(event) => {
-                            // enter 클릭 시
-                            if (window.event.keyCode === 13) {
-                                console.log(typeof event.target.value);
-                                setCurrentPageNumber(
-                                    Number(event.target.value)
-                                );
-                            }
-                        }}
-                    ></input>
-                    <span> / {currentPageNumber}</span>
-                    {/* ↑ 여기를 끝페이지가 나오게끔 하는 게 더 나은 것 같습니다. */}
-                </span>
-
-                <section className="PersonalReading__pages__rightPage">
-                    {/* <iframe type='text/html' src="https://label-book-storage.s3.ap-northeast-2.amazonaws.com/Invoice_Page_34.html" width="100%" height="100%"></iframe> */}
-                    <HtmlRendered html={html}></HtmlRendered>
-                    <button
-                        className="prevButton"
-                        onClick={() => {
-                            setCurrentPageNumber(currentPageNumber - 1);
-                        }}
-                    >
-                        &lt;
-                    </button>
-                    <button
-                        className="nextButton"
-                        onClick={() => {
-                            setCurrentPageNumber(currentPageNumber + 1);
-                        }}
-                    >
-                        &gt;
-                    </button>
-                </section>
-            </article>
-
-            <button
+            {/* show and hide 버튼으로 가자. */}
+            <button onClick={() => {
+                setMode(!mode);    
+            }}>Change Mode</button>
+            
+            {/* highlight 버튼 */}
+            <button 
+                ref={highlightButton} 
                 className="HighlightButton"
-                onClick={() => {
-                    clickHighlight(
-                        pdfIdx,
-                        currentPageNumber,
-                        highlightButton,
-                        resetCount,
-                        setResetCount
-                    );
-                }}
-                ref={highlightButton}
                 value="this is for documentMouseDown"
+                onClick={() => {
+                    clickHighlight(pdfIdx, currentPageNumber, highlightButton, updateHighlightList, setUpdateHighlightList);
+                }}
             ></button>
-            <div>
-                <HighlightList
-                    currentPageNumber={currentPageNumber}
-                    resetCount={resetCount}
-                ></HighlightList>
-                {/* <TextEditor></TextEditor> */}
+            
+            <div className="PersonalReading__container">
+                <aside className="PersonalReading__sideBar">Side Bar</aside>
+                
+                <div className="PersonalReading__mainPage" style={mode === true ? {flex: 3} : {flex: 1}}>
+                    {mode === true ? <article className="PersonalReading__mainPage--readingPage">
+                        <PageRendered className="PageRendered" html={html}></PageRendered>
+                    </article> 
+                    : null}
+                    <article className="PersonalReading__mainPage--textEditor">
+                        <div className="PersonalReading__mainPage--textEditor--info">
+                            {/* title 정보 받아와야 함. */}
+                            <p style={{ fontSize: '16px' }}>title - 서버에서 받아와야 함.</p>
+                            {/* subtitle 정보 받아와야 함. */}
+                            <p style={{ fontSize: '16px' }}>subtitle - 서버에서 받아와야 함.</p>
+                            {/* 저장 정보 받아와야 함. */}
+                            <p style={{ fontSize: '12px', textDecoration: 'underline' }}>저장 시 남는 글 - 서버에서 받아와야 함.</p>
+                        </div>
+                        <TextEditor></TextEditor>
+                    </article>
+                </div>
+                
+                <aside className="PersonalReading__highlightList" style={mode === true ? {flex: 0.8} : {flex: 1}}>
+                    <HighlightList currentPageNumber={currentPageNumber} updateHighlightList={updateHighlightList} setUpdateHighlightList={setUpdateHighlightList}></HighlightList>
+                </aside>
             </div>
         </main>
     );
 }
+
+
+
+
+
+
+
+
+
+
+
 
 function drawHighlight(range, node) {
     node.appendChild(range.extractContents());
     range.insertNode(node);
 }
 
-function doHighlight(highlightData) {
+function doHighlight(highlightData, highlightIdx) {
     const yOfSelectedStartContainer = highlightData.startLine;
     const offsetOfSelectedStartContainer = highlightData.startOffset;
     const indexOfSelectedStartContainer = highlightData.startNode;
@@ -259,7 +212,11 @@ function doHighlight(highlightData) {
         const newRange = document.createRange();
 
         const newNode = document.createElement("span");
+        
+        // delete 시 곧바로 삭제할 수 있도록 미리 class를 더해놓음.
+        // 나중에 지울 때 class를 통해 곧바로 노드를 찾아서 highlighted 클래스를 제거하면 됨.
         newNode.classList.add("highlighted");
+        newNode.classList.add('highlight' + highlightIdx);
         if (
             decimalYOfSelectedStartContainer === decimalYOfSelectedEndContainer
         ) {
@@ -309,8 +266,8 @@ function clickHighlight(
     pdfIdx,
     currentPageNumber,
     highlightButton,
-    resetCount,
-    setResetCount
+    updateHighlightList,
+    setUpdateHighlightList
 ) {
     const selectedText = window.getSelection().toString().trim();
     const selectedRange = window.getSelection().getRangeAt(0);
@@ -388,10 +345,7 @@ function clickHighlight(
         data: selectedText,
     };
 
-    doHighlight(highlightData);
-
-    axios
-        .post("http://43.200.26.215:3000/highlights", {
+    axios.post("http://43.200.26.215:3000/highlights", {
             pdfIdx: pdfIdx,
             pageNum: currentPageNumber,
             startLine: yOfSelectedStartContainer,
@@ -404,19 +358,19 @@ function clickHighlight(
         })
         .then((response) => {
             console.log("Highlight POST Success\nresponse:", response);
-            setResetCount((resetCount) => {
-                return resetCount + 1;
-            });
+            setUpdateHighlightList(!updateHighlightList);
         })
         .catch((error) => {
             console.log("Highlight POST Fail\nerror:", error);
-        });
+        })
+        .then(() => {
+            axios.get(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
+                .then((response) => {
+                    doHighlight(highlightData, response.data.result[response.data.result.length - 1].highlightIdx);
+                })
+        })
 
     highlightButton.current.style.display = "none";
-}
-
-function HtmlRendered(props) {
-    return <div dangerouslySetInnerHTML={{ __html: props.html }}></div>;
 }
 
 export default PersonalReading;

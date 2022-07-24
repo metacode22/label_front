@@ -11,8 +11,7 @@ import IconButton from "@mui/material/IconButton";
 
 function HighlightList(props) {
     let [highlightData, setHighlightData] = useState([]);
-    // let [updateHighlightList, setUpdateHighlightList] = useState(true);
-
+    
     useEffect(() => {
         async function getHighlightData() {
             await axios
@@ -27,15 +26,17 @@ function HighlightList(props) {
         }
 
         getHighlightData();
-    }, [props.currentPageNumber, props.resetCount]);
+    }, [props.currentPageNumber, props.updateHighlightList]);
 
     return (
         <aside className={styles.wrap}>
             <div className={styles.container}>
                 <HighlightCards
                     highlightData={highlightData}
-                    style={{ overflow: "scroll" }}
                     setHighlightData={setHighlightData}
+                    style={{ overflow: "scroll" }}
+                    updateHighlightList={props.updateHighlightList}
+                    setUpdateHighlightList={props.setUpdateHighlightList}
                     currentPageNumber={props.currentPageNumber}
                 ></HighlightCards>
             </div>
@@ -44,19 +45,17 @@ function HighlightList(props) {
 }
 
 function HighlightCards(props) {
+    console.log(props);
+    
     function dragStart_handler(event) {
         event.dataTransfer.setData("text/plain", event.target.innerHTML);
     }
 
-    async function deleteHighlight(
-        highlightIdx,
-        setHighlightData,
-        currentPageNumber
-    ) {
-        await axios
-            .delete(`http://43.200.26.215:3000/highlights/${highlightIdx}`)
+    async function deleteHighlight(highlightIdx, setHighlightData, updateHighlightList, setUpdateHighlightList, currentPageNumber) {
+        await axios.delete(`http://43.200.26.215:3000/highlights/${highlightIdx}`)
             .then((response) => {
                 console.log("highlight delete response:", response);
+                
             })
             .catch((error) => {
                 console.log("highlight delete error:", error);
@@ -67,10 +66,15 @@ function HighlightCards(props) {
                         `http://43.200.26.215:3000/highlights/pdfs/${1}/pages/${currentPageNumber}`
                     )
                     .then((response) => {
-                        console.log(response);
                         setHighlightData(response.data.result);
-                    });
-            });
+                        setUpdateHighlightList(!updateHighlightList);
+                        const selectedHighlight = document.getElementsByClassName('highlight' + highlightIdx);
+                        
+                        for (let i = 0; i < selectedHighlight.length; i++) {
+                            selectedHighlight[i].classList.remove('highlighted', `${highlightIdx}`);
+                        }
+                    })
+            })
     }
 
     return (
@@ -108,6 +112,8 @@ function HighlightCards(props) {
                                         deleteHighlight(
                                             element.highlightIdx,
                                             props.setHighlightData,
+                                            props.updateHighlightList,
+                                            props.setUpdateHighlightList,
                                             props.currentPageNumber
                                         );
                                     }}

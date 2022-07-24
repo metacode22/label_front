@@ -5,7 +5,7 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
-import HighlightList from "./HighlightList.js";
+import HighlightList from "./sideComponents/HighlightList/HighlightList.js";
 import { TextEditor } from "../TextEditor/TextEditor.tsx";
 
 function PersonalReading(props) {
@@ -39,6 +39,7 @@ function PersonalReading(props) {
         // .catch((error) => {
         //     console.log('Authorization Fail, error:', error);
         // })
+        
 
         axios
             .get(
@@ -79,8 +80,8 @@ function PersonalReading(props) {
                         console.log("highlightData GET Fail\nerror:", error);
                     });
             })
-            .catch((error) => {
-                console.log("highlightData를 불러오는 데에 실패, error", error);
+            .catch(() => {
+                alert("highlighting에 실패하였습니다.");
             });
 
         let timer = null;
@@ -119,13 +120,9 @@ function PersonalReading(props) {
 
         console.log(3, "useEffect - axios - 이후");
 
-        const selectableTextArea = document.querySelectorAll(
-            ".PersonalReading__pages__rightPage"
-        );
+        const selectableTextArea = document.querySelectorAll(".PersonalReading__pages__rightPage");
 
-        selectableTextArea.forEach((element) => {
-            element?.addEventListener("mouseup", selectableTextAreaMouseUp);
-        });
+        selectableTextArea.forEach((element) => {element?.addEventListener("mouseup", selectableTextAreaMouseUp);});
 
         function documentMouseDown(event) {
             const highlightButtonCurrent = highlightButton.current;
@@ -150,23 +147,36 @@ function PersonalReading(props) {
     return (
         <main className="PersonalReading">
             <article className="PersonalReading__pages">
-                <input
-                    type="number"
-                    onKeyUp={(event) => {
-                        // enter 클릭 시
-                        if (window.event.keyCode === 13) {
-                            setCurrentPageNumber(Number(event.target.value));
-                        }
+                <span
+                    style={{
+                        fontWeight: "bold",
+                        left: "900px",
+                        top: "40px",
+                        position: "relative",
+                        zIndex: 1,
                     }}
-                ></input>
-                <span>{currentPageNumber}</span>
+                >
+                    <input
+                        placeholder={currentPageNumber}
+                        style={{ width: "30px" }}
+                        type="number"
+                        onKeyUp={(event) => {
+                            // enter 클릭 시
+                            if (window.event.keyCode === 13) {
+                                console.log(typeof event.target.value);
+                                setCurrentPageNumber(
+                                    Number(event.target.value)
+                                );
+                            }
+                        }}
+                    ></input>
+                    <span> / {currentPageNumber}</span>
+                    {/* ↑ 여기를 끝페이지가 나오게끔 하는 게 더 나은 것 같습니다. */}
+                </span>
 
                 <section className="PersonalReading__pages__rightPage">
                     {/* <iframe type='text/html' src="https://label-book-storage.s3.ap-northeast-2.amazonaws.com/Invoice_Page_34.html" width="100%" height="100%"></iframe> */}
                     <HtmlRendered html={html}></HtmlRendered>
-                </section>
-
-                <div>
                     <button
                         className="prevButton"
                         onClick={() => {
@@ -183,7 +193,7 @@ function PersonalReading(props) {
                     >
                         &gt;
                     </button>
-                </div>
+                </section>
             </article>
 
             <button
@@ -200,7 +210,6 @@ function PersonalReading(props) {
                 ref={highlightButton}
                 value="this is for documentMouseDown"
             ></button>
-
             <div>
                 <HighlightList
                     currentPageNumber={currentPageNumber}
@@ -218,12 +227,6 @@ function drawHighlight(range, node) {
 }
 
 function doHighlight(highlightData) {
-    // let timer = setTimeout(() => {
-    // if (document.getElementsByClassName(`y${index.toString(16)}`)[0] === undefined) {
-    //     doHighlight(highlightData, index);
-    //     clearTimeout(timer);
-    // } else {
-
     const yOfSelectedStartContainer = highlightData.startLine;
     const offsetOfSelectedStartContainer = highlightData.startOffset;
     const indexOfSelectedStartContainer = highlightData.startNode;
@@ -251,12 +254,6 @@ function doHighlight(highlightData) {
             `y${i.toString(16)}`
         )[0];
         const newRange = document.createRange();
-
-        // if (currentElement != undefined) {
-        //     if (typeof(currentElement.childNodes[indexOfSelectedStartContainer]) === "object"
-        //         && typeof(currentElement.childNodes[indexOfSelectedEndContainer]) === "object"
-        //         && currentElement.childNodes[indexOfSelectedEndContainer].length >= offsetOfSelectedEndContainer
-        //         && currentElement.childNodes[indexOfSelectedStartContainer].length >= offsetOfSelectedStartContainer) {
 
         const newNode = document.createElement("span");
         newNode.classList.add("highlighted");
@@ -302,13 +299,7 @@ function doHighlight(highlightData) {
         }
 
         drawHighlight(newRange, newNode);
-        // }
-        // }
     }
-
-    // clearTimeout(timer);
-    // }
-    // }, 100);
 }
 
 function clickHighlight(

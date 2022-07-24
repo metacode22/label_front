@@ -13,7 +13,7 @@ import { block} from '@milkdown/plugin-block';
 import { tooltip } from '@milkdown/plugin-tooltip';
 import { history } from '@milkdown/plugin-history';
 import { commonmark } from '@milkdown/preset-commonmark';
-import { menu } from '@milkdown/plugin-menu';
+import { menu, menuPlugin } from '@milkdown/plugin-menu';
 
 // collaborative
 import { collaborative, CollabService, collabServiceCtx } from '@milkdown/plugin-collaborative';

@@ -13,7 +13,6 @@ import { tooltip } from '@milkdown/plugin-tooltip';
 import { history } from '@milkdown/plugin-history';
 import { commonmark } from '@milkdown/preset-commonmark';
 import { menu } from '@milkdown/plugin-menu';
-import './HighlightCollection.css';
 
 export const HighlightCollection: React.FC<{ value: string}> = ({ value }) => {
     let [markdown, setMarkdown] = useState('');

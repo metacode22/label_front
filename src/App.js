@@ -1,13 +1,15 @@
-import logo from "./logo.svg";
 import "./App.css";
-import Nav from "./components/Nav/Nav.js";
+// import Nav from "./components/Nav/Nav.js";
+import Nav from './component/Nav/Nav'
 import Landing from "./components/Landing/Landing.js";
 import Signup from "./components/Signup/Signup.js";
 import UserPage from "./components/UserPage/UserPage.js";
 import Highlight from "./components/Highlight/Highlight";
-import Library from "./components/Library/Library.js";
+// import Library from "./components/Library/Library.js";
+import Library from "./component/Library/Library"
 import PersonalReading from "./components/PersonalReading/PersonalReading.js";
-import Practice from "./components/Practice/Practice"
+import Footer from './component/Footer/Footer'
+
 import { TextEditor } from "./components/TextEditor/TextEditor";
 import { HighlightCollection } from "./components/TextEditor/HighlightCollection";
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
@@ -26,12 +28,12 @@ function App() {
                 <Route path="/milkdown" element={
                     <div className="TextEditor__container" style={{ display: 'flex' }}>
                         <TextEditor></TextEditor>
-                        <Practice></Practice>
                         <HighlightCollection></HighlightCollection>
                     </div>
                 }></Route>
-                <Route path="/practice" element={<Practice></Practice>}></Route>
             </Routes>
+            
+            <Footer></Footer>
         </div>
     );
 }

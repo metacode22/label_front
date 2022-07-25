@@ -167,6 +167,11 @@ border-radius: var(--border-radius);
     background-color: #c6e48b;
 }
 
+/* .squares li:hover{
+    border: 2px solid var(--color-1-c);
+    cursor: pointer;
+} */
+
 /* .squares li[data-level="1"] {
 background-color: #c6e48b;
 }

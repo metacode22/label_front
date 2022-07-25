@@ -41,7 +41,7 @@ function PersonalReading(props) {
         //     console.log('Authorization Fail, error:', error);
         // })
         
-        axios.get(`http://3.35.27.172:3000/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
+        axios.get(`http://43.200.26.215:3000/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
         .then((response) => {
             setHtml(response.data.result.pageHtml);
             console.log(2, 'useEffect - axios - setHtml');
@@ -54,7 +54,7 @@ function PersonalReading(props) {
         //     setHtml(response.data);
         // })
         .then(() => {
-            axios.get(`http://3.35.27.172:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
+            axios.get(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
             .then((response) => {
                 console.log(4, 'useEffect2 - axios2 - highlightData GET');
                 console.log('highlightData GET Success\nresponse:', response);
@@ -255,7 +255,7 @@ function clickHighlight(pdfIdx, currentPageNumber, highlightButton, resetCount, 
     
     doHighlight(highlightData);
 
-    axios.post('http://3.35.27.172:3000/highlights', {
+    axios.post('http://43.200.26.215:3000/highlights', {
         "pdfIdx": pdfIdx,
         "pageNum": currentPageNumber,
         "startLine": yOfSelectedStartContainer,

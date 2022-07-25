@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Highlight.css';
-import axios from 'axios';
 
 function HighlightList(){
     let [result, setResult] = useState([]);
@@ -9,7 +8,7 @@ function HighlightList(){
     let pdfIdx = 1;
 
     useEffect(()=>{
-        fetch(`http://3.35.27.172:3000/highlights/pdfs/${pdfIdx}`)
+        fetch(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}`)
         .then(res => {
             return res.json();
         })
@@ -35,13 +34,13 @@ function TitleList(){
     let userIdx = 1;
 
     useEffect(()=>{
-        fetch(`http://3.35.27.172:3000/users/${userIdx}/pdfs`)
+        fetch(`http://43.200.26.215:3000/users/${userIdx}/pdfs`)
         .then(res => {
             return res.json();
         })
         .then(res => {
             setResult(res.result);
-            // console.log(res.result);
+            console.log(res.result);
             // console.log(res.result.pdfName)
         })
     }, []);
@@ -81,9 +80,9 @@ function TitleShow(props){
                     {/* <p className='Highlight__list__title__name' key={i}>{props.title[i].pdfName}</p> */}
                     <p className='Highlight__list__title__name'>{props.title.pdfName}</p>
                     {/* <h2 style={{ marginTop: '0px'}} key={i}>{props.title[i].subTitle}</h2> */}
-                    <h2 style={{ marginTop: '0px'}}>자본은 어떻게 종교와 정치를 압도했는가</h2>
+                    <h2 style={{ marginTop: '0px'}}>{props.title.subTitle}</h2>
                     {/* <p className='Highlight__list__title__author' key={i}>{props.title[i].author}</p> */}
-                    <p className='Highlight__list__title__author'>JACOB FUGGER</p>
+                    <p className='Highlight__list__title__author'>{props.title.author}</p>
                 </>
             )
         // }

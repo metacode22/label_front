@@ -44,11 +44,44 @@
             /* flex-grow: 3; */
             flex: 1.6;
         }
+        
+            /* mainPage--goBackButtons */ 
+            .PersonalReading__mainPage--goBackButtons {
+                position: absolute;
+                z-index: 10;
+                width: 84px;
+                bottom: 0.5%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: #FFFFFF;
+                border: 2px solid var(--color-1-c);
+                border-radius: 8px;
+                
+                display: flex;
+                justify-content: center;
+            }
+            
+                /* go, back Buttons */
+                .goButton, .backButton {
+                    margin: 4px;
+                    width: 24px;
+                    height: 24px;
+                    background-color: #FFFFFF;
+                    border: 2px solid var(--color-1-c);
+                    border-radius: 100%;
+                    color: var(--color-1-c);
+                    transition: color 0.15s, background-color 0.15s ease-in-out;
+                    cursor: pointer;
+                }
+                
+                .goButton:hover, .backButton:hover {
+                    background-color: var(--color-1-a);
+                }
 
         /* mainPage--textEditor */
         .PersonalReading__mainPage--textEditor {
             height: 100%;
-            /* border: 1px solid #E2E5E6; */
+            border: 1px solid #E2E5E6;
             border-radius: 0 16px 16px 0;
             background-color: #FFFFFF;
             /* max-width: 35%; */

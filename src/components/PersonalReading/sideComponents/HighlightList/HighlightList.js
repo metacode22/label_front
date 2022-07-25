@@ -40,7 +40,7 @@ function HighlightList(props) {
         <>
             <div className={styles.title}>Highlights</div>
             <SearchBar></SearchBar>
-            <p className={styles.pageNumber}>Page. {props.currentPageNumber}</p>
+            <p className={styles.pageNumber}>Page. {props.currentPageNumber} / {props.totalPage}</p>
             <aside className={styles.wrap}>
                 <div className={styles.container}>
                     <HighlightCards

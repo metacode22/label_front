@@ -6,10 +6,12 @@
 
 .milkdown-menu {
     flex-wrap: wrap !important;
+    border-left: none !important;
+    border-right: none !important;
 }
 
 .milkdown {
-    /* border: none !important; */
+    box-shadow: none !important;
 }
 
 .editor {

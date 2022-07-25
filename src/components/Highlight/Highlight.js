@@ -44,8 +44,6 @@ function TitleList() {
             })
             .then((res) => {
                 setResult(res.result);
-                // console.log(res.result);
-                // console.log(res.result.pdfName)
             });
     }, []);
 
@@ -88,20 +86,16 @@ function TitleShow(props) {
         const result = Array();
 
         // for (let i = 0; i < props.length; i++) {
-        result.push(
-            <>
-                {/* <p className='Highlight__list__title__name' key={i}>{props.title[i].pdfName}</p> */}
-                <p className="Highlight__list__title__name">
-                    {props.title.pdfName}
-                </p>
-                {/* <h2 style={{ marginTop: '0px'}} key={i}>{props.title[i].subTitle}</h2> */}
-                <h2 style={{ marginTop: "0px" }}>
-                    자본은 어떻게 종교와 정치를 압도했는가
-                </h2>
-                {/* <p className='Highlight__list__title__author' key={i}>{props.title[i].author}</p> */}
-                <p className="Highlight__list__title__author">JACOB FUGGER</p>
-            </>
-        );
+            result.push(
+                <>
+                    {/* <p className='Highlight__list__title__name' key={i}>{props.title[i].pdfName}</p> */}
+                    <p className='Highlight__list__title__name'>{props.title.pdfName}</p>
+                    {/* <h2 style={{ marginTop: '0px'}} key={i}>{props.title[i].subTitle}</h2> */}
+                    <h2 style={{ marginTop: '0px'}}>{props.title.subTitle}</h2>
+                    {/* <p className='Highlight__list__title__author' key={i}>{props.title[i].author}</p> */}
+                    <p className='Highlight__list__title__author'>{props.title.author}</p>
+                </>
+            )
         // }
         // ↑ key값들도 수정해야함 + 윗단 주석들 아무것도 지우면 안댐! 다시 사용할 코드들
         return result;

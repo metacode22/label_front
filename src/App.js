@@ -1,15 +1,13 @@
-import logo from "./logo.svg";
 import "./App.css";
-import Nav from "./components/Nav/Nav.js";
+import Nav from './component/Nav/Nav'
 import Landing from "./components/Landing/Landing.js";
 import Signup from "./components/Signup/Signup.js";
 import UserPage from "./components/UserPage/UserPage.js";
 import Highlight from "./components/Highlight/Highlight";
-import Library from "./components/Library/Library.js";
+import Library from "./component/Library/Library"
 import PersonalReading from "./components/PersonalReading/PersonalReading.js";
-import Practice from "./components/Practice/Practice"
-import { HighlightCollection } from "./components/TextEditor/HighlightCollection";
-import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import Footer from './component/Footer/Footer'
+import { Routes, Route } from "react-router-dom";
 
 function App() {
     return (
@@ -22,8 +20,9 @@ function App() {
                 <Route path="/personalreading/*" element={<PersonalReading></PersonalReading>}></Route>
                 <Route path="/userpage/*" element={<UserPage />}></Route>
                 <Route path="/highlight/*" element={<Highlight />}></Route>
-                <Route path="/practice" element={<Practice></Practice>}></Route>
             </Routes>
+            
+            <Footer></Footer>
         </div>
     );
 }

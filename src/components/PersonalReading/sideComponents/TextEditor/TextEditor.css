@@ -9,14 +9,12 @@
 }
 
 .milkdown {
+    /* border: none !important; */
 }
 
 .editor {
     padding-top: 6px !important;
     overflow: scroll !important;
-    /* max-width: 100% !important; */
-    
-    flex-grow: 0;
 }
 
 .paragraph {

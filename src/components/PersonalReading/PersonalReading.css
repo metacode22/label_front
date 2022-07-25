@@ -1,10 +1,10 @@
 .PersonalReading {
     box-sizing: border-box;
-    border: 1px solid black;
+    /* border: 1px solid black; */
 }
 
 .PersonalReading__container {
-    border: 1px solid black;
+    /* border: 1px solid black; */
     
     display:flex;
 }
@@ -24,8 +24,10 @@
     /* mainPage */
     .PersonalReading__mainPage {
         /* width: 1000px; */
+        margin-right: 12px;
         height: 88vh;
-        border: 1px solid black;
+        border: 1px solid #E2E5E6;
+        border-radius: 0 16px 16px 0;
         
         display: flex;
         /* flex: 3; */
@@ -35,19 +37,21 @@
         /* mainPage--readingPage */
         .PersonalReading__mainPage--readingPage {
             height: 100%;
-            border: 1px solid black;
+            /* border: 1px solid black; */
             position: relative;
             /* width: 65%; */
             
             /* flex-grow: 3; */
-            flex: 1.8;
+            flex: 1.6;
         }
 
         /* mainPage--textEditor */
         .PersonalReading__mainPage--textEditor {
             height: 100%;
-            border: 1px solid black;
-            /* width: 35%; */
+            /* border: 1px solid #E2E5E6; */
+            border-radius: 0 16px 16px 0;
+            background-color: #FFFFFF;
+            /* max-width: 35%; */
             
             /* flex-grow: 3; */
             flex: 1;
@@ -61,7 +65,11 @@
     /* highlightList */
     .PersonalReading__highlightList {
         /* width: 350px; */
-        border: 1px solid black;
+        margin-left: 12px;
+        border: 1px solid #E2E5E6;
+        border-radius: 16px 0 0 16px;
+        padding: 24px;
+        background: #FFFFFF;
         
         /* flex-grow: 3; */
         /* flex: 0.8; */

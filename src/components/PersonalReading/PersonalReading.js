@@ -19,21 +19,16 @@ function PersonalReading(props) {
     // 수정 필요, props로 받아야 할 듯.
     // library에서 넘어올 때 currentPageNumber를 유저로부터 가져와야 함.
     // redux?
-    let [currentPageNumber, setCurrentPageNumber] = useState(20);
+    let [currentPageNumber, setCurrentPageNumber] = useState(7);
     
     // library에서 넘어올 때 받아와야 할 듯.
     // useLocation
-    let pdfIdx = 1;
+    let pdfIdx = 74;
     
     // highlight Button
     const highlightButton = useRef();
     
     useEffect(() => {
-        // axios.get('https:/label-book-storage.s3.ap-northeast-2.amazonaws.com/1_23.html')
-        // .then((response) => {
-        //     console.log(response);
-        // })
-        
         axios.get(`http://43.200.26.215:3000/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
             .then((response) => {
                 console.log('pageLink GET response:', response);      
@@ -58,8 +53,10 @@ function PersonalReading(props) {
                     .then((response) => {
                         console.log('highlight data GET response:', response);
     
-                        for(let i = 0; i < response.data.result.length; i++) {
-                            doHighlight(response.data.result[i], response.data.result[i].highlightIdx);
+                        for(let i = 0; i < response.data.result?.length; i++) {
+                            if (response.data.result[i].active === 1) {
+                                doHighlight(response.data.result[i], response.data.result[i].highlightIdx);    
+                            }
                         }
                     })
                     // .catch((error) => {
@@ -117,7 +114,8 @@ function PersonalReading(props) {
             clearTimeout(timer);
         };
         
-    }, [currentPageNumber])
+    }, [currentPageNumber, mode])
+
     /* ------------------------------------------------------------ */
     
     return (
@@ -140,7 +138,7 @@ function PersonalReading(props) {
             <div className="PersonalReading__container">
                 <aside className="PersonalReading__sideBar">Side Bar</aside>
                 
-                <div className="PersonalReading__mainPage" style={mode === true ? {flex: 3} : {flex: 1}}>
+                <div className="PersonalReading__mainPage" style={mode === true ? {flex: 2} : {flex: 1}}>
                     {mode === true ? <article className="PersonalReading__mainPage--readingPage">
                         <PageRendered className="PageRendered" html={html}></PageRendered>
                     </article> 
@@ -158,7 +156,7 @@ function PersonalReading(props) {
                     </article>
                 </div>
                 
-                <aside className="PersonalReading__highlightList" style={mode === true ? {flex: 0.8} : {flex: 1}}>
+                <aside className="PersonalReading__highlightList" style={mode === true ? {flex: 0.6} : {flex: 1}}>
                     <HighlightList currentPageNumber={currentPageNumber} updateHighlightList={updateHighlightList} setUpdateHighlightList={setUpdateHighlightList}></HighlightList>
                 </aside>
             </div>
@@ -176,7 +174,7 @@ function PersonalReading(props) {
 
 
 
-
+// Highlighting Logic
 function drawHighlight(range, node) {
     node.appendChild(range.extractContents());
     range.insertNode(node);
@@ -191,24 +189,12 @@ function doHighlight(highlightData, highlightIdx) {
     const offsetOfSelectedEndContainer = highlightData.endOffset;
     const indexOfSelectedEndContainer = highlightData.endNode;
 
-    const decimalYOfSelectedStartContainer = parseInt(
-        yOfSelectedStartContainer.slice(1),
-        16
-    );
-    const decimalYOfSelectedEndContainer = parseInt(
-        yOfSelectedEndContainer.slice(1),
-        16
-    );
+    const decimalYOfSelectedStartContainer = parseInt( yOfSelectedStartContainer.slice(1), 16);
+    const decimalYOfSelectedEndContainer = parseInt( yOfSelectedEndContainer.slice(1), 16);
 
     // currentElement를 잘 잡지 못해서 에러가 난다.
-    for (
-        let i = decimalYOfSelectedStartContainer;
-        i <= decimalYOfSelectedEndContainer;
-        i++
-    ) {
-        const currentElement = document.getElementsByClassName(
-            `y${i.toString(16)}`
-        )[0];
+    for ( let i = decimalYOfSelectedStartContainer; i <= decimalYOfSelectedEndContainer; i++) {
+        const currentElement = document.getElementsByClassName( `y${i.toString(16)}`)[0];
         const newRange = document.createRange();
 
         const newNode = document.createElement("span");
@@ -217,84 +203,43 @@ function doHighlight(highlightData, highlightIdx) {
         // 나중에 지울 때 class를 통해 곧바로 노드를 찾아서 highlighted 클래스를 제거하면 됨.
         newNode.classList.add("highlighted");
         newNode.classList.add('highlight' + highlightIdx);
-        if (
-            decimalYOfSelectedStartContainer === decimalYOfSelectedEndContainer
-        ) {
-            newRange.setStart(
-                currentElement.childNodes[indexOfSelectedStartContainer],
-                offsetOfSelectedStartContainer
-            );
-            newRange.setEnd(
-                currentElement.childNodes[indexOfSelectedEndContainer],
-                offsetOfSelectedEndContainer
-            );
+        if ( decimalYOfSelectedStartContainer === decimalYOfSelectedEndContainer) {
+            newRange.setStart( currentElement.childNodes[indexOfSelectedStartContainer], offsetOfSelectedStartContainer);
+            newRange.setEnd( currentElement.childNodes[indexOfSelectedEndContainer], offsetOfSelectedEndContainer);
 
             drawHighlight(newRange, newNode);
             return;
         }
 
         if (i === decimalYOfSelectedStartContainer) {
-            newRange.setStart(
-                currentElement.childNodes[indexOfSelectedStartContainer],
-                offsetOfSelectedStartContainer
-            );
-            newRange.setEnd(
-                currentElement.childNodes[currentElement.childNodes.length - 1],
-                currentElement.childNodes[currentElement.childNodes.length - 1]
-                    .length
-            );
+            newRange.setStart( currentElement.childNodes[indexOfSelectedStartContainer], offsetOfSelectedStartContainer);
+            newRange.setEnd( currentElement.childNodes[currentElement.childNodes.length - 1], currentElement.childNodes[currentElement.childNodes.length - 1].length);
         } else if (i === decimalYOfSelectedEndContainer) {
             newRange.setStart(currentElement.childNodes[0], 0);
-            newRange.setEnd(
-                currentElement.childNodes[indexOfSelectedEndContainer],
-                offsetOfSelectedEndContainer
-            );
+            newRange.setEnd( currentElement.childNodes[indexOfSelectedEndContainer], offsetOfSelectedEndContainer);
         } else {
             newRange.setStart(currentElement.childNodes[0], 0);
-            newRange.setEnd(
-                currentElement.childNodes[currentElement.childNodes.length - 1],
-                currentElement.childNodes[currentElement.childNodes.length - 1]
-                    .length
-            );
+            newRange.setEnd( currentElement.childNodes[currentElement.childNodes.length - 1], currentElement.childNodes[currentElement.childNodes.length - 1].length);
         }
 
         drawHighlight(newRange, newNode);
     }
 }
 
-function clickHighlight(
-    pdfIdx,
-    currentPageNumber,
-    highlightButton,
-    updateHighlightList,
-    setUpdateHighlightList
-) {
+function clickHighlight( pdfIdx, currentPageNumber, highlightButton, updateHighlightList, setUpdateHighlightList ) {
     const selectedText = window.getSelection().toString().trim();
     const selectedRange = window.getSelection().getRangeAt(0);
 
     // 같은 Text를 거꾸로 drag해도 selectedStartContainer와 selectedEndContainer는 동일하다.
-    const selectedStartContainer = window
-        .getSelection()
-        .getRangeAt(0).startContainer;
-    const selectedEndContainer = window
-        .getSelection()
-        .getRangeAt(0).endContainer;
-    const parentElementOfSelectedStartContainer =
-        selectedStartContainer.parentElement;
-    const parentElementOfSelectedEndContainer =
-        selectedEndContainer.parentElement;
+    const selectedStartContainer = window.getSelection().getRangeAt(0).startContainer;
+    const selectedEndContainer = window.getSelection().getRangeAt(0).endContainer;
+    const parentElementOfSelectedStartContainer = selectedStartContainer.parentElement;
+    const parentElementOfSelectedEndContainer = selectedEndContainer.parentElement;
 
     const offsetOfSelectedStartContainer = selectedRange.startOffset;
     let indexOfSelectedStartContainer = 0;
-    for (
-        let i = 0;
-        i < selectedStartContainer.parentElement.childNodes.length;
-        i++
-    ) {
-        if (
-            selectedStartContainer.parentElement.childNodes[i] ===
-            selectedStartContainer
-        ) {
+    for ( let i = 0; i < selectedStartContainer.parentElement.childNodes.length; i++ ) {
+        if ( selectedStartContainer.parentElement.childNodes[i] === selectedStartContainer ) {
             indexOfSelectedStartContainer = i;
         }
     }
@@ -303,19 +248,11 @@ function clickHighlight(
     const offsetOfSelectedEndContainer = selectedRange.endOffset;
     let indexOfSelectedEndContainer = 0;
 
-    for (
-        let i = 0;
-        i < selectedEndContainer.parentElement.childNodes.length;
-        i++
-    ) {
-        if (
-            selectedEndContainer.parentElement.childNodes[i] ===
-            selectedEndContainer
-        ) {
+    for ( let i = 0; i < selectedEndContainer.parentElement.childNodes.length; i++) {
+        if ( selectedEndContainer.parentElement.childNodes[i] === selectedEndContainer ) {
             indexOfSelectedEndContainer = i;
         }
     }
-
     function recur(x, count) {
         if (x.classList.toString().includes("y") === true) {
             return x.classList;
@@ -324,14 +261,8 @@ function clickHighlight(
         return recur(x.parentElement, count + 1);
     }
 
-    let yOfSelectedStartContainer = recur(
-        parentElementOfSelectedStartContainer,
-        0
-    )[4];
-    let yOfSelectedEndContainer = recur(
-        parentElementOfSelectedEndContainer,
-        0
-    )[4];
+    let yOfSelectedStartContainer = recur( parentElementOfSelectedStartContainer, 0 )[4];
+    let yOfSelectedEndContainer = recur( parentElementOfSelectedEndContainer, 0 )[4];
 
     const highlightData = {
         pdfIdx: pdfIdx,

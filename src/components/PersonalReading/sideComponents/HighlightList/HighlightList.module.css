@@ -1,5 +1,5 @@
 .wrap {
-    border: 1px solid black;
+    /* border: 1px solid black; */
     /* height: 300px; */
     
     /* width: 300px; */
@@ -8,4 +8,66 @@
 .container {
     /* height: 300px; */
     /* overflow: scroll; */
+    width: 100%;
+}
+
+.title {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 25px;
+    color: #1A202C;
+    
+    display: flex;
+    align-items: center;
+}
+
+.pageNumber {
+    width: 100%;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    
+    display: flex;
+    align-items: center;
+    color: #1A202C;
+}
+
+.highlightCard {
+    display: flex;
+    /* align-items: center; */
+    margin: 8px 0;
+    max-width: 100%;
+    max-height: 42px;
+    overflow: hidden;
+}
+
+.highlightColor {
+    border: 1px solid var(--color-2-c);
+    background-color: var(--color-2-c);
+    border-radius: 100%;
+    width: 8px;
+    height: 8px;
+    margin-top: 6px;
+    margin-right: 8px;
+    
+    align-self: flex-start;
+}
+
+.highlightedText {
+    width: 100%;
+
+    /* margin: 8px 0 8px 8px; */
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #2D3748;
+    
+    /* display: flex; */
+    /* align-items: center; */
+}
+
+.clearHighlight {
+    margin-top: 6px;
+    
+    align-self: flex-start;
 }

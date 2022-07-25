@@ -1,49 +1,50 @@
-import './Library.css';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
+import "./Library.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 function Library() {
-    const [cookies, setCookie, removeCookie] = useCookies(['id']);
+    const [cookies, setCookie, removeCookie] = useCookies(["id"]);
     let navigate = useNavigate();
-    
-    useEffect(() => {
-        axios.post('http://localhost:3001/auth/test', {
-            forauthorization: cookies.id
-            // credentials: "same-origin",
-        })
-        .then((response) => {
-            // console.log('Authorize Success:', response);
-            if (response.data.isSuccess === false) {
-                console.log('Authorize Fail')
-                navigate('/');
-            }
-        })
-        .catch((error) => {
-            console.log(cookies.id);
-            console.log('Post Authorize Error', error);
-        })
-    })
 
-    let [result,setResult] = useState([]);
+    useEffect(() => {
+        axios
+            .post("http://localhost:3001/auth/test", {
+                forauthorization: cookies.id,
+                // credentials: "same-origin",
+            })
+            .then((response) => {
+                // console.log('Authorize Success:', response);
+                if (response.data.isSuccess === false) {
+                    console.log("Authorize Fail");
+                    navigate("/");
+                }
+            })
+            .catch((error) => {
+                console.log(cookies.id);
+                console.log("Post Authorize Error", error);
+            });
+    });
+
+    let [result, setResult] = useState([]);
 
     let userIdx = 1;
 
-    useEffect(()=>{
-        fetch(`http://3.35.27.172:3000/users/${userIdx}/pdfs`)
-        .then(res=>{
-            return res.json()
-        })
-        .then(res=>{
-            setResult(res.result);
-            console.log(res);
-        })
-        .catch((error) => {
-            console.log(error);
-        })
+    useEffect(() => {
+        fetch(`http://43.200.26.215:3000/users/${userIdx}/pdfs`)
+            .then((res) => {
+                return res.json();
+            })
+            .then((res) => {
+                setResult(res.result);
+                console.log(res);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }, []);
-    
+
     return (
         <main>
             <article className="Library__container">
@@ -66,16 +67,18 @@ function Library() {
 function CardRecentShow(props) {
     const rendering = () => {
         const result = Array();
-        
+
         //일단 인덱스가 작아서 이렇게 처리한 것
         for (let index = 0; index < 5; index++) {
-            result.push(<CardRecent key={index} result={props.result}></CardRecent>);
+            result.push(
+                <CardRecent key={index} result={props.result}></CardRecent>
+            );
         }
-        
+
         return result;
-    }
-    
-    return <>{rendering()}</>
+    };
+
+    return <>{rendering()}</>;
 }
 
 function CardRecent(props) {
@@ -83,28 +86,50 @@ function CardRecent(props) {
     console.log(props);
     return (
         <div className="Library__recentlyRead__cards__card">
-            <div className='Library__recentlyRead__cards__card__bookImage' style={{
-                backgroundImage: "url(" + `${process.env.PUBLIC_URL + '/images/jacobfugger.png'}`,
-                backgroundPosition: "center",
-                backgroundSize: "cover",
-                backgroundRepeat: "no-repeat"
-            }}>
+            <div
+                className="Library__recentlyRead__cards__card__bookImage"
+                style={{
+                    backgroundImage:
+                        "url(" +
+                        `${process.env.PUBLIC_URL + "/images/jacobfugger.png"}`,
+                    backgroundPosition: "center",
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
+                }}
+            >
                 <div className="Library__recentlyRead__cards__card__buttons">
-                    <button className="Library__recentlyRead__cards__card__bookImage--readButton" onClick={()=>navigate('/personalreading')}>Read</button>
-                    <button className="Library__recentlyRead__cards__card__bookImage--highlightButton" onClick={()=>navigate('/highlight')}>Highlights</button>
-                    <button className="Library__recentlyRead__cards__card__bookImage--EditorButton" onClick={()=>navigate('/milkdown')}>Editor</button>
+                    <button
+                        className="Library__recentlyRead__cards__card__bookImage--readButton"
+                        onClick={() => navigate("/personalreading")}
+                    >
+                        Read
+                    </button>
+                    <button
+                        className="Library__recentlyRead__cards__card__bookImage--highlightButton"
+                        onClick={() => navigate("/highlight")}
+                    >
+                        Highlights
+                    </button>
+                    <button
+                        className="Library__recentlyRead__cards__card__bookImage--EditorButton"
+                        onClick={() => navigate("/milkdown")}
+                    >
+                        Editor
+                    </button>
                 </div>
             </div>
             <div className="Library__recentlyRead__cards__card__contents">
-                <div className="Library__recentlyRead__cards__card__contents--title">{props.result.pdfName}</div>
-                <div className="Library__recentlyRead__cards__card__contents--readingPage">I'm ReadingPage</div>
+                <div className="Library__recentlyRead__cards__card__contents--title">
+                    {props.result.pdfName}
+                </div>
+                <div className="Library__recentlyRead__cards__card__contents--readingPage">
+                    I'm ReadingPage
+                </div>
             </div>
         </div>
-    )
+    );
 }
 
-function CardRecommend() {
-    
-}
+function CardRecommend() {}
 
 export default Library;

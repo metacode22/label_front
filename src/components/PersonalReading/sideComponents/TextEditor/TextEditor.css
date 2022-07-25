@@ -1,0 +1,37 @@
+.ProseMirror .editor {
+}
+
+.milkdown-menu-wrapper {
+}
+
+.milkdown-menu {
+    flex-wrap: wrap !important;
+    border-left: none !important;
+    border-right: none !important;
+}
+
+.milkdown {
+    box-shadow: none !important;
+}
+
+.editor {
+    padding-top: 6px !important;
+    overflow: scroll !important;
+}
+
+.paragraph {
+    margin: 2px 0 !important;
+}
+
+.milkdown-1e1shhb {
+    margin: 0 !important;
+}
+
+.milkdown-1xp8x74 {
+    margin: 6px 8px !important;
+    width: 0 !important;
+}
+
+.menu-selector {
+    margin: 0px !important;
+}

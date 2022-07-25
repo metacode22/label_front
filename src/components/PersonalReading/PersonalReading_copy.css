@@ -1,0 +1,134 @@
+.PersonalReading {
+    /* width: 1000px; */
+    margin: auto;
+    
+    display: flex;
+    align-items:flex-start;
+    
+    /* justify-content: center; */
+}
+
+.PersonalReading__pages {
+    /* margin: 30px auto; */
+    /* margin-right: 60px; */
+    border: 1px solid black;
+    border-radius: var(--border-radius);
+    width:      1000px;
+    max-width: 1000px;
+    height: 100vh;
+    /* margin-top: -19px; */
+    /* display: flex; */
+    /* flex-direction: column; */
+}
+
+.PersonalReading__pages__rightPage {
+    /* border: 1px solid black; */
+    margin-top: -21px;
+    height: 100vh;
+    /* flex-basis: 50%; */
+    position:relative;
+}
+
+.PersonalReading__pages__buttons {
+    position: relative;
+    /* left: 390px; */
+    /* top: 120px; */
+    
+    display: flex;
+    justify-content: center;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.prevButton,
+.nextButton {
+    /* all: unset; */
+    /* margin: 0 6px; */
+    border-radius: 100%;
+    border: 0;
+    height: 2.5rem;
+    width: 2.5rem;
+    cursor: pointer;
+    position: relative;
+    top: 300px
+    /* z-index: 10; */
+}
+
+.prevButton{
+    background: url('../../../public/images/previous.png') center/cover no-repeat;
+    left: 20px;
+}
+
+.nextButton{
+    background: url('../../../public/images/next.png') center/cover no-repeat;
+    left:885px;
+}
+
+.prevButton:hover,
+.nextButton:hover{
+    opacity: 80%;
+}
+
+.HighlightButton {
+    width: 2.0rem;
+    height: 2.0rem;
+    /* font-size: 1.0rem; */
+    color: var(--color-1-c);
+    cursor: pointer;
+    border: 2px solid var(--color-1-c);
+    border-radius: 50%;
+    position: absolute;
+    top: 150px;
+    left: 150px;
+    z-index: 10;
+    display: none;
+    transition: color 0.2s, background-color 0.2s ease-in-out;
+    /* background: url('../../../public/images/highlighter.png') center/cover no-repeat; */
+    background-color: var(--color-white);
+}
+
+.HighlightButton:hover {
+    color: var(--color-white);
+    background-color: var(--color-1-c);
+}
+
+.HighlightButton i {
+    pointer-events: none;
+}
+
+.btnEntrance {
+    animation-duration: 0.15s;
+    animation-fill-mode: both;
+    animation-name: btnEntrance;
+}
+
+.highlighted {
+    font-weight: bold;
+    background-color: var(--color-2-c);
+    border-radius: var(--border-radius-2);
+    
+    animation: highlightSmoothAppear 0.25s;
+}
+
+@keyframes btnEntrance {
+    0% {
+        opacity: 0;
+        transform: scale3d(0.3, 0.3, 0.3);
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes highlightSmoothAppear {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }

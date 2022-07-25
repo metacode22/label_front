@@ -13,14 +13,13 @@ import { tooltip } from '@milkdown/plugin-tooltip';
 import { history } from '@milkdown/plugin-history';
 import { commonmark } from '@milkdown/preset-commonmark';
 import { menu } from '@milkdown/plugin-menu';
-import './HighlightCollection.css';
 
 export const HighlightCollection: React.FC<{ value: string}> = ({ value }) => {
     let [markdown, setMarkdown] = useState('');
     
     useEffect(() => {
         async function getMarkdown() {
-            await axios.get(`http://3.35.27.172:3000/highlights/pdfs/${1}/pages/${7}`)
+            await axios.get(`http://43.200.26.215:3000/highlights/pdfs/${1}/pages/${7}`)
             .then((response) => {
                 let markdown = '';
                 markdown = '<하이라이트 목록들>';

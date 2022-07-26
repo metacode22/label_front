@@ -149,12 +149,10 @@
     
 /* highlight Button */
 .HighlightButton {
-    width: 2.0rem;
-    height: 2.0rem;
-    /* font-size: 1.0rem; */
-    color: var(--color-1-c);
+    width: 1.8rem;
+    height: 1.8rem;
     cursor: pointer;
-    border: 2px solid var(--color-1-c);
+    border: 1px solid var(--color-1-c);
     border-radius: 50%;
     position: absolute;
     top: 150px;
@@ -162,12 +160,12 @@
     z-index: 10;
     display: none;
     transition: color 0.2s, background-color 0.2s ease-in-out;
+    background: url('../../../public/images/pencil.png') center/82% no-repeat;
     background-color: var(--color-white);
 }
 
 .HighlightButton:hover {
-    color: var(--color-white);
-    background-color: var(--color-1-c);
+    filter: invert(100%);
 }
 
 .HighlightButton i {

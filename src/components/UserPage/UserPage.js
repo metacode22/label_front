@@ -105,7 +105,7 @@ const UserBookShow = (props) => {
         // }
 
         result.push(
-            <p className='User__book__list' onClick={()=>{navigate(`/highlight`)}}>{props.list.pdfName}</p>
+            <p className='User__book__list' onClick={()=>{navigate(`/personalreading`)}}>{props.list.pdfName}</p>
         )  
         //현재는 index가 하나밖에 없어서 코드가 이렇습니다. 그리고 나중에 navigate 여러권이 되면 highlight 몇번째로 보낼지도 해야합니다.
         // key값도 넣어줘야함

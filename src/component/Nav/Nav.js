@@ -8,7 +8,6 @@ export default function Nav(){
 
     return(
         <>
-            {/* {site !== '/personalreading' ? (<NavDefault></NavDefault>) : (<NavReading></NavReading>)} */}
             {site === '/' && <NavLogin></NavLogin>}
             {site === '/signup' && <NavLogin></NavLogin>}
             {site === '/library' && <NavDefault></NavDefault>}
@@ -17,27 +16,6 @@ export default function Nav(){
         </>
     )
 }
-
-// function NavDefault(){
-//     const navigate = useNavigate();
-
-//     return(
-//         <header className={styles.header}>
-//             <div>
-//                 <img className={styles.logo} src={process.env.PUBLIC_URL + '/images/labelLogo.png'} onClick={() => { navigate('/library')}}></img>
-//             </div>
-//             <label className={styles.search}>
-//                 <img className={styles.searchImg} src={process.env.PUBLIC_URL + '/images/search.png'}></img>
-//                 <input type='text' className={styles.searchInput} placeholder='검색어를 입력해주세요.'></input>
-//             </label>
-//             <nav className={styles.nav}>
-//                 <button className={styles.button} onClick={() => { navigate('/library') }}>My Library</button>
-//                 <button className={styles.button} onClick={() => { navigate('/userpage') }}>My Page</button>
-//                 <button className={styles.button} onClick={() => { navigate('/') }}>Logout</button>
-//             </nav>
-//         </header>
-//     )
-// }
 
 function NavDefault(){
     const navigate = useNavigate();
@@ -48,13 +26,11 @@ function NavDefault(){
                 <img className={styles.logoRead} src={process.env.PUBLIC_URL + '/images/labelLogoWhite.png'} onClick={() => { navigate('/library')}}></img>
             </div>
             <nav className={styles.navRead}>
-                <img className={styles.randomImg} src={process.env.PUBLIC_URL + `/images/example.ico`} onClick={() => { navigate('/userpage')}}/>
                 <label className={styles.label}>Upload
                     <input style={{display:'none'}} type='file'/>
                 </label>
-                <img className={styles.switch} src={process.env.PUBLIC_URL + `/images/square.png`}/>
-                <img className={styles.switch} src={process.env.PUBLIC_URL + `/images/square.png`}/>
-                <img className={styles.switch} src={process.env.PUBLIC_URL + `/images/square.png`}/>
+                <button className={styles.button} onClick={() => { navigate('/') }}>Logout</button>
+                <img className={styles.randomImg} src={process.env.PUBLIC_URL + `/images/example.ico`} onClick={() => { navigate('/userpage')}}/>
             </nav>
         </header>
     )
@@ -70,7 +46,7 @@ function NavReading(){
             </div>
             <nav className={styles.navRead}>
                 <img className={styles.randomImg} src={process.env.PUBLIC_URL + `/images/example.ico`} onClick={() => { navigate('/userpage')}}/>
-                <label className={styles.label}>Upload
+                <label className={styles.labelRead}>Upload
                     <input style={{display:'none'}} type='file'/>
                 </label>
                 <img className={styles.switch} src={process.env.PUBLIC_URL + `/images/square.png`}/>

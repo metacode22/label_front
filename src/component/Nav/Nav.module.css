@@ -45,16 +45,18 @@
     margin-left: 17%;
 }
 
-.button{
-    all: unset;
-    color: #2D3748;
-    margin: 1rem;
+.label{
+    color: #fff;
     cursor: pointer;
+    display: flex;
+    align-items: center;
 }
 
-.button:focus{
-    font-weight: bold;
-    height: 40%;
+.button{
+    all: unset;
+    color: #fff;
+    margin: 1rem;
+    cursor: pointer;
 }
 
 /* 여기서부터 NavReading CSS */
@@ -77,7 +79,7 @@
     display: flex;
     cursor: pointer;
     width: 65%;
-    margin-left: 15%;
+    margin-left: 25%;
 }
 
 .randomImg{
@@ -87,7 +89,7 @@
     cursor: pointer;
 }
 
-.label{
+.labelRead{
     color: #fff;
     cursor: pointer;
     display: flex;

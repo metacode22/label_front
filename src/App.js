@@ -2,7 +2,7 @@ import "./App.css";
 import Nav from './component/Nav/Nav'
 import Login from "./component/Login/Login";
 import Signup from "./component/SignUp/SignUp.js";
-import UserPage from "./components/UserPage/UserPage.js";
+import Userpage from "./component/Userpage/Userpage";
 import Library from "./component/Library/Library"
 import PersonalReading from "./components/PersonalReading/PersonalReading.js";
 import Footer from './component/Footer/Footer'
@@ -32,7 +32,7 @@ function AppColor(){
                 <Route path="/signup" element={<Signup></Signup>}></Route>
                 <Route path="/library/*" element={<Library></Library>}></Route>
                 <Route path="/personalreading/*" element={<PersonalReading mode={mode} setMode={setMode}></PersonalReading>}></Route>
-                <Route path="/userpage/*" element={<UserPage />}></Route>
+                <Route path="/userpage/*" element={<Userpage />}></Route>
             </Routes>
             
             <Footer></Footer>
@@ -52,7 +52,7 @@ function AppNonColor(){
                 <Route path="/signup" element={<Signup></Signup>}></Route>
                 <Route path="/library/*" element={<Library></Library>}></Route>
                 <Route path="/personalreading/*" element={<PersonalReading mode={mode} setMode={setMode}></PersonalReading>}></Route>
-                <Route path="/userpage/*" element={<UserPage />}></Route>
+                <Route path="/userpage/*" element={<Userpage />}></Route>
             </Routes>
             
             <Footer></Footer>

@@ -42,7 +42,7 @@
 
 .nav{
     display: flex;
-    margin-left: 20%;
+    margin-left: 17%;
 }
 
 .button{
@@ -56,3 +56,71 @@
     font-weight: bold;
     height: 40%;
 }
+
+/* 여기서부터 NavReading CSS */
+
+.headerRead{
+    display: flex;
+    height: 56px;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #2D3748;
+}
+
+.navRead{
+    display: flex;
+    margin-right: 4%;
+    align-items: center;
+}
+
+.logoRead{
+    display: flex;
+    cursor: pointer;
+    width: 65%;
+    margin-left: 15%;
+}
+
+.randomImg{
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.label{
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin: 0 10% 0 10%;
+}
+
+.switch{
+    width: 1.5rem;
+    height: 1.5rem;
+    cursor: pointer;
+}
+
+/* 여기서부터 NavLogin CSS */
+
+/* .headerLogin{
+    display: flex;
+    height: 70px;
+    align-items: center;
+    justify-content: space-around;
+    border-bottom: 1px solid #E2E5E6;
+}
+
+.buttonLogin{
+    all: unset;
+    color: #fff;
+    width: 70px;
+    height: 35px;
+    text-align: center;
+    background-color: #3C64B1;
+    cursor: pointer;
+}
+
+.buttonLogin:hover{
+    opacity: 90%;
+} */

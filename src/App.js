@@ -1,9 +1,8 @@
 import "./App.css";
 import Nav from './component/Nav/Nav'
-import Landing from "./components/Landing/Landing.js";
-import Signup from "./components/Signup/Signup.js";
+import Login from "./component/Login/Login";
+import Signup from "./component/SignUp/SignUp.js";
 import UserPage from "./components/UserPage/UserPage.js";
-import Highlight from "./components/Highlight/Highlight";
 import Library from "./component/Library/Library"
 import PersonalReading from "./components/PersonalReading/PersonalReading.js";
 import Footer from './component/Footer/Footer'
@@ -15,11 +14,12 @@ function App() {
             <Nav></Nav>
 
             <Routes>
-                <Route path="/" element={<Landing></Landing>}></Route>
+                <Route path="/" element={<Login></Login>}></Route>
+                <Route path="/signup" element={<Signup></Signup>}></Route>
                 <Route path="/library/*" element={<Library></Library>}></Route>
                 <Route path="/personalreading/*" element={<PersonalReading></PersonalReading>}></Route>
                 <Route path="/userpage/*" element={<UserPage />}></Route>
-                <Route path="/highlight/*" element={<Highlight />}></Route>
+                {/* <Route path="/highlight/*" element={<Highlight />}></Route> */}
             </Routes>
             
             <Footer></Footer>

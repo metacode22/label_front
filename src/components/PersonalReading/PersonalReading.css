@@ -1,7 +1,9 @@
 .PersonalReading {
     box-sizing: border-box;
     height: inherit;
+    padding: 2% 0 2% 0;
     /* border: 1px solid black; */
+    background-color: #F5F5F5;
 }
 
 .PersonalReading__container {
@@ -120,11 +122,11 @@
             /* highlightList */
             .PersonalReading__highlightList {
                 /* border: 1px solid #E2E5E6; */
-                border-radius: 16px 0 0 16px;
+                border-radius: 0 16px 16px 0;
                 padding: 24px;
                 background: inherit;
                 box-sizing: border-box;
-                
+                background-color: #fff;
                 width: 100%;
                 height: 100%;
             }

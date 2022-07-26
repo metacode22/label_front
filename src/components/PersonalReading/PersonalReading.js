@@ -32,7 +32,7 @@ function PersonalReading(props) {
     
     // library에서 넘어올 때 받아와야 할 듯.
     // useLocation
-    let pdfIdx = 74;
+    let pdfIdx = 75;
     let userIdx = 1;
     // let [totalPage, setTotalPage] = useState(1);
     let [currentBookInfo, setCurrentBookInfo] = useState({});
@@ -73,20 +73,36 @@ function PersonalReading(props) {
                 axios.get(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
                     .then((response) => {
                         console.log('highlight data GET response:', response);
-    
-                        for(let i = 0; i < response.data.result?.length; i++) {
-                            if (response.data.result[i].active === 1) {
+                        
+                        for(let i = 0; i < response.data.result.length; i++) {
+                            // if (response.data.result[i].active === 1) {
+                                // console.log(document.querySelector('.y6'));
                                 doHighlight(response.data.result[i], response.data.result[i].highlightIdx);    
-                            }
+                            // }
                         }
                     })
                     // .catch((error) => {
                     //     console.log('highlight data GET Fail, error:', error);
                     // })
             })
-            
+    }, [currentPageNumber, mode])
+    
+    useEffect(() => {
+        axios.get(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
+            .then((response) => {
+                console.log('highlight data GET response:', response);
+                
+                for(let i = 0; i < response.data.result.length; i++) {
+                    // if (response.data.result[i].active === 1) {
+                        // console.log(document.querySelector('.y6'));
+                        doHighlight(response.data.result[i], response.data.result[i].highlightIdx);    
+                    // }
+                }
+            })
+            // .catch((error) => {
+            //     console.log('highlight data GET Fail, error:', error);
+            // })
         
-        /* ------------------------------------------------------------ */    
         let timer = null;
         function selectableTextAreaMouseUp(event) {
             const highlightButtonCurrent = highlightButton.current;
@@ -134,8 +150,7 @@ function PersonalReading(props) {
             });
             clearTimeout(timer);
         };
-        
-    }, [currentPageNumber, mode])
+    }, [currentPageNumber, html]);
     
     return (
         <main className="PersonalReading">

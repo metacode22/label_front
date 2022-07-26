@@ -27,28 +27,25 @@ export default function Library(){
                 <input style={{display:'none'}} type='file'/>
             </label>
             <article>
+                <section className={styles.sectionTitle}>
+                    <p style={{ fontSize: '40px', fontWeight: 'bold'}}>MY LIBRARY</p>
+                    <p className={styles.p}>최근에 읽었던 책 또는 한 번이라도 열어봤던 책 리스트입니다. 오늘도 Label과 즐거운 책 읽기를 해보세요.</p>
+                    <label className={styles.search}>
+                        <img className={styles.searchImg} src={process.env.PUBLIC_URL + '/images/search.png'}></img>
+                        <input type='text' className={styles.searchInput} placeholder='찾고 싶은 책 이름 또는 제목을 입력해보세요.'></input>
+                    </label>
+                </section>
                 <section className={styles.section}>
-                    <div style={{ marginLeft: '55px', marginBottom: '5px'}}><h2>Recently Read</h2></div>
+                    <div className={styles.divText}><h2>Recently Read</h2></div>
                     <div className={styles.bookList}>
                         <RecentBookList result={result}></RecentBookList>
                     </div>
                 </section>
                 <section className={styles.section}>
-                    <div style={{ marginLeft: '55px', marginBottom: '5px'}}><h2>How about this one?</h2></div>
+                    <div className={styles.divText}><h2>How about this one?</h2></div>
                     <div className={styles.bookList}>
                         <BookList result={result} length={result.length}></BookList>
                     </div>
-                    
-                    {/* <div className={styles.bookList}>
-                        <BookList result={result} length={result.length}></BookList>
-                    </div>
-                    <div className={styles.bookList}>
-                        <BookList result={result} length={result.length}></BookList>
-                    </div>
-                    <div className={styles.bookList}>
-                        <BookList result={result} length={result.length}></BookList>
-                    </div> */}
-
                 </section>
             </article>
         </main>

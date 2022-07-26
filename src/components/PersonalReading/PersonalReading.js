@@ -5,7 +5,8 @@ import { useLocation } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
 // sideComponents
-import { TextEditor } from "./sideComponents/TextEditor/TextEditor.tsx";
+import { TextEditor } from "./sideComponents/TextEditor/TextEditor_jun.tsx";
+// import { TextEditor, WrapperTextEditor } from "./sideComponents/TextEditor/TextEditor.tsx";
 import PageRendered from "./sideComponents/PageRendered/PageRendered.js";
 import HighlightList from "./sideComponents/HighlightList/HighlightList.js";
 import ShowAndHideSwitch from "./sideComponents/ShowAndHideSwitch/ShowAndHideSwitch.js";
@@ -22,6 +23,7 @@ function PersonalReading(props) {
     let [mode, setMode] = useState(true);
     let [html, setHtml] = useState('');
     let [updateHighlightList, setUpdateHighlightList] = useState(true);
+    const highlightButton = useRef();
     
     // 수정 필요, props로 받아야 할 듯.
     // library에서 넘어올 때 currentPageNumber를 유저로부터 가져와야 함.
@@ -46,9 +48,6 @@ function PersonalReading(props) {
             console.log('TotalPage GET Fail, error:', error);
         })
     }, [pdfIdx])
-    
-    // highlight Button
-    const highlightButton = useRef();
     
     useEffect(() => {
         axios.get(`http://43.200.26.215:3000/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
@@ -176,7 +175,7 @@ function PersonalReading(props) {
                     </article> 
                     : null}
                     <aside className="PersonalReading__highlightList" style={mode === true ? {flex: 1} : {flex: 1}}>
-                        <HighlightList totalPage={currentBookInfo.totalPage} currentPageNumber={currentPageNumber} updateHighlightList={updateHighlightList} setUpdateHighlightList={setUpdateHighlightList}></HighlightList>
+                        <HighlightList pdfIdx={pdfIdx} totalPage={currentBookInfo.totalPage} currentPageNumber={currentPageNumber} updateHighlightList={updateHighlightList} setUpdateHighlightList={setUpdateHighlightList}></HighlightList>
                     </aside>
                 </div>
                 
@@ -185,6 +184,7 @@ function PersonalReading(props) {
                         <p style={{ fontSize: '16px' }}>{currentBookInfo.pdfName}</p>
                         <p style={{ fontSize: '12px', textDecoration: 'underline' }}>저장 시 남는 글 - 서버에서 받아와야 함.</p>
                     </div>
+                    {/* <WrapperTextEditor height={mainPage.current?.clientHeight - 210}></WrapperTextEditor> */}
                     <TextEditor></TextEditor>
                 </article>
             </div>

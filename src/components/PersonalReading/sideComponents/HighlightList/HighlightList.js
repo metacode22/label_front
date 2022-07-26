@@ -35,7 +35,7 @@ function HighlightList(props) {
     return (
         <>
             <div className={styles.title}>Highlights</div>
-            <SearchBar></SearchBar>
+            <SearchBar pdfIdx={props.pdfIdx} currentPageNumber={props.currentPageNumber} highlightData={highlightData} setHighlightData={setHighlightData}></SearchBar>
             <div className={styles.highlightInfo}>
                 <p className={styles.pageNumber}>Page {props.currentPageNumber} / {props.totalPage}</p>
                 {/* <HighlightBadge></HighlightBadge> */}
@@ -97,27 +97,26 @@ function HighlightCards(props) {
         <>
             {props.highlightData?.map(function (element, index) {
                 return (
-                    <Card sx={{ width: '100%', minWidth: 275, marginBottom: 1 }} key={index}>
-                        <CardHeader 
-                            sx={{ paddingBottom: 0 }} 
-                            avatar={<Avatar sx={{ bgcolor: "#4DABB3", width: 10, height: 10 }} aria-label="recipe">{""}</Avatar>}
-                            title={<p style={{ color: "#DDDDDD" }}></p>}
-                            action={
-                                <IconButton onClick={() => { deleteHighlight( element.highlightIdx, props.setHighlightData, props.updateHighlightList, props.setUpdateHighlightList, props.currentPageNumber ); }}>
-                                    <ClearIcon fontSize="small"></ClearIcon>
-                                </IconButton>
-                            }
-                        /><CardContent>
-                            <Typography sx={{ fontSize: 14 }} color="text.secondary" draggable="true" onDragStart={(event) => { dragStart_handler(event); }}>
-                                {element.data}
-                            </Typography>
-                        </CardContent>
-                    </Card>
-                    // <div className={styles.highlightCard}>
-                    //     <div className={styles.highlightColor}></div>
-                    //     <div className={styles.highlightedText}>{element.data}</div>
-                    //     <div className={styles.clearHighlight}>x</div>
-                    // </div>
+                    <>
+                        <Card sx={{ width: '100%', minWidth: 275, marginBottom: 1 }} key={index}>
+                            <CardHeader 
+                                sx={{ paddingBottom: 0 }} 
+                                avatar={<Avatar sx={{ bgcolor: "#4DABB3", width: 10, height: 10 }} aria-label="recipe">{""}</Avatar>}
+                                title={<p style={{ color: "#DDDDDD" }}></p>}
+                                action={
+                                    <IconButton onClick={() => { deleteHighlight( element.highlightIdx, props.setHighlightData, props.updateHighlightList, props.setUpdateHighlightList, props.currentPageNumber ); }}>
+                                        <ClearIcon fontSize="small"></ClearIcon>
+                                    </IconButton>
+                                }
+                            /><CardContent>
+                                <Typography sx={{ fontSize: 14 }} color="text.secondary" draggable="true" onDragStart={(event) => { dragStart_handler(event); }}>
+                                    {element.data}
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    
+                        
+                    </>
                 );
             })}
         </>

@@ -8,7 +8,7 @@ function SearchBar() {
     const handleSearchChange = (event) => {};
     
     return (
-        <form className={styles.search} onSubmit={handleSubmit}>
+        <form className={styles.searchBar} onSubmit={handleSubmit}>
             <button className={styles.searchButton}>
                 <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.searchIcon}></FontAwesomeIcon>
             </button>

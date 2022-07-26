@@ -2,6 +2,7 @@ import styles from "./HighlightList.module.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import SearchBar from '../SearchBar/SearchBar.js';
+import HighlightBadge from './HighlightBadge/HighlightBadge.js';
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
@@ -15,12 +16,7 @@ function HighlightList(props) {
     
     useEffect(() => {
         async function getHighlightData() {
-            await axios
-                .get(
-                    `http://43.200.26.215:3000/highlights/pdfs/${74}/pages/${
-                        props.currentPageNumber
-                    }`
-                )
+            await axios.get(`http://43.200.26.215:3000/highlights/pdfs/${74}/pages/${props.currentPageNumber}`)
                 .then((response) => {
                     let result = Array();
                     
@@ -40,7 +36,10 @@ function HighlightList(props) {
         <>
             <div className={styles.title}>Highlights</div>
             <SearchBar></SearchBar>
-            <p className={styles.pageNumber}>Page. {props.currentPageNumber} / {props.totalPage}</p>
+            <div className={styles.highlightInfo}>
+                <p className={styles.pageNumber}>Page {props.currentPageNumber} / {props.totalPage}</p>
+                {/* <HighlightBadge></HighlightBadge> */}
+            </div>
             <aside className={styles.wrap}>
                 <div className={styles.container}>
                     <HighlightCards
@@ -72,8 +71,7 @@ function HighlightCards(props) {
                 console.log("highlight delete error:", error);
             })
             .then(async () => {
-                await axios
-                    .get(`http://43.200.26.215:3000/highlights/pdfs/${74}/pages/${currentPageNumber}`)
+                await axios.get(`http://43.200.26.215:3000/highlights/pdfs/${74}/pages/${currentPageNumber}`)
                     .then((response) => {
                         let result = Array();
                         for (let i = 0; i < response.data.result.length; i++) {

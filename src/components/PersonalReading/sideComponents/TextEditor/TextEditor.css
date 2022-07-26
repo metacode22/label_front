@@ -12,11 +12,12 @@
 
 .milkdown {
     box-shadow: none !important;
+    background-color: inherit !important;
 }
 
 .editor {
     padding-top: 6px !important;
-    overflow: scroll !important;
+    background-color: inherit !important;
 }
 
 .paragraph {

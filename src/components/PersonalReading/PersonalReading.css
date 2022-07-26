@@ -5,6 +5,7 @@
 
 .PersonalReading__container {
     /* border: 1px solid black; */
+    position: relative;
     
     display:flex;
 }
@@ -13,12 +14,14 @@
     .PersonalReading__sideBar {
         position: absolute;
         left: 0;
-        width: 10px;
-        border: 1px solid red;
+        /* width: 10px; */
+        /* border: 1px solid red; */
         z-index: 10;
-        color: red;
+        /* color: red; */
+        height: 100%;
         
         align-self: center;
+        display: flex;
     }
 
     /* mainPage */
@@ -30,7 +33,6 @@
         border-radius: 0 16px 16px 0;
         
         display: flex;
-        /* flex: 3; */
         /* flex-grow: 7; */
     }
 
@@ -39,23 +41,25 @@
             height: 100%;
             /* border: 1px solid black; */
             position: relative;
+            border-right: 1px solid #E2E5E6
             /* width: 65%; */
             
             /* flex-grow: 3; */
-            flex: 1.6;
         }
         
             /* mainPage--goBackButtons */ 
             .PersonalReading__mainPage--goBackButtons {
                 position: absolute;
                 z-index: 10;
-                width: 84px;
+                width: 64px;
                 bottom: 0.5%;
                 left: 50%;
                 transform: translate(-50%, -50%);
                 background-color: #FFFFFF;
                 border: 2px solid var(--color-1-c);
                 border-radius: 8px;
+                -webkit-box-shadow: 2px 2px 15px 2px rgba(0,0,0,0.33); 
+                box-shadow: 2px 2px 15px 2px rgba(0,0,0,0.33);
                 
                 display: flex;
                 justify-content: center;
@@ -64,8 +68,8 @@
                 /* go, back Buttons */
                 .goButton, .backButton {
                     margin: 4px;
-                    width: 24px;
-                    height: 24px;
+                    width: 18px;
+                    height: 18px;
                     background-color: #FFFFFF;
                     border: 2px solid var(--color-1-c);
                     border-radius: 100%;
@@ -77,36 +81,68 @@
                 .goButton:hover, .backButton:hover {
                     background-color: var(--color-1-a);
                 }
+                
+                /* mainPage--info */
+                .PersonalReading__mainPage--info {
+                    position: absolute;
+                    z-index: 10;
+                    border: 1px solid #E2E5E6;
+                    border-radius: 8px;
+                    width: 64px;
+                    height: 24px;
+                    top: 16px;
+                    right: 24px;
+                    background-color: #FFFFFF;
+                    font-weight: 700;
+                    
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                
+                    /* mainPage--info--input */
+                    .PersonalReading__mainPage--info--input {
+                        all: unset;
+                        border: none;
+                        border-bottom: 1px solid #9ca4a7;
+                        /* border-radius: 8px; */
+                        width: 20px;
+                        color: var(--color-1-b);
+                    }
+                    
+                    .PersonalReading__mainPage--info--input::placeholder {
+                        text-align: end;
+                        color: var(--color-1-b);
+                    }
 
+            /* highlightList */
+            .PersonalReading__highlightList {
+                /* border: 1px solid #E2E5E6; */
+                border-radius: 16px 0 0 16px;
+                padding: 24px;
+                background: inherit;
+                box-sizing: border-box;
+                
+                /* flex-grow: 3; */
+                /* flex: 0.8; */
+            }
+    
         /* mainPage--textEditor */
         .PersonalReading__mainPage--textEditor {
             height: 100%;
             border: 1px solid #E2E5E6;
-            border-radius: 0 16px 16px 0;
+            border-radius: 16px;
             background-color: #FFFFFF;
-            /* max-width: 35%; */
+            /* flex: 1; */
+            box-sizing: border-box;
             
             /* flex-grow: 3; */
-            flex: 1;
         }
         
             /* mainPage--textEditor--info */
             .PersonalReading__mainPage--textEditor--info {
-                margin-left: 6px;
+                margin: 24px;
             }
-
-    /* highlightList */
-    .PersonalReading__highlightList {
-        /* width: 350px; */
-        margin-left: 12px;
-        border: 1px solid #E2E5E6;
-        border-radius: 16px 0 0 16px;
-        padding: 24px;
-        background: #FFFFFF;
-        
-        /* flex-grow: 3; */
-        /* flex: 0.8; */
-    }
     
 /* highlight Button */
 .HighlightButton {

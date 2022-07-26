@@ -89,7 +89,7 @@ function PersonalReading(props) {
                     //     console.log('highlight data GET Fail, error:', error);
                     // })
             })
-    }, [currentPageNumber, mode])
+    }, [currentPageNumber, props.mode])
     
     useEffect(() => {
         // html이 바뀔 때, 전 페이지를 잡는 에러가 있어서 추가.
@@ -156,7 +156,7 @@ function PersonalReading(props) {
             clearTimeout(timer);
         };
         
-    }, [currentPageNumber, props.mode])
+    }, [currentPageNumber, props.mode, html])
     
     return (
         <main className="PersonalReading">            

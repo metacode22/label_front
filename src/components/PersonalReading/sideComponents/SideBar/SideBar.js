@@ -8,10 +8,6 @@ function SideBar(props) {
 	let [sideBarStatus, setSideBarStatus] = useState(true);
 	let [history, setHistory] = useState([]);
 	
-	useEffect(() => {
-		axios.get(`http:`)	
-	})
-	
 	return (
 		<>
 			<div className={styles.sideBarContents} style={sideBarStatus === true ? {} : {display: 'none'}}>

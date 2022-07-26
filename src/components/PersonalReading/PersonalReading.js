@@ -20,7 +20,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
 function PersonalReading(props) {
-    let [mode, setMode] = useState(true);
     let [html, setHtml] = useState('');
     let [updateHighlightList, setUpdateHighlightList] = useState(true);
     const highlightButton = useRef();
@@ -135,12 +134,10 @@ function PersonalReading(props) {
             clearTimeout(timer);
         };
         
-    }, [currentPageNumber, mode])
+    }, [currentPageNumber, props.mode])
     
     return (
-        <main className="PersonalReading">
-            <ShowAndHideSwitch checked={mode} onChange={() => {setMode(!mode)}}></ShowAndHideSwitch>
-            
+        <main className="PersonalReading">            
             <button 
                 ref={highlightButton} 
                 className="HighlightButton"
@@ -153,8 +150,8 @@ function PersonalReading(props) {
                     <SideBar currentBookInfo={currentBookInfo}></SideBar>
                 </aside>
                 
-                <div className="PersonalReading__mainPage" style={mode === true ? {flex: 3} : {flex: 1}}>
-                    {mode === true ? <article className="PersonalReading__mainPage--readingPage" style={mode === true ? {flex: 2} : {flex: 0}}>
+                <div className="PersonalReading__mainPage" style={props.mode === true ? {flex: 3} : {flex: 1}}>
+                    {props.mode === true ? <article className="PersonalReading__mainPage--readingPage" style={props.mode === true ? {flex: 2} : {flex: 0}}>
                         <PageRendered className="PageRendered" html={html}></PageRendered>
                         <div className="PersonalReading__mainPage--goBackButtons">
                             <FontAwesomeIcon icon={faCaretLeft} className="backButton" onClick={() => {
@@ -174,12 +171,12 @@ function PersonalReading(props) {
                         </div>
                     </article> 
                     : null}
-                    <aside className="PersonalReading__highlightList" style={mode === true ? {flex: 1} : {flex: 1}}>
+                    <aside className="PersonalReading__highlightList" style={props.mode === true ? {flex: 1} : {flex: 1}}>
                         <HighlightList pdfIdx={pdfIdx} totalPage={currentBookInfo.totalPage} currentPageNumber={currentPageNumber} updateHighlightList={updateHighlightList} setUpdateHighlightList={setUpdateHighlightList}></HighlightList>
                     </aside>
                 </div>
                 
-                <article className="PersonalReading__mainPage--textEditor" style={ mode === true ? {width: '368px'} : {flex: 1}}>
+                <article className="PersonalReading__mainPage--textEditor" style={props.mode === true ? {width: '368px'} : {flex: 1}}>
                     <div className="PersonalReading__mainPage--textEditor--info">
                         <p style={{ fontSize: '16px' }}>{currentBookInfo.pdfName}</p>
                         <p style={{ fontSize: '12px', textDecoration: 'underline' }}>저장 시 남는 글 - 서버에서 받아와야 함.</p>

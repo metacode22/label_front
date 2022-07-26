@@ -169,9 +169,9 @@ function UserPage() {
         console.log(CommitPush.current.value);
 
         fetch(`http://43.200.26.215:3000/commits`, {
-            method: 'post',
-            headers:{
-                'Content-Type': 'application/json'
+            method: "post",
+            headers: {
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({
                 pdfIdx: 1,

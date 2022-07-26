@@ -5,10 +5,12 @@ import { useLocation } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
 // sideComponents
-import { TextEditor } from "./sideComponents/TextEditor/TextEditor.tsx";
+import { TextEditor } from "./sideComponents/TextEditor/TextEditor_jun.tsx";
+// import { TextEditor, WrapperTextEditor } from "./sideComponents/TextEditor/TextEditor.tsx";
 import PageRendered from "./sideComponents/PageRendered/PageRendered.js";
 import HighlightList from "./sideComponents/HighlightList/HighlightList.js";
-import ShowAndHideSwitch from "./sideComponents/ShowAndHideSwitch/ShowAndHideSwitch";
+import ShowAndHideSwitch from "./sideComponents/ShowAndHideSwitch/ShowAndHideSwitch.js";
+import SideBar from './sideComponents/SideBar/SideBar.js';
 
 // sideFunction for highlighting
 import { clickHighlight, doHighlight, turnOver } from './sideFunction/sideFunction';
@@ -21,6 +23,7 @@ function PersonalReading(props) {
     let [mode, setMode] = useState(true);
     let [html, setHtml] = useState('');
     let [updateHighlightList, setUpdateHighlightList] = useState(true);
+    const highlightButton = useRef();
     
     // 수정 필요, props로 받아야 할 듯.
     // library에서 넘어올 때 currentPageNumber를 유저로부터 가져와야 함.
@@ -31,21 +34,20 @@ function PersonalReading(props) {
     // useLocation
     let pdfIdx = 74;
     let userIdx = 1;
-    let [totalPage, setTotalPage] = useState(1);
+    // let [totalPage, setTotalPage] = useState(1);
+    let [currentBookInfo, setCurrentBookInfo] = useState({});
     useEffect(() => {
         axios.get(`http://43.200.26.215:3000/users/${userIdx}/pdfs`)
         .then((response) => {
             console.log('TotalPage GET response:', response);
-            let nowPdf = response.data.result.find(x => x.pdfIdx === pdfIdx);
-            setTotalPage(nowPdf.totalPage)
+            let newCurrentBookInfo = response.data.result.find(x => x.pdfIdx === pdfIdx);
+            // setTotalPage(nowPdf.totalPage)
+            setCurrentBookInfo(newCurrentBookInfo);
         })
         .catch((error) => {
             console.log('TotalPage GET Fail, error:', error);
         })
     }, [pdfIdx])
-    
-    // highlight Button
-    const highlightButton = useRef();
     
     useEffect(() => {
         axios.get(`http://43.200.26.215:3000/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
@@ -147,34 +149,44 @@ function PersonalReading(props) {
             ></button>
             
             <div className="PersonalReading__container">
-                <aside className="PersonalReading__sideBar">Side Bar</aside>
+                <aside className="PersonalReading__sideBar">
+                    <SideBar currentBookInfo={currentBookInfo}></SideBar>
+                </aside>
                 
-                <div className="PersonalReading__mainPage" style={mode === true ? {flex: 2} : {flex: 1}}>
-                    {mode === true ? <article className="PersonalReading__mainPage--readingPage">
+                <div className="PersonalReading__mainPage" style={mode === true ? {flex: 3} : {flex: 1}}>
+                    {mode === true ? <article className="PersonalReading__mainPage--readingPage" style={mode === true ? {flex: 2} : {flex: 0}}>
                         <PageRendered className="PageRendered" html={html}></PageRendered>
                         <div className="PersonalReading__mainPage--goBackButtons">
                             <FontAwesomeIcon icon={faCaretLeft} className="backButton" onClick={() => {
-                                turnOver('back', currentPageNumber, setCurrentPageNumber, totalPage);
+                                turnOver('back', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);
                             }}></FontAwesomeIcon>
                             <FontAwesomeIcon icon={faCaretRight} className="goButton" onClick={() => {
-                                turnOver('go', currentPageNumber, setCurrentPageNumber, totalPage);
+                                turnOver('go', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);
                             }}></FontAwesomeIcon>
+                        </div>
+                        <div className="PersonalReading__mainPage--info">
+                            <p><input className="PersonalReading__mainPage--info--input" placeholder={currentPageNumber} onKeyUp={(event) => {
+                                event.preventDefault();
+                                if (window.event.keyCode === 13 && 1 <= event.target.value && event.target.value <= currentBookInfo.totalPage) {
+                                    setCurrentPageNumber(Number(event.target.value));
+                                }
+                            }}></input> / {currentBookInfo.totalPage}</p>
                         </div>
                     </article> 
                     : null}
-                    <article className="PersonalReading__mainPage--textEditor">
-                        <div className="PersonalReading__mainPage--textEditor--info">
-                            <p style={{ fontSize: '16px' }}>title - 서버에서 받아와야 함.</p>
-                            <p style={{ fontSize: '16px' }}>subtitle - 서버에서 받아와야 함.</p>
-                            <p style={{ fontSize: '12px', textDecoration: 'underline' }}>저장 시 남는 글 - 서버에서 받아와야 함.</p>
-                        </div>
-                        <TextEditor></TextEditor>
-                    </article>
+                    <aside className="PersonalReading__highlightList" style={mode === true ? {flex: 1} : {flex: 1}}>
+                        <HighlightList pdfIdx={pdfIdx} totalPage={currentBookInfo.totalPage} currentPageNumber={currentPageNumber} updateHighlightList={updateHighlightList} setUpdateHighlightList={setUpdateHighlightList}></HighlightList>
+                    </aside>
                 </div>
                 
-                <aside className="PersonalReading__highlightList" style={mode === true ? {flex: 0.6} : {flex: 1}}>
-                    <HighlightList totalPage={totalPage} currentPageNumber={currentPageNumber} updateHighlightList={updateHighlightList} setUpdateHighlightList={setUpdateHighlightList}></HighlightList>
-                </aside>
+                <article className="PersonalReading__mainPage--textEditor" style={ mode === true ? {width: '368px'} : {flex: 1}}>
+                    <div className="PersonalReading__mainPage--textEditor--info">
+                        <p style={{ fontSize: '16px' }}>{currentBookInfo.pdfName}</p>
+                        <p style={{ fontSize: '12px', textDecoration: 'underline' }}>저장 시 남는 글 - 서버에서 받아와야 함.</p>
+                    </div>
+                    {/* <WrapperTextEditor height={mainPage.current?.clientHeight - 210}></WrapperTextEditor> */}
+                    <TextEditor></TextEditor>
+                </article>
             </div>
         </main>
     );

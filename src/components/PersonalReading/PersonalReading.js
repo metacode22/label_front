@@ -23,6 +23,7 @@ function PersonalReading(props) {
     let [mode, setMode] = useState(true);
     let [html, setHtml] = useState('');
     let [updateHighlightList, setUpdateHighlightList] = useState(true);
+    
     const highlightButton = useRef();
     
     // 수정 필요, props로 받아야 할 듯.
@@ -34,6 +35,10 @@ function PersonalReading(props) {
     // useLocation
     let pdfIdx = 75;
     let userIdx = 1;
+    
+    let commitIndex = -1;   // useState
+    let [highlightDataOfCommitIndex, setHighlightDataOfCommitIndex] = useState({});
+    
     // let [totalPage, setTotalPage] = useState(1);
     let [currentBookInfo, setCurrentBookInfo] = useState({});
     useEffect(() => {
@@ -88,7 +93,8 @@ function PersonalReading(props) {
     }, [currentPageNumber, mode])
     
     useEffect(() => {
-        axios.get(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
+        // html이 바뀔 때, 전 페이지를 잡는 에러가 있어서 추가.
+        axios.get(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/`)
             .then((response) => {
                 console.log('highlight data GET response:', response);
                 

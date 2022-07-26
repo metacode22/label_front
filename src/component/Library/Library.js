@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Library(){   
     let [result,setResult] = useState([]);
+    let [allBook,setAllBook] = useState([]);
 
     let userIdx = 1;
 
@@ -14,6 +15,20 @@ export default function Library(){
         })
         .then(res=>{
             setResult(res.result);
+            // console.log(res);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }, []);
+
+    useEffect(()=>{
+        fetch(`http://43.200.26.215:3000/pdfs`)
+        .then(res=>{
+            return res.json()
+        })
+        .then(res=>{
+            setAllBook(res.result);
             // console.log(res);
         })
         .catch((err) => {
@@ -44,7 +59,7 @@ export default function Library(){
                 <section className={styles.section}>
                     <div className={styles.divText}><h2>How about this one?</h2></div>
                     <div className={styles.bookList}>
-                        <BookList result={result} length={result.length}></BookList>
+                        <BookList result={allBook} length={allBook.length}></BookList>
                     </div>
                 </section>
             </article>
@@ -74,7 +89,7 @@ const RecentBookList = (props)=>{
         }
         return result;
     }
-    return rendering()//여기가 지금 4개만 표시하게끔 로직을 바꿔야 하는데, 마운트 될 떄 한 번은 되고 이후가 안되고 에러가 뜨고 있음.
+    return rendering()
 }
 
 const Book = (props)=>{
@@ -97,55 +112,21 @@ const Book = (props)=>{
     )
 }
 
-const RecentBook = ({firstPageLink,pdfName})=>{
+const RecentBook = (props)=>{
     let navigate = useNavigate();
-    console.log(firstPageLink);
 
     return (
         <div className={styles.bookContainer}>
             <div onClick={()=>{navigate('/personalreading')}} className={styles.book} style={{
-                backgroundImage: "url(" + `${process.env.PUBLIC_URL + `${firstPageLink}`}`,
+                backgroundImage: "url(" + `${process.env.PUBLIC_URL + `${props.result?.firstPageLink}`}`,
                 backgroundPosition: "center",
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat"
             }}/>
             <div className={styles.bookInfo}>
-                <div className={styles.pdfName}>{pdfName}</div>
-                <div>Reading P.recently read page </div>
-                {/* <ReadingPage/> */}
+                <div className={styles.pdfName}>{props.result?.pdfName}</div>
+                <div className={styles.author}>{props.result?.author}</div>
             </div>
         </div>
     )
-}
-
-const ReadingPageList = ()=>{
-    let [result, setResult] = useState([]);
-
-    let pdfIdx = 1;
-
-    useEffect(()=>{
-        fetch(`http://43.200.26.215:3000/`)
-        .then(res => {
-            return res.json();
-        })
-        .then(res => {
-            setResult(res.result);
-            // console.log(res.result);
-        })
-    }, []);
-
-    return(
-        <ReadingPage result={result} length={result.length}></ReadingPage>
-    )
-    //이거 recent page로 바꿔야 하는데 아직 api가 준비가 안됨
-}
-
-const ReadingPage = (props)=>{
-    const rendering = ()=>{
-        const result = Array();
-
-        for (let i = 0; i < props.lengtth; i++){
-            result.push(<div>Reading P.{props.result[i].recentlyReadPage} </div>)
-        }
-    }
 }

@@ -5,7 +5,6 @@ import axios from 'axios';
 
 const clientId = "175615424044-eqrukop3k2spabpknd63vtm2kqtiff91.apps.googleusercontent.com";
 
-
 function Logout() {
     let navigate = useNavigate();
     const [cookies, setCookie, removeCookie] = useCookies(['sessionID_label']);
@@ -36,7 +35,6 @@ function Logout() {
                 clientId={clientId}
                 buttonText={"Logout"}
                 onLogoutSuccess={onSuccess}
-                
             />
         </div>
     )

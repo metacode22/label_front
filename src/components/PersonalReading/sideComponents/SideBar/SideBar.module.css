@@ -39,7 +39,8 @@
     
     .historyContainer {
         display: flex;
-        flex-direction: column;    
+        flex-direction: column;  
+        align-items: flex-start;
     }
     
         .historyTitle {
@@ -69,10 +70,13 @@
         }
         
         .historyWrap {
-            width: 100%;
-            
-            display: flex;
+            width: 100%;   
         }
+        
+            .historyUnorderedListTag {
+                padding-left: 16px;
+                margin-bottom: 20px; 
+            }
 
 .sideBarToggleButton {
     border-radius: 0 16px 16px 0;

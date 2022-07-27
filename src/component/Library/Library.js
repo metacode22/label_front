@@ -2,15 +2,11 @@ import styles from './Library.module.css'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-
-
-
-
 export default function Library(){   
     let [result,setResult] = useState([]);
     let [allBook,setAllBook] = useState([]);
 
-    let userIdx = 1;
+    let userIdx = 58;
 
     useEffect(()=>{
         fetch(`http://43.200.26.215:3000/users/${userIdx}/pdfs`)
@@ -33,7 +29,7 @@ export default function Library(){
         })
         .then(res=>{
             setAllBook(res.result);
-            // console.log(res);
+            console.log(res);
         })
         .catch((err) => {
             console.log(err);
@@ -99,11 +95,10 @@ const RecentBookList = (props)=>{
 
 const Book = (props)=>{
     let navigate = useNavigate();
-    // console.log(props);
 
     return (
         <div className={styles.bookContainer}>
-            <div onClick={()=>{navigate('/personalreading')}} className={styles.book} style={{
+            <div onClick={()=>{navigate('/personalreading', {state: {pdfIdx: props.result.pdfIdx, recentlyReadPage: 1}})}} className={styles.book} style={{
                 backgroundImage: "url(" + `${process.env.PUBLIC_URL + `${props.result.firstPageLink}`}`,
                 backgroundPosition: "center",
                 backgroundSize: "cover",
@@ -119,10 +114,9 @@ const Book = (props)=>{
 
 const RecentBook = (props)=>{
     let navigate = useNavigate();
-
     return (
         <div className={styles.bookContainer}>
-            <div onClick={()=>{navigate('/personalreading')}} className={styles.book} style={{
+            <div onClick={()=>{navigate('/personalreading', {state: {pdfIdx: props.result.pdfIdx, recentlyReadPage: props.result.recentlyReadPage}})}} className={styles.book} style={{
                 backgroundImage: "url(" + `${process.env.PUBLIC_URL + `${props.result?.firstPageLink}`}`,
                 backgroundPosition: "center",
                 backgroundSize: "cover",

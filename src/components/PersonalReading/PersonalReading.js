@@ -5,8 +5,8 @@ import { useLocation } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
 // sideComponents
-import { TextEditor } from "./sideComponents/TextEditor/TextEditor_jun.tsx";
-// import { TextEditor, WrapperTextEditor } from "./sideComponents/TextEditor/TextEditor.tsx";
+// import { TextEditor } from "./sideComponents/TextEditor/TextEditor_jun.tsx";
+import { TextEditor, WrapperTextEditor } from "./sideComponents/TextEditor/TextEditor.tsx";
 import PageRendered from "./sideComponents/PageRendered/PageRendered.js";
 import HighlightList from "./sideComponents/HighlightList/HighlightList.js";
 import ShowAndHideSwitch from "./sideComponents/ShowAndHideSwitch/ShowAndHideSwitch.js";
@@ -32,7 +32,7 @@ function PersonalReading(props) {
     
     // library에서 넘어올 때 받아와야 할 듯.
     // useLocation
-    let pdfIdx = 75;
+    let pdfIdx = 74;
     let userIdx = 1;
     
     let commitIndex = -1;   // useState
@@ -40,6 +40,10 @@ function PersonalReading(props) {
     
     // let [totalPage, setTotalPage] = useState(1);
     let [currentBookInfo, setCurrentBookInfo] = useState({});
+    
+    // TextEditor의 markdown value
+    let [markdownValue, setMarkdownValue] = useState('');
+    console.log(markdownValue);
     useEffect(() => {
         axios.get(`http://43.200.26.215:3000/users/${userIdx}/pdfs`)
         .then((response) => {
@@ -156,7 +160,7 @@ function PersonalReading(props) {
             clearTimeout(timer);
         };
         
-    }, [currentPageNumber, props.mode])
+    }, [currentPageNumber, props.mode, html])
     
     return (
         <main className="PersonalReading">            
@@ -203,8 +207,8 @@ function PersonalReading(props) {
                         <p style={{ fontSize: '16px' }}>{currentBookInfo.pdfName}</p>
                         <p style={{ fontSize: '12px', textDecoration: 'underline' }}>저장 시 남는 글 - 서버에서 받아와야 함.</p>
                     </div>
-                    {/* <WrapperTextEditor height={mainPage.current?.clientHeight - 210}></WrapperTextEditor> */}
-                    <TextEditor></TextEditor>
+                    <WrapperTextEditor markdownValue={markdownValue} setMarkdownValue={setMarkdownValue}></WrapperTextEditor>
+                    {/* <TextEditor></TextEditor> */}
                 </article>
             </div>
         </main>

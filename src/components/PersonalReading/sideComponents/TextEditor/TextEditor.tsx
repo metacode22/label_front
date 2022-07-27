@@ -4,8 +4,6 @@ import { defaultValueCtx, Editor, rootCtx } from '@milkdown/core';
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
 import { prism } from '@milkdown/plugin-prism';
 import { tooltip } from '@milkdown/plugin-tooltip';
-import { codeFence as cmCodeFence, commonmark, image, link, commonmarkNodes, commonmarkPlugins, blockquote, SupportedKeys  } from '@milkdown/preset-commonmark';
-import { Node } from '@milkdown/prose/model';
 import { ReactEditor, useEditor, useNodeCtx } from '@milkdown/react';
 import { nord } from '@milkdown/theme-nord';
 import { FC, ReactNode, useEffect } from 'react';
@@ -18,7 +16,7 @@ import io from 'socket.io-client';
 import React from 'react';
 import './TextEditor.css';
 
-const url: string = 'ws://3.34.199.193:3000';
+const url: string = 'ws://13.125.242.9:3000';
 let socket:any;
 
 let timerId : NodeJS.Timeout
@@ -32,12 +30,14 @@ export class WrapperTextEditor extends React.Component<{},{ fp: string, flag: bo
             }
         });
         
+        console.log('--------', props);
         console.log('socket:', socket);
         
         console.log('construct')
         super(props);
-        this.state = {fp: '', flag: false};
+        this.state = {fp: 'hello', flag: false};
         socket.on('connect',() => {
+            console.log('connect-------------');
             socket.once('updateEditorOnce', (value: any) => {
                 this.setState({
                     fp: value,
@@ -50,9 +50,9 @@ export class WrapperTextEditor extends React.Component<{},{ fp: string, flag: bo
     render() {
         // console.log('value in render:', this.state.fp, this.state.flag)
         return (
-        <div>
-            {this.state.flag && <TextEditor value = {this.state.fp} socket={socket}/>}
-        </div>
+            <div>
+                {this.state.flag && <TextEditor value={this.state.fp}/>}
+            </div>
         )
     };
 
@@ -71,8 +71,7 @@ function updateEditor(userID : string, pdfID : string, value : string) {
     }, 700)
 }
 
-export const TextEditor: FC<{ value: string, socket: any }> = ({ value, socket }) => {
-    // console.log('in milk compo:', value)
+export const TextEditor: FC<{ value: string }> = ({ value }) => {
     const { editor, loading, getInstance } = useEditor((root, renderReact) => {
                 const editor = Editor.make()
                     .config((ctx) => {
@@ -106,10 +105,9 @@ export const TextEditor: FC<{ value: string, socket: any }> = ({ value, socket }
                     .use(history)
                     // .use(nodes)
                     // .use(commonmarkPlugins)
-
                     .use(gfm)
                     .use(math)
-                    .use(tooltip)
+                    // .use(tooltip)
                     .use(prism)
                     .use(menu)
                     .use(listener)
@@ -117,7 +115,14 @@ export const TextEditor: FC<{ value: string, socket: any }> = ({ value, socket }
                     return editor
         })
         useEffect(() => {
-        }, []);
+            document.querySelector('.ProseMirror.editor')?.setAttribute('ondrop', 'drop_handler(event)');
+            document.querySelector('.ProseMirror.editor')?.setAttribute('ondragover', 'dragover_handler(event)');
+            
+            let height = document.querySelector('.PersonalReading__mainPage')?.clientHeight;
+            if (height != null) {
+                document.querySelector('.milkdown')?.setAttribute('style', `height: ${height - 180}px`);    
+            }
+        });
     
     return <ReactEditor editor={editor} />
 };

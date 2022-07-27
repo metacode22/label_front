@@ -80,7 +80,7 @@ function SocialLogin() {
     const onSuccess = (response) => {
         console.log(response.accessToken);
         
-        axios.post('http://localhost:3001/socialLogin', {
+        axios.post('http://43.200.26.215:3000/socialLogin', {
             tokens: response.accessToken
         })
         .then((response) => {

@@ -20,30 +20,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
 function PersonalReading(props) {
+    let location = useLocation();
+    let { pdfIdx, recentlyReadPage } = location.state;
     let [html, setHtml] = useState('');
     let [updateHighlightList, setUpdateHighlightList] = useState(true);
-    
+     
     const highlightButton = useRef();
     
     // 수정 필요, props로 받아야 할 듯.
     // library에서 넘어올 때 currentPageNumber를 유저로부터 가져와야 함.
     // redux?
-    let [currentPageNumber, setCurrentPageNumber] = useState(7);
+    let [currentPageNumber, setCurrentPageNumber] = useState(recentlyReadPage);
     
     // library에서 넘어올 때 받아와야 할 듯.
     // useLocation
-    let pdfIdx = 74;
     let userIdx = 58;
-    
-    let commitIndex = -1;   // useState
-    let [highlightDataOfCommitIndex, setHighlightDataOfCommitIndex] = useState({});
     
     // let [totalPage, setTotalPage] = useState(1);
     let [currentBookInfo, setCurrentBookInfo] = useState({});
-    
-    // TextEditor의 markdown value
-    let [markdownValue, setMarkdownValue] = useState('');
-    console.log(markdownValue);
     useEffect(() => {
         axios.get(`http://43.200.26.215:3000/users/${userIdx}/pdfs`)
         .then((response) => {
@@ -82,7 +76,7 @@ function PersonalReading(props) {
                     .then((response) => {
                         console.log('highlight data GET response:', response);
                         
-                        for(let i = 0; i < response.data.result.length; i++) {
+                        for(let i = 0; i < response.data.result?.length; i++) {
                             // if (response.data.result[i].active === 1) {
                                 // console.log(document.querySelector('.y6'));
                                 doHighlight(response.data.result[i], response.data.result[i].highlightIdx);    
@@ -101,7 +95,7 @@ function PersonalReading(props) {
             .then((response) => {
                 console.log('highlight data GET response:', response);
                 
-                for(let i = 0; i < response.data.result.length; i++) {
+                for(let i = 0; i < response.data.result?.length; i++) {
                     // if (response.data.result[i].active === 1) {
                         // console.log(document.querySelector('.y6'));
                         doHighlight(response.data.result[i], response.data.result[i].highlightIdx);    
@@ -207,7 +201,7 @@ function PersonalReading(props) {
                         <p style={{ fontSize: '16px' }}>{currentBookInfo.pdfName}</p>
                         <p style={{ fontSize: '12px', textDecoration: 'underline' }}>저장 시 남는 글 - 서버에서 받아와야 함.</p>
                     </div>
-                    <WrapperTextEditor></WrapperTextEditor>
+                    <WrapperTextEditor userIdx={String(userIdx)} pdfIdx={String(pdfIdx)}></WrapperTextEditor>
                 </article>
             </div>
         </main>

@@ -26,7 +26,7 @@ function NavDefault(){
 
     function eraseCookie() {
         console.log('hello');
-        axios.post('http://localhost:3001/logout', {
+        axios.post('http://43.200.26.215:3000/logout', {
                 param: cookies.sessionID_label
         })
         .then((response) => {

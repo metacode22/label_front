@@ -17,7 +17,7 @@ export default function Login(props){
 
     function doLogin(event) {
         event.preventDefault();
-        axios.post('http://localhost:3001/login', {
+        axios.post('http://43.200.26.215:3000/login', {
             userEmail: email.current.value,
             userPW: password.current.value
         })
@@ -75,7 +75,7 @@ function SocialLogin() {
     const onSuccess = (response) => {
         console.log(response.accessToken);
         
-        axios.post('http://localhost:3001/socialLogin', {
+        axios.post('http://43.200.26.215:3000/socialLogin', {
             tokens: response.accessToken
         })
         .then((response) => {

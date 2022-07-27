@@ -7,7 +7,7 @@ import axios from "axios";
 import { GoogleLogin } from "react-google-login";
 import { useCookies } from 'react-cookie';
 
-const clientId = "432604043005-ha7dq6k3unqersiaciethfdi8tr2lcr0.apps.googleusercontent.com";
+const clientId = "790356719859-n6vusb9mi2cejjumcuick5qbqubvn6tu.apps.googleusercontent.com";
 
 export default function Login(props){
     const [cookies, setCookie, removeCookie] = useCookies(['sessionID_label']);
@@ -17,7 +17,7 @@ export default function Login(props){
 
     function doLogin(event) {
         event.preventDefault();
-        axios.post('http://localhost:3001/login', {
+        axios.post('http://43.200.26.215:3000/login', {
             userEmail: email.current.value,
             userPW: password.current.value
         })
@@ -75,7 +75,7 @@ function SocialLogin() {
     const onSuccess = (response) => {
         console.log(response.accessToken);
         
-        axios.post('http://localhost:3001/socialLogin', {
+        axios.post('http://43.200.26.215:3000/socialLogin', {
             tokens: response.accessToken
         })
         .then((response) => {

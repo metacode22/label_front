@@ -26,7 +26,7 @@ function NavDefault(){
 
     function eraseCookie() {
         console.log('hello');
-        axios.post('http://localhost:3001/logout', {
+        axios.post('http://43.200.26.215:3000/logout', {
                 param: cookies.sessionID_label
         })
         .then((response) => {
@@ -45,7 +45,10 @@ function NavDefault(){
                 <img className={styles.logoRead} src={process.env.PUBLIC_URL + '/images/labelLogoWhite.png'} onClick={() => { navigate('/library')}}></img>
             </div>
             <nav className={styles.navRead}>
-                <button className={styles.button} onClick={() => { navigate('/') }}>Logout</button>
+                <button className={styles.button} onClick={() => { 
+                    eraseCookie();
+                    navigate('/');
+                }}>Logout</button>
                 <img className={styles.randomImg} src={'https://label-book-storage.s3.ap-northeast-2.amazonaws.com/default_profile.png'} onClick={() => { navigate('/userpage')}}/>
             </nav>
         </header>

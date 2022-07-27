@@ -4,7 +4,7 @@ import { GoogleLogin } from "react-google-login";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from 'react-cookie';
 
-const clientId = "432604043005-ha7dq6k3unqersiaciethfdi8tr2lcr0.apps.googleusercontent.com";
+const clientId = "790356719859-n6vusb9mi2cejjumcuick5qbqubvn6tu.apps.googleusercontent.com";
 
 function Login() {
     const [cookies, setCookie, removeCookie] = useCookies(['id']);
@@ -13,7 +13,7 @@ function Login() {
     const onSuccess = (response) => {
         console.log(response.accessToken);
         
-        axios.post('http://localhost:3001/socialLogin', {
+        axios.post('http://43.200.26.215:3000/socialLogin', {
             tokens: response.accessToken
         })
         .then((response) => {

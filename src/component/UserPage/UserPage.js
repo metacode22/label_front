@@ -35,7 +35,7 @@ function Grass() {
 
     useEffect(() => {
         // let userIdx = 5;
-        fetch(`http://43.200.26.215:3000/userInfo`) //실제 서버에서 받으면 개인 유저 1명만 부를 수 있게
+        fetch(`http://localhost:3000/login/testbutton`) //실제 서버에서 받으면 개인 유저 1명만 부를 수 있게
             .then((res) => {
                 return res.json();
             })

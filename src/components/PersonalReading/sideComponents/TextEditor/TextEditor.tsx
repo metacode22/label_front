@@ -18,7 +18,7 @@ import io from 'socket.io-client';
 import React from 'react';
 import './TextEditor.css';
 
-const url: string = 'ws://3.34.199.193:3000';
+const url: string = 'ws://13.125.242.9:3000';
 let socket:any;
 
 let timerId : NodeJS.Timeout
@@ -117,7 +117,14 @@ export const TextEditor: FC<{ value: string, socket: any }> = ({ value, socket }
                     return editor
         })
         useEffect(() => {
-        }, []);
+            document.querySelector('.ProseMirror.editor')?.setAttribute('ondrop', 'drop_handler(event)');
+            document.querySelector('.ProseMirror.editor')?.setAttribute('ondragover', 'dragover_handler(event)');
+            
+            let height = document.querySelector('.PersonalReading__mainPage')?.clientHeight;
+            if (height != null) {
+                document.querySelector('.milkdown')?.setAttribute('style', `height: ${height - 210}px`);    
+            }
+        });
     
     return <ReactEditor editor={editor} />
 };

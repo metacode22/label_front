@@ -35,7 +35,7 @@ export default function Library(){
             console.log(err);
         })
     }, []);
-    console.log(result);
+    
     return(
         <main className={styles.main}>
             <label className={styles.label}>+ Upload
@@ -115,7 +115,6 @@ const Book = (props)=>{
 
 const RecentBook = (props)=>{
     let navigate = useNavigate();
-    // console.log(props.result)
 
     return (
         <div className={styles.bookContainer}>

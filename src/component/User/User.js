@@ -9,20 +9,13 @@ export default function User(){
                     <div className={styles.divText}><h2>My Page</h2></div>
                     {/* 사진 정보 받아와야 함 */}
                     <div className={styles.profile}>
-                        <img className={styles.profileImg} src={'https://label-book-storage.s3.ap-northeast-2.amazonaws.com/default_profile.png'}/>
-                        <div className={styles.profileInfo}>
-                            <p>My Profile</p>
-                            {/* ↓ 정보 받아와야 함 */}
-                            <p className={styles.namep}>Oin9u</p>
-                            <p>lol1219@snu.ac.kr</p>
-                        </div>
+                        <UserProfile></UserProfile>
                     </div>
                     <div>
                         <p className={styles.grassP}>Your commit history</p>
                         <Grass></Grass>
                     </div>
-                    <div>
-                    {/* <div style={{visibility: 'collapse'}}> */}
+                    <div className={styles.divHistory}>
                         <p className={styles.commitDate}>2022.07.28 - data load plz</p>
                         <CommitHistory></CommitHistory>
                         <CommitHistory></CommitHistory>
@@ -39,8 +32,7 @@ export default function User(){
                         <table>
                             <thead className={styles.thead}>
                                 <tr>
-                                    {/* 전체 선택 구현을 안 해서 그냥 윗단은 체크를 못 하게 해둠 */}
-                                    <th><input type='checkbox' checked/></th>
+                                    <th><input type='checkbox'/></th>
                                     <th className={styles.th}>Title</th>
                                     <th className={styles.th}>Page</th>
                                     <th className={styles.th}>Date</th>
@@ -48,15 +40,49 @@ export default function User(){
                             </thead>
                             <tbody>
                                 <Tr></Tr>
-                                <Tr></Tr>
-                                <Tr></Tr>
-                                <Tr></Tr>
                             </tbody>
                         </table>
                     </div>
                 </section>
             </article>
         </main>
+    )
+}
+
+const UserProfile = ()=>{
+
+    const [result, setResult] = useState([]);
+
+    useEffect(()=>{
+        fetch(`http://43.200.26.215:3000/userInfo`)
+        .then((res) => {
+            return res.json();
+        })
+        .then((res)=>{
+            setResult(res.result);
+            // console.log(res.result);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    })
+
+    return(
+        <UserProfileShow result={result} length={result.length}></UserProfileShow>
+    )
+}
+
+const UserProfileShow = (props)=>{
+    // console.log(props.result)
+    return(
+        <>
+            <img className={styles.profileImg} src={`${props.result[0]?.userPhoto}`}/>
+            <div className={styles.profileInfo}>
+                <p>My Profile</p>
+                <p className={styles.namep}>{props.result[0]?.userName}</p>
+                <p>{props.result[0]?.userEmail}</p>
+            </div>
+        </>
     )
 }
 
@@ -72,16 +98,47 @@ const CommitHistory = ()=>{
 }
 
 const Tr = ()=>{
+    const [result, setResult] = useState([]);
+
+    let userIdx = 58;
+
+    useEffect(()=>{
+        fetch(`http://43.200.26.215:3000/users/${userIdx}/pdfs`)
+        .then(res=>{
+            return res.json()
+        })
+        .then(res=>{
+            setResult(res.result);
+            // console.log(res);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    });
+
     return (
-        <>
-            <tr>
-                <td className={styles.tdCheck}><input type='checkbox'/></td>
-                <td className={styles.tdTitle}>title 데이터 받아야함</td>
-                <td className={styles.td}>page 데이터 받아야함</td>
-                <td className={styles.td}>date 데이터 받아야함</td>
-            </tr>
-        </>
+        <BookList result={result} length={result.length}></BookList>
     )
+}
+
+const BookList = (props)=>{
+
+    const rendering = ()=>{
+        const result = Array();
+
+        for (let i = 0; i < props.result.length; i++){
+            result.push(
+                <tr>
+                    <td className={styles.tdCheck}><input type='checkbox'/></td>
+                    <td className={styles.tdTitle}>{props.result[i].pdfName}</td>
+                    <td className={styles.td}>{props.result[i].recentlyReadPage} / {props.result[i].totalPage}</td>
+                    <td className={styles.td}>{props.result[i].updatedAt}</td>
+                </tr>
+            )
+        }
+        return result;
+    }
+    return rendering()
 }
 
 function Grass() {

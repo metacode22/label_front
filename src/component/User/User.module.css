@@ -22,7 +22,7 @@
 }
 
 .namep{
-    margin: -13% 0 0 0;
+    margin: -10% 0 0 0;
     font-size: 30px;
     font-weight: bold;
 }
@@ -53,6 +53,7 @@
 }
 
 .lineImg{
+    margin-top: 3%;
     width: 103.5%;
 }
 
@@ -78,7 +79,7 @@
 }
 
 .divTable{
-    margin-left: 2%;
+    margin-left: 4%;
 }
 
 .th{
@@ -98,7 +99,7 @@
 
 .tdTitle{
     border-bottom: 1px solid #ececec;
-    color: #3C64B1;
+    color: #216435;
     width: 50rem;
     height: 3rem;
 }
@@ -145,3 +146,11 @@
     border: 2px solid #216435;
     cursor: pointer;
 }
+
+/* .divHistory{
+    display: none;
+}
+
+.squares li:visited ~ * .divHistory{
+    display: block;
+} */

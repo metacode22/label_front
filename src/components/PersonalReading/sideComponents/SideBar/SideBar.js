@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons'
 
 function SideBar(props) {
-	let [sideBarStatus, setSideBarStatus] = useState(true);
+	let [sideBarStatus, setSideBarStatus] = useState(false);
 	let [history, setHistory] = useState([]);
 	
 	useEffect(() => {

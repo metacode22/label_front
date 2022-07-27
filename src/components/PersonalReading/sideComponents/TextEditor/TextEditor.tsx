@@ -20,17 +20,19 @@ const url: string = 'ws://13.125.242.9:3000';
 let socket:any;
 
 let timerId : NodeJS.Timeout
-export class WrapperTextEditor extends React.Component<{},{ fp: string, flag: boolean }> {
+export class WrapperTextEditor extends React.Component<{userIdx: string, pdfIdx: string}, { fp: string, flag: boolean }> {
     constructor(props: any) {
+        super(props);
         socket = io(url, { 
             transports: ["websocket"],
             query: {
-                "userId": "ddong",
-                "pdfId": "pdf"
+                "userId": String(this.props.userIdx),
+                "pdfId": String(this.props.pdfIdx)
             }
         });
         
-        super(props);
+        console.log(this.props.userIdx);
+        console.log(this.props.pdfIdx);
         this.state = {fp: 'hello', flag: false};
         socket.on('connect',() => {
             console.log('connect-------------');
@@ -47,7 +49,7 @@ export class WrapperTextEditor extends React.Component<{},{ fp: string, flag: bo
         // console.log('value in render:', this.state.fp, this.state.flag)
         return (
             <div>
-                {this.state.flag && <TextEditor value={this.state.fp}/>}
+                {this.state.flag && <TextEditor value={this.state.fp} userIdx={this.props.userIdx} pdfIdx={this.props.pdfIdx}/>}
             </div>
         )
     };
@@ -67,16 +69,16 @@ function updateEditor(userID : string, pdfID : string, value : string) {
     }, 700)
 }
 
-export const TextEditor: FC<{ value: string }> = ({ value }) => {
+export const TextEditor: FC<{ value: string, userIdx: string, pdfIdx: string }> = ({ value, userIdx, pdfIdx }) => {
     const { editor, loading, getInstance } = useEditor((root, renderReact) => {
                 const editor = Editor.make()
                     .config((ctx) => {
-                        console.log('defaultValueCtx:', 'hey');
+                        // console.log('defaultValueCtx:', 'hey');
                         ctx.set(rootCtx, root);
                         ctx.set(defaultValueCtx, value);
                         ctx.get(listenerCtx).markdownUpdated((_, value) => {
-                            const userID = 'ddong';
-                            const pdfID = 'pdf';
+                            const userID = userIdx;
+                            const pdfID = pdfIdx;
                             /* solution 2 */
                             if (timerId) {
                                 clearTimeout(timerId);
@@ -115,7 +117,7 @@ export const TextEditor: FC<{ value: string }> = ({ value }) => {
             
             let height = document.querySelector('.PersonalReading__mainPage')?.clientHeight;
             if (height != null) {
-                document.querySelector('.milkdown')?.setAttribute('style', `height: ${height - 180}px`);    
+                document.querySelector('.milkdown')?.setAttribute('style', `height: ${height - 240}px`);    
             }
         });
     

@@ -11,13 +11,16 @@ function SideBar(props) {
 	let commitInput = useRef();
 	let date = dayjs();
 	let result = date.format('YYYY-MM-DD HH:mm:ss');
-	console.log(result);
 	let userIdx = 58;
 	
 	function handleSubmit(event) {
 		event.preventDefault();
-				
-		axios.post(`http://43.200.26.215:3000/commits`, {
+		console.log(props.currentBookInfo.pdfIdx);
+		console.log(userIdx);
+		console.log(result);
+		console.log(commitInput.current.value);
+
+		axios.post('http://43.200.26.215:3000/commits', {
 				pdfIdx: props.currentBookInfo.pdfIdx,
 				userIdx: userIdx,
 				createdAt: result,
@@ -61,7 +64,7 @@ function SideBar(props) {
 					<form onSubmit={(event) => { handleSubmit(event)} }>
 						<input ref={commitInput} className={styles.historyInput} placeholder={'기록을 남기세요.'}></input>
 					</form>
-					<div>
+					<div className={styles.historyWrap}>
 						<History commitsInfo={commitsInfo}></History>
 					</div>
 				</div>
@@ -77,14 +80,12 @@ function History(props) {
 		<>
 			{props.commitsInfo?.map(function(element, index) {
 				return (
-					<div className={styles.historyWrap} key={index}>
-						<ul className={styles.historyUnorderedListTag}>
-							<li>
-								<p className={styles.historyMessage}>{element.commitMessage}</p>
-								<p className={styles.historyDate}>{element.createdAt}</p>
-							</li>
-						</ul>
-					</div>
+					<ul className={styles.historyUnorderedListTag} key={index}>
+						<li>
+							<p className={styles.historyMessage}>{element.commitMessage}</p>
+							<p className={styles.historyDate}>{element.createdAt}</p>
+						</li>
+					</ul>
 				)
 			})}
 		</>

@@ -24,7 +24,7 @@ function PersonalReading(props) {
     let { pdfIdx, recentlyReadPage } = location.state;
     let [html, setHtml] = useState('');
     let [updateHighlightList, setUpdateHighlightList] = useState(true);
-    
+     
     const highlightButton = useRef();
     
     // 수정 필요, props로 받아야 할 듯.
@@ -201,7 +201,7 @@ function PersonalReading(props) {
                         <p style={{ fontSize: '16px' }}>{currentBookInfo.pdfName}</p>
                         <p style={{ fontSize: '12px', textDecoration: 'underline' }}>저장 시 남는 글 - 서버에서 받아와야 함.</p>
                     </div>
-                    <WrapperTextEditor></WrapperTextEditor>
+                    <WrapperTextEditor userIdx={String(userIdx)} pdfIdx={String(pdfIdx)}></WrapperTextEditor>
                 </article>
             </div>
         </main>

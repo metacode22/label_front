@@ -16,7 +16,7 @@ function HighlightList(props) {
     
     useEffect(() => {
         async function getHighlightData() {
-            await axios.get(`http://43.200.26.215:3000/highlights/pdfs/${75}/pages/${props.currentPageNumber}`)
+            await axios.get(`http://43.200.26.215:3000/highlights/pdfs/${props.pdfIdx}/pages/${props.currentPageNumber}`)
                 .then((response) => {
                     // let result = Array();
                     

@@ -6,21 +6,22 @@ import Userpage from "./component/User/User";
 import Library from "./component/Library/Library"
 import PersonalReading from "./components/PersonalReading/PersonalReading.js";
 import Footer from './component/Footer/Footer'
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { useState } from 'react';
 
 export default function App() {
     const location = useLocation();
     const site = location.pathname;
+    let [userIdx, setUserIdx] = useState(null);
 
     return (
         <>
-        {site === '/personalreading' ? <AppColor></AppColor> : <AppNonColor></AppNonColor>}
+        {site === '/personalreading' ? <AppColor userIdx={userIdx}></AppColor> : <AppNonColor userIdx={userIdx}></AppNonColor>}
         </>
     );
 }
 
-function AppColor(){
+function AppColor(props){
     const [mode, setMode] = useState(true);
 
     return(
@@ -40,7 +41,7 @@ function AppColor(){
     )
 }
 
-function AppNonColor(){
+function AppNonColor(props){
     const [mode, setMode] = useState(true);
 
     return(

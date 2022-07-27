@@ -5,13 +5,24 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons'
 
 function SideBar(props) {
-	let [sideBarStatus, setSideBarStatus] = useState(false);
+	let [sideBarStatus, setSideBarStatus] = useState(true);
+	let [commitsInfo, setCommitsInfo] = useState([]);
 	
 	function handleSubmit(event) {
 		event.preventDefault();
 	}
 	
+	let userIdx = 58;
 	console.log(props);
+	useEffect(() => {
+		axios.get(`http://43.200.26.215:3000/commits/users/${userIdx}/books/${props.pdfIdx}`)
+			.then((response) => {
+				console.log(response);
+			})
+			.catch((error) => {
+				console.log(error);
+			})
+	}, [sideBarStatus])
 	
 	return (
 		<>
@@ -36,7 +47,7 @@ function SideBar(props) {
 								// 		axios.post(`http://43.200/26.215:3000/commits`, {
 								// 		userBookIdx: ,
 								// 		commitMessage: event.target.value,
-								// 		userIdx: 1,
+								// 		userIdx: 58,
 								// 		createdAt: result,
 								// 		editorLog: 
 								// 	})
@@ -69,7 +80,7 @@ function History(props) {
 	return (
 		<>
 			<div className={styles.historyWrap}>
-				<ul>
+				<ul className={styles.historyUnorderedListTag}>
 					<li>
 						<p className={styles.historyMessage}>메시지</p>
 						<p className={styles.historyDate}>날짜</p>

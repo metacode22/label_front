@@ -30,10 +30,6 @@ export class WrapperTextEditor extends React.Component<{},{ fp: string, flag: bo
             }
         });
         
-        console.log('--------', props);
-        console.log('socket:', socket);
-        
-        console.log('construct')
         super(props);
         this.state = {fp: 'hello', flag: false};
         socket.on('connect',() => {
@@ -81,7 +77,6 @@ export const TextEditor: FC<{ value: string }> = ({ value }) => {
                         ctx.get(listenerCtx).markdownUpdated((_, value) => {
                             const userID = 'ddong';
                             const pdfID = 'pdf';
-                            console.log('input value:', value)
                             /* solution 2 */
                             if (timerId) {
                                 clearTimeout(timerId);

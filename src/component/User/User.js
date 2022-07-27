@@ -1,7 +1,7 @@
-import styles from './UserPage.module.css'
+import styles from './User.module.css'
 import { useState, useEffect } from 'react';
 
-export default function UserPage(){
+export default function User(){
     return(
         <main className={styles.main}>
             <article>

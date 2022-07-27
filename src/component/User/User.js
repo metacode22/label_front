@@ -22,6 +22,7 @@ export default function User(){
                         <Grass></Grass>
                     </div>
                     <div>
+                    {/* <div style={{visibility: 'collapse'}}> */}
                         <p className={styles.commitDate}>2022.07.28 - data load plz</p>
                         <CommitHistory></CommitHistory>
                         <CommitHistory></CommitHistory>
@@ -38,7 +39,8 @@ export default function User(){
                         <table>
                             <thead className={styles.thead}>
                                 <tr>
-                                    <th><input type='checkbox'/></th>
+                                    {/* 전체 선택 구현을 안 해서 그냥 윗단은 체크를 못 하게 해둠 */}
+                                    <th><input type='checkbox' checked/></th>
                                     <th className={styles.th}>Title</th>
                                     <th className={styles.th}>Page</th>
                                     <th className={styles.th}>Date</th>

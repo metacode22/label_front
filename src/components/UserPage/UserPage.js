@@ -78,18 +78,7 @@ const UserBookList = () => {
 
     let userIdx = 1;
 
-<<<<<<< HEAD
-    useEffect(() => {
-        fetch(`http://43.200.26.215:3000/users/${userIdx}/pdfs`)
-            .then((res) => {
-                return res.json();
-            })
-            .then((res) => {
-                setResult(res.result);
-                console.log(res.result);
-            });
-    }, []);
-=======
+
     useEffect(()=>{
         fetch(`http://43.200.26.215:3000/users/${userIdx}/pdfs`)
         .then(res=>{
@@ -100,18 +89,14 @@ const UserBookList = () => {
             console.log(res.result);
         })
     }, [])
->>>>>>> main
+
 
     return <UserBookShow list={result} length={result.length}></UserBookShow>;
 };
 
-<<<<<<< HEAD
-const UserBookShow = (props) => {
-=======
 const UserBookShow = (props)=>{
 
     // console.log(props.list.length)
->>>>>>> main
     let navigate = useNavigate();
 
     const rendering = () => {
@@ -124,21 +109,6 @@ const UserBookShow = (props)=>{
         // }
 
         result.push(
-<<<<<<< HEAD
-            <p
-                className="User__book__list"
-                onClick={() => {
-                    navigate(`/highlight`);
-                }}
-            >
-                {props.list.pdfName}
-            </p>
-        );
-        return result;
-    };
-    return rendering();
-};
-=======
             <p className='User__book__list' onClick={()=>{navigate(`/highlight`)}}>{props.list.pdfName}</p>
         )  
         //현재는 index가 하나밖에 없어서 코드가 이렇습니다. 그리고 나중에 navigate 여러권이 되면 highlight 몇번째로 보낼지도 해야합니다.
@@ -147,7 +117,6 @@ const UserBookShow = (props)=>{
     }
     return rendering()
 }
->>>>>>> main
 
 function UserPage() {
     const [UserName, setUserName] = useState("5in9u");
@@ -204,15 +173,9 @@ function UserPage() {
         console.log(CommitPush.current.value);
 
         fetch(`http://43.200.26.215:3000/commits`, {
-<<<<<<< HEAD
-            method: "post",
-            headers: {
-                "Content-Type": "application/json",
-=======
             method: 'post',
             headers:{
                 'Content-Type': 'application/json'
->>>>>>> main
             },
             body: JSON.stringify({
                 pdfIdx: 1,

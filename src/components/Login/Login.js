@@ -13,11 +13,11 @@ function Login() {
     const onSuccess = (response) => {
         console.log(response.accessToken);
         
-        axios.post('http://localhost:3001/login', {
+        axios.post('http://localhost:3001/socialLogin', {
             tokens: response.accessToken
         })
         .then((response) => {
-            setCookie('id', response.data.result);
+            setCookie('sessionID_label', response.data.result);
             console.log(response);
             navigate('/library');
         })

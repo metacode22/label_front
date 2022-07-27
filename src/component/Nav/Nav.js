@@ -1,6 +1,8 @@
 import styles from './Nav.module.css'
 import { useNavigate } from 'react-router-dom';
 import { style } from '@mui/system';
+import Logout from '../../components/Logout/Logout';
+
 
 export default function Nav(){
     const navigate = useNavigate();
@@ -17,6 +19,7 @@ export default function Nav(){
             <nav className={styles.nav}>
                 <button className={styles.button} onClick={() => { navigate('/library') }}>My Library</button>
                 <button className={styles.button} onClick={() => { navigate('/userpage') }}>My Page</button>
+                <Logout></Logout>
             </nav>
         </header>
     )

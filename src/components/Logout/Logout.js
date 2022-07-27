@@ -5,17 +5,22 @@ import axios from 'axios';
 
 const clientId = "175615424044-eqrukop3k2spabpknd63vtm2kqtiff91.apps.googleusercontent.com";
 
+
 function Logout() {
     let navigate = useNavigate();
-    const [cookies, setCookie, removeCookie] = useCookies(['id']);
+    const [cookies, setCookie, removeCookie] = useCookies(['sessionID_label']);
+    console.log("cookies :", cookies);
+    const header = {
+        sessionidforauth: cookies.sessionID_label
+    }
     
     const onSuccess = () => {
-        removeCookie('id');
-        axios.get('http://localhost:3001/logout', {
-            headers: {
-                sessionidforauth: cookies.id
-            }
-        })
+        removeCookie('sessionID_label');
+        axios.post('http://localhost:3001/logout', {header})
+        //     headers: {
+        //         sessionidforauth: cookies.sessionID_label
+        //     }
+        // })
         .then((response) => {
             console.log('logout success:', response);
         })

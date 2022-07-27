@@ -30,6 +30,7 @@ export class WrapperTextEditor extends React.Component<{},{ fp: string, flag: bo
             }
         });
         
+        console.log('--------', props);
         console.log('socket:', socket);
         
         console.log('construct')
@@ -50,7 +51,7 @@ export class WrapperTextEditor extends React.Component<{},{ fp: string, flag: bo
         // console.log('value in render:', this.state.fp, this.state.flag)
         return (
             <div>
-                {this.state.flag && <TextEditor value = {this.state.fp} socket={socket}/>}
+                {this.state.flag && <TextEditor value={this.state.fp}/>}
             </div>
         )
     };
@@ -70,7 +71,7 @@ function updateEditor(userID : string, pdfID : string, value : string) {
     }, 700)
 }
 
-export const TextEditor: FC<{ value: string, socket: any }> = ({ value, socket }) => {
+export const TextEditor: FC<{ value: string }> = ({ value }) => {
     const { editor, loading, getInstance } = useEditor((root, renderReact) => {
                 const editor = Editor.make()
                     .config((ctx) => {
@@ -114,6 +115,13 @@ export const TextEditor: FC<{ value: string, socket: any }> = ({ value, socket }
                     return editor
         })
         useEffect(() => {
+            document.querySelector('.ProseMirror.editor')?.setAttribute('ondrop', 'drop_handler(event)');
+            document.querySelector('.ProseMirror.editor')?.setAttribute('ondragover', 'dragover_handler(event)');
+            
+            let height = document.querySelector('.PersonalReading__mainPage')?.clientHeight;
+            if (height != null) {
+                document.querySelector('.milkdown')?.setAttribute('style', `height: ${height - 210}px`);    
+            }
         }, []);
     
     return <ReactEditor editor={editor} />

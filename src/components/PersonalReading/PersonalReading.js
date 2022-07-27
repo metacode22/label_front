@@ -43,6 +43,7 @@ function PersonalReading(props) {
     
     // TextEditor의 markdown value
     let [markdownValue, setMarkdownValue] = useState('');
+    console.log(markdownValue);
     useEffect(() => {
         axios.get(`http://43.200.26.215:3000/users/${userIdx}/pdfs`)
         .then((response) => {
@@ -206,7 +207,7 @@ function PersonalReading(props) {
                         <p style={{ fontSize: '16px' }}>{currentBookInfo.pdfName}</p>
                         <p style={{ fontSize: '12px', textDecoration: 'underline' }}>저장 시 남는 글 - 서버에서 받아와야 함.</p>
                     </div>
-                    <WrapperTextEditor></WrapperTextEditor>
+                    <WrapperTextEditor markdownValue={markdownValue} setMarkdownValue={setMarkdownValue}></WrapperTextEditor>
                     {/* <TextEditor></TextEditor> */}
                 </article>
             </div>

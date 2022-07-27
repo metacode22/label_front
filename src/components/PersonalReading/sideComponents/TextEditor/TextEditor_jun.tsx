@@ -149,6 +149,7 @@ export const TextEditor: React.FC<{ value: string, height: number}> = ({ value }
     useEffect(() => {
         document.querySelector('.ProseMirror.editor')?.setAttribute('ondrop', 'drop_handler(event)');
         document.querySelector('.ProseMirror.editor')?.setAttribute('ondragover', 'dragover_handler(event)');
+        
         let height = document.querySelector('.PersonalReading__mainPage')?.clientHeight;
         if (height != null) {
             document.querySelector('.milkdown')?.setAttribute('style', `height: ${height - 210}px`);    

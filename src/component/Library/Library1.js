@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 export default function Library(){   
     let [result,setResult] = useState([]);
 
-    let userIdx = 1;
+    let userIdx = 58;
 
     useEffect(()=>{
         fetch(`http://43.200.26.215:3000/users/${userIdx}/pdfs`)

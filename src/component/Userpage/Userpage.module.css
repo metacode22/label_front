@@ -1,0 +1,94 @@
+.main{
+    margin: 50px 230px 100px 230px;
+}
+
+.divText{
+    font-size: 23px;
+}
+
+.profile{
+    display: flex;
+    align-items: center;
+}
+
+.profileImg{
+    width: 8%;
+    height: 8%;
+}
+
+.profileInfo{
+    margin-left: 1%;
+}
+
+.namep{
+    margin: -13% 0 0 0;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.commitP{
+    font-size: 16px;
+    color: #4A5568;
+    margin-top: 7%;
+}
+
+.lineImg{
+    width: 103.5%;
+}
+
+.form{
+    display: flex;
+    justify-content: end;
+}
+
+.button{
+    all: unset;
+    cursor: pointer;
+    border: 1px solid #D9D9D9;
+    border-radius: 5px;
+    width: 5rem;
+    height: 1.8rem;
+    text-align: center;
+    color: #4A5568;
+}
+
+.button:hover{
+    opacity: 70%;
+}
+
+/* 아래는 잔디 CSS */
+:root{
+    --square-size: 16px;
+    --square-gap: 5px;
+}
+  
+.graph{
+    display: flex;
+    justify-content: center;
+    border-radius: 8px;
+    /* box-shadow: 10px 10px 10px #e5e7e9; */
+    /* padding-inline-start: -40px; */
+}
+
+.squares{
+    list-style: none;
+    display: grid;
+    grid-gap: var(--square-gap);
+    grid-template-rows: repeat(7, var(--square-size));
+    grid-auto-flow: column;
+    grid-auto-columns: var(--square-size);
+}
+
+.squares li{
+    background-color: #E2E5E6;
+    border-radius: var(--border-radius);
+}
+
+.squares li[data-level='1']{
+    background-color: #93E7A2;
+}
+
+.squares li:hover{
+    border: 2px solid #216435;
+    cursor: pointer;
+}

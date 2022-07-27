@@ -1,26 +1,67 @@
 import styles from './Nav.module.css'
-import { useNavigate } from 'react-router-dom';
-import { style } from '@mui/system';
-import Logout from '../../components/Logout/Logout';
+import { useNavigate, useLocation } from 'react-router-dom';
 
+export default function Nav(props){
+    const location = useLocation();
+    const site = location.pathname;
+    // console.log(site);
 
-export default function Nav(){
+    return(
+        <>
+            {site === '/' && <NavLogin></NavLogin>}
+            {site === '/signup' && <NavLogin></NavLogin>}
+            {site === '/library' && <NavDefault></NavDefault>}
+            {site === '/userpage' && <NavDefault></NavDefault>}
+            {site === '/personalreading' && <NavReading mode={props.mode} setMode={props.setMode}></NavReading>}
+        </>
+    )
+}
+
+function NavDefault(){
     const navigate = useNavigate();
 
     return(
-        <header className={styles.header}>
+        <header className={styles.headerRead}>
             <div>
-                <img className={styles.logo} src={process.env.PUBLIC_URL + '/images/labelLogo.png'} onClick={() => { navigate('/library')}}></img>
+                <img className={styles.logoRead} src={process.env.PUBLIC_URL + '/images/labelLogoWhite.png'} onClick={() => { navigate('/library')}}></img>
             </div>
-            <label className={styles.search}>
-                <img className={styles.searchImg} src={process.env.PUBLIC_URL + '/images/search.png'}></img>
-                <input type='text' className={styles.searchInput} placeholder='검색어를 입력해주세요.'></input>
-            </label>
-            <nav className={styles.nav}>
-                <button className={styles.button} onClick={() => { navigate('/library') }}>My Library</button>
-                <button className={styles.button} onClick={() => { navigate('/userpage') }}>My Page</button>
-                <Logout></Logout>
+            <nav className={styles.navRead}>
+                <button className={styles.button} onClick={() => { navigate('/') }}>Logout</button>
+                <img className={styles.randomImg} src={process.env.PUBLIC_URL + `/images/o.png`} onClick={() => { navigate('/userpage')}}/>
             </nav>
+        </header>
+    )
+}
+
+function NavReading(props){
+    const navigate = useNavigate();
+
+    return(
+        <header className={styles.headerRead}>
+            <div>
+                <img className={styles.logoRead} src={process.env.PUBLIC_URL + '/images/labelLogoWhite.png'} onClick={() => { navigate('/library')}}></img>
+            </div>
+            <nav className={styles.navRead}>
+                <label className={styles.labelRead}>Upload
+                    <input style={{display:'none'}} type='file'/>
+                </label>
+                <img className={styles.randomImg} src={process.env.PUBLIC_URL + `/images/o.png`} onClick={() => { navigate('/userpage')}}/>
+                <img className={styles.switch} style={{ cursor: 'default', height: '1.5rem'}} src={process.env.PUBLIC_URL + `/images/division1.png`}/>
+                <img className={styles.switch} onClick={()=>{props.setMode(false)}} src={process.env.PUBLIC_URL + `/images/division2.png`}/>
+                <img className={styles.switch} onClick={()=>{props.setMode(true)}} src={process.env.PUBLIC_URL + `/images/division3.png`}/>
+            </nav>
+        </header>
+    )
+}
+
+function NavLogin(){
+    const navigate = useNavigate();
+
+    return(
+        <header className={styles.headerRead}>
+            <div>
+                <img className={styles.logoRead} src={process.env.PUBLIC_URL + '/images/labelLogoWhite.png'} onClick={() => { navigate('/library')}}></img>
+            </div>
         </header>
     )
 }

@@ -1,196 +1,128 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+/* Copyright 2021, Milkdown by Mirone. */
+
+import { defaultValueCtx, Editor, rootCtx } from '@milkdown/core';
+import { listener, listenerCtx } from '@milkdown/plugin-listener';
+import { prism } from '@milkdown/plugin-prism';
+import { tooltip } from '@milkdown/plugin-tooltip';
+import { ReactEditor, useEditor, useNodeCtx } from '@milkdown/react';
+import { nord } from '@milkdown/theme-nord';
+import { FC, ReactNode, useEffect } from 'react';
+import { block, blockPlugin } from '@milkdown/plugin-block';
+import { math } from '@milkdown/plugin-math';
+import { menu } from '@milkdown/plugin-menu';
+import { gfm } from '@milkdown/preset-gfm';
+import { history } from '@milkdown/plugin-history'
+import io from 'socket.io-client';
 import React from 'react';
 import './TextEditor.css';
 
-import { ReactEditor, useEditor } from '@milkdown/react';
-import { defaultValueCtx, Editor, rootCtx } from '@milkdown/core';
+const url: string = 'ws://13.125.242.9:3000';
+let socket:any;
 
-// plug-in
-import { listener, listenerCtx } from '@milkdown/plugin-listener';
-import { nord } from '@milkdown/theme-nord';
-import { block} from '@milkdown/plugin-block';
-import { tooltip } from '@milkdown/plugin-tooltip';
-import { history } from '@milkdown/plugin-history';
-import { commonmark } from '@milkdown/preset-commonmark';
-import { menu, menuPlugin } from '@milkdown/plugin-menu';
-
-// collaborative
-import { collaborative, CollabService, collabServiceCtx } from '@milkdown/plugin-collaborative';
-
-import { WebsocketProvider } from 'y-websocket';
-import { Doc } from 'yjs';
-
-
-// const options = [
-//     { color: '#5e81AC', name: 'milkdown user 1' },
-//     { color: '#8FBCBB', name: 'milkdown user 2' },
-//     { color: '#dbfdbf', name: 'milkdown user 3' },
-//     { color: '#D08770', name: 'milkdown user 4' },
-// ];
-// const rndInt = Math.floor(Math.random() * 4);
-
-// const status$ = document.getElementById('status');
-// const connect$ = document.getElementById('connect');
-// const disconnect$ = document.getElementById('disconnect');
-
-// const apply$ = document.getElementById('apply');
-// const template$ = document.getElementById('template');
-
-// const room$ = document.getElementById('room');
-// const toggle$ = document.getElementById('toggle');
-
-// const autoConnect = true;
-// class CollabManager {
-//     private room = '안뇽';
-//     private doc!: Doc;
-//     private wsProvider!: WebsocketProvider;
-
-//     constructor(private collabService: CollabService) {
-//         if (room$) {
-//             room$.textContent = this.room;
-//         }
-//     }
-
-//     flush(template: string) {
-//         // this.doc?.destroy();
-//         this.wsProvider?.destroy();
-
-//         this.doc = new Doc();
-//         this.wsProvider = new WebsocketProvider('ws://43.200.178.193:3000', 'jungle', this.doc, { connect: autoConnect });
-//         this.wsProvider.awareness.setLocalStateField('user', options[rndInt]);
-//         this.wsProvider.awareness.setLocalStateField('room', 'jungle');
-//         this.wsProvider.on('status', (payload: { status: string }) => {
-//             if (status$) {
-//                 status$.innerText = payload.status;
-//             }
-//         });
-
-//         this.collabService.bindDoc(this.doc).setAwareness(this.wsProvider.awareness);
-//         this.wsProvider.once('synced', async (isSynced: boolean) => {
-//             if (isSynced) {
-//                 this.collabService.applyTemplate(template).connect();
-//             }
-//         });
-//     }
-
-//     connect() {
-//         this.wsProvider.connect();
-//         this.collabService.connect();
-//     }
-
-//     disconnect() {
-//         this.collabService.disconnect();
-//         this.wsProvider.disconnect();
-//     }
-
-//     applyTemplate(template: string) {
-//         this.collabService
-//             .disconnect()
-//             .applyTemplate(template, () => true)
-//             .connect();
-//     }
-
-//     toggleRoom() {
-//         this.room = this.room === 'milkdown' ? 'sandbox' : 'milkdown';
-//         if (room$) {
-//             room$.textContent = this.room;
-//         }
-
-//         const template = this.room === 'milkdown' ? 'hello' : '# Sandbox Room';
-//         this.disconnect();
-//         this.flush(template);
-//     }
-// }
-
-export const TextEditor: React.FC<{ value: string}> = ({ value }) => {
-    let [markdown, setMarkdown] = useState('');
-    
-    // useEffect(() => {
-    //     async function getMarkdown() {
-    //         await axios.get(`http://43.200.26.215:3000/highlights/pdfs/${1}/pages/${7}`)
-    //         .then((response) => {
-    //             let markdown = '';
-                
-    //             for (let i = 0; i < response.data.result.length; i++) {
-    //                 markdown += '- ';
-    //                 markdown += response.data.result[i].data;
-    //                 markdown += '\n';
-    //             }
-                
-    //             setMarkdown(markdown);
-    //         })
-    //     }
+let timerId : NodeJS.Timeout
+export class WrapperTextEditor extends React.Component<{},{ fp: string, flag: boolean }> {
+    constructor(props: any) {
+        socket = io(url, { 
+            transports: ["websocket"],
+            query: {
+                "userId": "ddong",
+                "pdfId": "pdf"
+            }
+        });
         
-    //     getMarkdown();
-    // }, []);
-    
-    // [], dependency 에 아무것도 안 넣어서 useEditor가 다시 실행되지 않았었다.
-    let { editor, loading, getInstance } = useEditor((root, renderReact) => {
-        let editor = Editor.make().config((ctx) => {
-            ctx.set(rootCtx, root);
-            ctx.set(defaultValueCtx, markdown);
-            ctx.get(listenerCtx).markdownUpdated((ctx, markdown, previousMarkdown) => {
-                return markdown;
+        console.log('--------', props);
+        console.log('socket:', socket);
+        
+        console.log('construct')
+        super(props);
+        this.state = {fp: 'hello', flag: false};
+        socket.on('connect',() => {
+            console.log('connect-------------');
+            socket.once('updateEditorOnce', (value: any) => {
+                this.setState({
+                    fp: value,
+                    flag: true,
+                })
             })
         })
-        .use(nord)
-        .use(tooltip)
-        .use(history)
-        .use(commonmark)
-        .use(block)
-        .use(menu)
-        .use(listener)
-        // .use(collaborative);
-        
-        return editor;
-    }, [markdown]) 
-    
-    useEffect(() => {
-        // document.querySelector('.ProseMirror.editor')?.setAttribute('contenteditable', 'false');
-        document.querySelector('.ProseMirror.editor')?.setAttribute('ondrop', 'drop_handler(event)');
-        document.querySelector('.ProseMirror.editor')?.setAttribute('ondragover', 'dragover_handler(event)');
-        // document.querySelector('.ProseMirror.editor')?.setAttribute('style', 'overflow: hidden');
-        // console.log(document.querySelector('.ProseMirror.editor')?.attributes);
-    });
-    
-    // useEffect(() => {
-    //     if (!loading) {
-    //         const instance = getInstance();
-    //         instance?.action((ctx) => {
-    //             const collabService = ctx.get(collabServiceCtx);
-    //             const collabManager = new CollabManager(collabService);
-    //             collabManager.flush(markdown);
-    //             console.log('hi');
-    //             if (connect$) {
-    //                 connect$.onclick = () => {
-    //                     collabManager.connect();
-    //                 };
-    //             }
-        
-    //             if (disconnect$) {
-    //                 disconnect$.onclick = () => {
-    //                     collabManager.disconnect();
-    //                 };
-    //             }
-        
-    //             if (apply$ && template$) {
-    //                 apply$.onclick = () => {
-    //                     if (template$ instanceof HTMLTextAreaElement) {
-    //                         collabManager.applyTemplate(template$.value);
-    //                     }
-    //                 };
-    //             }
-        
-    //             if (toggle$) {
-    //                 toggle$.onclick = () => {
-    //                     collabManager.toggleRoom();
-    //                 };
-    //             }
-    //             // do something
-    //         });
-    //     }
-    // }, [getInstance, loading]);
-    
-    return <ReactEditor editor={editor}></ReactEditor>
+    }
+
+    render() {
+        // console.log('value in render:', this.state.fp, this.state.flag)
+        return (
+            <div>
+                {this.state.flag && <TextEditor value={this.state.fp}/>}
+            </div>
+        )
+    };
+
+    componentWillUnmount() {
+        if (socket != null && socket.connected === true) {
+            console.log('disconnect');
+            socket.disconnect();
+        }
+    }
 }
+
+/* solution 2 */
+function updateEditor(userID : string, pdfID : string, value : string) {
+    timerId = setTimeout(() => {
+        socket.emit("updateEditor", {id: userID, pdfId: pdfID, text: value}, clearTimeout(timerId));
+    }, 700)
+}
+
+export const TextEditor: FC<{ value: string }> = ({ value }) => {
+    const { editor, loading, getInstance } = useEditor((root, renderReact) => {
+                const editor = Editor.make()
+                    .config((ctx) => {
+                        console.log('defaultValueCtx:', 'hey');
+                        ctx.set(rootCtx, root);
+                        ctx.set(defaultValueCtx, value);
+                        ctx.get(listenerCtx).markdownUpdated((_, value) => {
+                            const userID = 'ddong';
+                            const pdfID = 'pdf';
+                            console.log('input value:', value)
+                            /* solution 2 */
+                            if (timerId) {
+                                clearTimeout(timerId);
+                                updateEditor(userID, pdfID, value)
+                                console.log('clear')
+                            } else {
+                                updateEditor(userID, pdfID, value)
+                                console.log('update')
+                            }
+                            /* solution 1 */
+                            // socket.emit("updateEditor", {id: userID, pdfId: pdfID, text: value});
+                            return value;
+                        });
+                    })
+                    .use(block.configure(blockPlugin, {
+                        configBuilder: (ctx) => {
+                            return [/* your actions */];
+                        }
+                    }))
+                    .use(nord)
+                    .use(history)
+                    // .use(nodes)
+                    // .use(commonmarkPlugins)
+                    .use(gfm)
+                    .use(math)
+                    // .use(tooltip)
+                    .use(prism)
+                    .use(menu)
+                    .use(listener)
+
+                    return editor
+        })
+        useEffect(() => {
+            document.querySelector('.ProseMirror.editor')?.setAttribute('ondrop', 'drop_handler(event)');
+            document.querySelector('.ProseMirror.editor')?.setAttribute('ondragover', 'dragover_handler(event)');
+            
+            let height = document.querySelector('.PersonalReading__mainPage')?.clientHeight;
+            if (height != null) {
+                document.querySelector('.milkdown')?.setAttribute('style', `height: ${height - 180}px`);    
+            }
+        });
+    
+    return <ReactEditor editor={editor} />
+};

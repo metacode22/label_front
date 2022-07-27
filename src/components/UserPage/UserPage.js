@@ -78,25 +78,21 @@ const UserBookList = () => {
 
     let userIdx = 1;
 
-
-    useEffect(()=>{
+    useEffect(() => {
         fetch(`http://43.200.26.215:3000/users/${userIdx}/pdfs`)
-        .then(res=>{
-            return res.json()
-        })
-        .then(res=>{
-            setResult(res.result);
-            console.log(res.result);
-        })
-    }, [])
-
+            .then((res) => {
+                return res.json();
+            })
+            .then((res) => {
+                setResult(res.result);
+                console.log(res.result);
+            });
+    }, []);
 
     return <UserBookShow list={result} length={result.length}></UserBookShow>;
 };
 
-const UserBookShow = (props)=>{
-
-    // console.log(props.list.length)
+const UserBookShow = (props) => {
     let navigate = useNavigate();
 
     const rendering = () => {
@@ -109,7 +105,7 @@ const UserBookShow = (props)=>{
         // }
 
         result.push(
-            <p className='User__book__list' onClick={()=>{navigate(`/highlight`)}}>{props.list.pdfName}</p>
+            <p className='User__book__list' onClick={()=>{navigate(`/personalreading`)}}>{props.list.pdfName}</p>
         )  
         //현재는 index가 하나밖에 없어서 코드가 이렇습니다. 그리고 나중에 navigate 여러권이 되면 highlight 몇번째로 보낼지도 해야합니다.
         // key값도 넣어줘야함
@@ -173,9 +169,9 @@ function UserPage() {
         console.log(CommitPush.current.value);
 
         fetch(`http://43.200.26.215:3000/commits`, {
-            method: 'post',
-            headers:{
-                'Content-Type': 'application/json'
+            method: "post",
+            headers: {
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({
                 pdfIdx: 1,

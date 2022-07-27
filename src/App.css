@@ -29,22 +29,22 @@
     --position: relative;
     --top:2px;
 	
-	/* Font Size */
-	
-	/* Font Weight */
-	
 	/* Border Radius */
 	--border-radius: 4px;
     --border-radius-2: 8px;
-
-	/* Animation */
-	
-	/* Width */
 }
 
 * {
     font-family: "Roboto", sans-serif;
 	/* margin: 0; */
+}
+
+.AppColor{
+    background-color: #F5F5F5;
+}
+
+body{
+    font-size: 12px;
 }
 
 .App-logo {
@@ -67,21 +67,4 @@
     justify-content: center;
     font-size: calc(10px + 2vmin);
     color: white;
-}
-
-.App-link {
-    color: #61dafb;
-}
-
-.custom-class {
-    background-color: #e06f6f
-  }
-
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
 }

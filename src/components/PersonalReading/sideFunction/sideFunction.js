@@ -30,22 +30,23 @@ function doHighlight(highlightData, highlightIdx) {
         newNode.classList.add("highlighted");
         newNode.classList.add('highlight' + highlightIdx);
         if ( decimalYOfSelectedStartContainer === decimalYOfSelectedEndContainer) {
-            newRange.setStart( currentElement.childNodes[indexOfSelectedStartContainer], offsetOfSelectedStartContainer);
-            newRange.setEnd( currentElement.childNodes[indexOfSelectedEndContainer], offsetOfSelectedEndContainer);
+            console.log(currentElement);
+            newRange.setStart( currentElement?.childNodes[indexOfSelectedStartContainer], offsetOfSelectedStartContainer);
+            newRange.setEnd( currentElement?.childNodes[indexOfSelectedEndContainer], offsetOfSelectedEndContainer);
 
             drawHighlight(newRange, newNode);
             return;
         }
 
         if (i === decimalYOfSelectedStartContainer) {
-            newRange.setStart( currentElement.childNodes[indexOfSelectedStartContainer], offsetOfSelectedStartContainer);
-            newRange.setEnd( currentElement.childNodes[currentElement.childNodes.length - 1], currentElement.childNodes[currentElement.childNodes.length - 1].length);
+            newRange.setStart( currentElement?.childNodes[indexOfSelectedStartContainer], offsetOfSelectedStartContainer);
+            newRange.setEnd( currentElement?.childNodes[currentElement.childNodes.length - 1], currentElement.childNodes[currentElement.childNodes.length - 1].length);
         } else if (i === decimalYOfSelectedEndContainer) {
-            newRange.setStart(currentElement.childNodes[0], 0);
-            newRange.setEnd( currentElement.childNodes[indexOfSelectedEndContainer], offsetOfSelectedEndContainer);
+            newRange.setStart(currentElement?.childNodes[0], 0);
+            newRange.setEnd( currentElement?.childNodes[indexOfSelectedEndContainer], offsetOfSelectedEndContainer);
         } else {
-            newRange.setStart(currentElement.childNodes[0], 0);
-            newRange.setEnd( currentElement.childNodes[currentElement.childNodes.length - 1], currentElement.childNodes[currentElement.childNodes.length - 1].length);
+            newRange.setStart(currentElement?.childNodes[0], 0);
+            newRange.setEnd( currentElement?.childNodes[currentElement.childNodes.length - 1], currentElement.childNodes[currentElement.childNodes.length - 1].length);
         }
 
         drawHighlight(newRange, newNode);
@@ -137,7 +138,7 @@ function turnOver(direction, currentPageNumber, setCurrentPageNumber, totalPage)
             return;
         }
         
-        setCurrentPageNumber(currentPageNumber - 1);
+        setCurrentPageNumber((currentPageNumber) => currentPageNumber - 1);
     }
     
     if (direction === 'go') {
@@ -145,7 +146,7 @@ function turnOver(direction, currentPageNumber, setCurrentPageNumber, totalPage)
             return;
         }
         
-        setCurrentPageNumber(currentPageNumber + 1);
+        setCurrentPageNumber((currentPageNumber) => currentPageNumber + 1);
     }
 }
 

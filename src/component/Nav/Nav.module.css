@@ -42,17 +42,89 @@
 
 .nav{
     display: flex;
-    margin-left: 20%;
+    margin-left: 17%;
+}
+
+.label{
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
 }
 
 .button{
     all: unset;
-    color: #2D3748;
+    color: #fff;
     margin: 1rem;
     cursor: pointer;
 }
 
-.button:focus{
-    font-weight: bold;
-    height: 40%;
+/* 여기서부터 NavReading CSS */
+
+.headerRead{
+    display: flex;
+    height: 56px;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #2D3748;
 }
+
+.navRead{
+    display: flex;
+    margin-right: 5%;
+    align-items: center;
+}
+
+.logoRead{
+    display: flex;
+    cursor: pointer;
+    width: 65%;
+    margin-left: 25%;
+}
+
+.randomImg{
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 50%;
+    cursor: pointer;
+    margin: 0 5% 0 0;
+}
+
+.labelRead{
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin: 0 8% 0 8%;
+}
+
+.switch{
+    width: 1.8rem;
+    /* height: 1.5rem; */
+    margin: 5%;
+    cursor: pointer;
+}
+
+/* 여기서부터 NavLogin CSS */
+
+/* .headerLogin{
+    display: flex;
+    height: 70px;
+    align-items: center;
+    justify-content: space-around;
+    border-bottom: 1px solid #E2E5E6;
+}
+
+.buttonLogin{
+    all: unset;
+    color: #fff;
+    width: 70px;
+    height: 35px;
+    text-align: center;
+    background-color: #3C64B1;
+    cursor: pointer;
+}
+
+.buttonLogin:hover{
+    opacity: 90%;
+} */

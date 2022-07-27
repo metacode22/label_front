@@ -56,6 +56,44 @@
     opacity: 70%;
 }
 
+.divTable{
+    display: flex;
+    justify-content: center;
+}
+
+.thead{
+    background-color: #ecf7ee;
+}
+
+.tdCheck{
+    width: 1%;
+}
+
+.tdTitle{
+    border-bottom: 1px solid #ececec;
+    color: #3C64B1;
+    width: 10rem;
+    height: 3rem;
+}
+
+.td {
+    border-bottom: 1px solid #ececec;
+    color: #4A5568;
+    width: 25%;
+}
+
+/* .checkbox{
+    border: 1px solid #bdc0be;
+    border-radius: 3px;
+    padding: 0.5em;
+    -webkit-appearance: none;
+} */
+
+/* .checkbox:checked{
+    background: url('../../../public/images/check.png') no-repeat center center;
+    background-size: 100%;
+} */
+
 /* 아래는 잔디 CSS */
 :root{
     --square-size: 16px;

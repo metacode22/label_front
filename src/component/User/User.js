@@ -34,6 +34,32 @@ export default function User(){
                     <form className={styles.form}>
                         <button className={styles.button}>삭제</button>
                     </form>
+                    <div className={styles.divTable}>
+                        <table>
+                            <thead className={styles.thead}>
+                                <tr>
+                                    <th><input type='checkbox' className={styles.checkbox}/></th>
+                                    <th>Title</th>
+                                    <th>Page</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td className={styles.tdCheck}><input type='checkbox' className={styles.checkbox}/></td>
+                                    <td className={styles.tdTitle}>with two columnswith two columnswith two columns</td>
+                                    <td className={styles.td}>with two coluwith two columnswith two columnswith two columnsmns</td>
+                                    <td className={styles.td}>with two cowith two columnswith two columnswuwith two columnswith two columnuwith two columnswith two columnuwith two columnswith two columnuwith two columnswith two columnuwith two columnswith two columnuwith two columnswith two columnuwith two columnswith two columnuwith two columnswith two columnuwith two columnswith two columnuwith two columnswith two columnith two columnswith two columnswith two columnslumns</td>
+                                </tr>
+                                <tr>
+                                    <td className={styles.tdCheck}><input type='checkbox' className={styles.checkbox}/></td>
+                                    <td className={styles.tdTitle}>with two columns</td>
+                                    <td className={styles.td}>with two columns</td>
+                                    <td className={styles.td}>with two columns</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </section>
             </article>
         </main>

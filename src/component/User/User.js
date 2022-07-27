@@ -2,6 +2,10 @@ import styles from './User.module.css'
 import { useState, useEffect } from 'react';
 
 export default function User(){
+
+    // const [On, setOn] = useState({display:'none'});
+    // 현재 CommitHistory는 display none으로 빼둠
+
     return(
         <main className={styles.main}>
             <article>
@@ -16,6 +20,7 @@ export default function User(){
                         <Grass></Grass>
                     </div>
                     <div className={styles.divHistory}>
+                    {/* <div onMouseEnter={e => {setOn({display: 'block'})}} onMouseLeave={e => {setOn({display: 'none'})}} className={styles.divHistory}> */}
                         <p className={styles.commitDate}>2022.07.28 - data load plz</p>
                         <CommitHistory></CommitHistory>
                         <CommitHistory></CommitHistory>
@@ -170,14 +175,15 @@ const GrassShow = (props) => {
         const rendering = () => {
             const result = Array();
 
+            // index 이용해서 날짜별로 뜨게 한다?? 이거 설명 다시 들어야할듯 ㅠㅠ
             //실제 서버로 한 사람씩 조회하면 데이터는 1명씩만 뜰테니까, 원래라면 date만 쓰면 될듯?
             for (let i = 1; i < 365; i++) {
                 if (props.date[0].commitGrass[i] !== "0") {
                     // 1일 때만 들어가게
-                    result.push(<li key={i} data-level={1}></li>);
+                    result.push(<li key={i} index={i} data-level={1}></li>);
                 } else if (props.date[0].commitGrass[i] == "0") {
                     //0이라면 빈 값이 들어가게
-                    result.push(<li key={i}></li>);
+                    result.push(<li key={i} index={i}></li>);
                 }
             }
             return result;

@@ -33,6 +33,11 @@
     margin-top: 7%;
 }
 
+.divHistory{
+    display: none;
+    margin-top: 2%;
+}
+
 .commitDate{
     font-size: 16px;
     color: #4A5568;
@@ -146,11 +151,3 @@
     border: 2px solid #216435;
     cursor: pointer;
 }
-
-/* .divHistory{
-    display: none;
-}
-
-.squares li:visited ~ * .divHistory{
-    display: block;
-} */

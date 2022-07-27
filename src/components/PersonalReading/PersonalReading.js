@@ -200,7 +200,7 @@ function PersonalReading(props) {
                 <article className="PersonalReading__mainPage--textEditor" style={props.mode === true ? {width: '368px'} : {flex: 1}}>
                     <div className="PersonalReading__mainPage--textEditor--info">
                         <p style={{ fontSize: '16px' }}>{currentBookInfo.pdfName}</p>
-                        <p style={{ fontSize: '12px', textDecoration: 'underline' }}>저장 시 남는 글 - 서버에서 받아와야 함.</p>
+                        <p style={{ fontSize: '12px', textDecoration: 'underline' }}>5분 전에 수정하였습니다.</p>
                     </div>
                     <WrapperTextEditor userIdx={String(userIdx)} pdfIdx={String(pdfIdx)}></WrapperTextEditor>
                 </article>

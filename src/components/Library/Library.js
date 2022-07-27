@@ -10,7 +10,7 @@ function Library() {
 
     useEffect(() => {
         axios
-            .post("http://localhost:3001/auth/test", {
+            .post("http://43.200.26.215:3000/auth/test", {
                 forauthorization: cookies.id,
                 // credentials: "same-origin",
             })

@@ -120,9 +120,9 @@ export const TextEditor: FC<{ value: string }> = ({ value }) => {
             
             let height = document.querySelector('.PersonalReading__mainPage')?.clientHeight;
             if (height != null) {
-                document.querySelector('.milkdown')?.setAttribute('style', `height: ${height - 210}px`);    
+                document.querySelector('.milkdown')?.setAttribute('style', `height: ${height - 180}px`);    
             }
-        }, []);
+        });
     
     return <ReactEditor editor={editor} />
 };

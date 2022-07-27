@@ -32,7 +32,7 @@ function PersonalReading(props) {
     
     // library에서 넘어올 때 받아와야 할 듯.
     // useLocation
-    let pdfIdx = 75;
+    let pdfIdx = 74;
     let userIdx = 1;
     
     let commitIndex = -1;   // useState

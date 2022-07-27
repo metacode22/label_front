@@ -14,6 +14,7 @@
 .profileImg{
     width: 8%;
     height: 8%;
+    border-radius: 5rem;
 }
 
 .profileInfo{
@@ -26,10 +27,29 @@
     font-weight: bold;
 }
 
-.commitP{
+.grassP{
     font-size: 16px;
     color: #4A5568;
     margin-top: 7%;
+}
+
+.commitDate{
+    font-size: 16px;
+    color: #4A5568;
+    margin-left: 2.5%;
+}
+
+.commitLi{
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.commitLi::marker{
+    color: #93E7A2;
+}
+
+.commitp{
+    color: #4A5568;
 }
 
 .lineImg{
@@ -50,6 +70,7 @@
     height: 1.8rem;
     text-align: center;
     color: #4A5568;
+    margin-bottom: 1%;
 }
 
 .button:hover{
@@ -57,8 +78,12 @@
 }
 
 .divTable{
-    display: flex;
-    justify-content: center;
+    margin-left: 2%;
+}
+
+.th{
+    text-align: start;
+    height: 2rem;
 }
 
 .thead{
@@ -66,33 +91,23 @@
 }
 
 .tdCheck{
-    width: 1%;
+    border-bottom: 1px solid #ececec;
+    width: 4rem;
+    text-align: center;
 }
 
 .tdTitle{
     border-bottom: 1px solid #ececec;
     color: #3C64B1;
-    width: 10rem;
+    width: 50rem;
     height: 3rem;
 }
 
 .td {
     border-bottom: 1px solid #ececec;
     color: #4A5568;
-    width: 25%;
+    width: 20rem;
 }
-
-/* .checkbox{
-    border: 1px solid #bdc0be;
-    border-radius: 3px;
-    padding: 0.5em;
-    -webkit-appearance: none;
-} */
-
-/* .checkbox:checked{
-    background: url('../../../public/images/check.png') no-repeat center center;
-    background-size: 100%;
-} */
 
 /* 아래는 잔디 CSS */
 :root{

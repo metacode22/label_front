@@ -1,5 +1,8 @@
 import styles from './Nav.module.css'
 import { useNavigate, useLocation } from 'react-router-dom';
+import { DoorSlidingOutlined } from '@mui/icons-material';
+import axios from 'axios';
+import { useCookies } from 'react-cookie';
 
 export default function Nav(props){
     const location = useLocation();
@@ -19,6 +22,22 @@ export default function Nav(props){
 
 function NavDefault(){
     const navigate = useNavigate();
+    const [cookies, setCookie, removeCookie] = useCookies(['sessionID_label']);
+
+    function eraseCookie() {
+        console.log('hello');
+        axios.post('http://localhost:3001/logout', {
+                param: cookies.sessionID_label
+        })
+        .then((response) => {
+            removeCookie('sessionID_label');
+            navigate('/');
+            console.log('logout success:', response);
+        })
+        .catch((error) => {
+            console.log('logout fail:', error)
+        })
+    }
 
     return(
         <header className={styles.headerRead}>
@@ -26,7 +45,7 @@ function NavDefault(){
                 <img className={styles.logoRead} src={process.env.PUBLIC_URL + '/images/labelLogoWhite.png'} onClick={() => { navigate('/library')}}></img>
             </div>
             <nav className={styles.navRead}>
-                <button className={styles.button} onClick={() => { navigate('/') }}>Logout</button>
+                <button className={styles.button} onClick={() => { eraseCookie() }}>Logout</button>
                 <img className={styles.randomImg} src={process.env.PUBLIC_URL + `/images/o.png`} onClick={() => { navigate('/userpage')}}/>
             </nav>
         </header>

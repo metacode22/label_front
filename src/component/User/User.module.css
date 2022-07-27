@@ -22,7 +22,7 @@
 }
 
 .namep{
-    margin: -13% 0 0 0;
+    margin: -10% 0 0 0;
     font-size: 30px;
     font-weight: bold;
 }
@@ -31,6 +31,11 @@
     font-size: 16px;
     color: #4A5568;
     margin-top: 7%;
+}
+
+.divHistory{
+    display: none;
+    margin-top: 2%;
 }
 
 .commitDate{
@@ -53,12 +58,13 @@
 }
 
 .lineImg{
+    margin-top: 3%;
     width: 103.5%;
 }
 
 .form{
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
 }
 
 .button{
@@ -78,7 +84,7 @@
 }
 
 .divTable{
-    margin-left: 2%;
+    margin-left: 4%;
 }
 
 .th{
@@ -98,7 +104,7 @@
 
 .tdTitle{
     border-bottom: 1px solid #ececec;
-    color: #3C64B1;
+    color: #216435;
     width: 50rem;
     height: 3rem;
 }

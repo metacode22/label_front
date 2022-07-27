@@ -24,6 +24,7 @@ function PersonalReading(props) {
     let { pdfIdx, recentlyReadPage } = location.state;
     let [html, setHtml] = useState('');
     let [updateHighlightList, setUpdateHighlightList] = useState(true);
+    let [commitIdx, setCoomitIdx] = useState(-1);
      
     const highlightButton = useRef();
     

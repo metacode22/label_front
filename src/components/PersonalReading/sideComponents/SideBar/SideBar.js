@@ -15,10 +15,6 @@ function SideBar(props) {
 	
 	function handleSubmit(event) {
 		event.preventDefault();
-		console.log(props.currentBookInfo.pdfIdx);
-		console.log(userIdx);
-		console.log(result);
-		console.log(commitInput.current.value);
 
 		axios.post('http://43.200.26.215:3000/commits', {
 				pdfIdx: props.currentBookInfo.pdfIdx,
@@ -76,11 +72,24 @@ function SideBar(props) {
 }
 
 function History(props) {
+	function rollback(element) {
+		console.log(element.commitIdx);
+		// axios.get('http://43.200.26.215:3000/commits/books/2/2')
+		// 	.then((response) => {
+		// 		console.log('Commit Data GET response:', response);
+		// 	})
+		// 	.catch((error) => {
+		// 		console.log('Commit Data GET Fail, error:', error);
+		// 	})
+	}
+	
 	return (
 		<>
 			{props.commitsInfo?.map(function(element, index) {
 				return (
-					<ul className={styles.historyUnorderedListTag} key={index}>
+					<ul className={styles.historyUnorderedListTag} key={index} onClick={() => {
+						rollback(element);
+					}}>
 						<li>
 							<p className={styles.historyMessage}>{element.commitMessage}</p>
 							<p className={styles.historyDate}>{element.createdAt}</p>

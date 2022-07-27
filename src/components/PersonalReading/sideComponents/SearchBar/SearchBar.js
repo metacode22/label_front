@@ -12,16 +12,18 @@ function SearchBar(props) {
     function handleSearchChange(event) {
         if (event.target.value === '') {
             async function getHighlightData() {
-                await axios.get(`http://43.200.26.215:3000/highlights/pdfs/${74}/pages/${props.currentPageNumber}`)
+                await axios.get(`http://43.200.26.215:3000/highlights/pdfs/${props.pdfIdx}/pages/${props.currentPageNumber}`)
                     .then((response) => {
-                        let result = Array();
+                        // let result = Array();
                         
-                        for (let i = 0; i < response.data.result.length; i++) {
-                            if (response.data.result[i].active === 1) {
-                                result.push(response.data.result[i])
-                            }
-                        }
-                        props.setHighlightData(result);
+                        // for (let i = 0; i < response.data.result.length; i++) {
+                        //     if (response.data.result[i].active === 1) {
+                        //         result.push(response.data.result[i])
+                        //     }
+                        // }
+                        
+                        props.setHighlightData(response.data.result)
+                        // props.setHighlightData(result);
                     });
             }
     

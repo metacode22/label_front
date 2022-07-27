@@ -32,7 +32,7 @@ function PersonalReading(props) {
     
     // library에서 넘어올 때 받아와야 할 듯.
     // useLocation
-    let pdfIdx = 75;
+    let pdfIdx = 74;
     let userIdx = 1;
     
     let commitIndex = -1;   // useState
@@ -40,6 +40,10 @@ function PersonalReading(props) {
     
     // let [totalPage, setTotalPage] = useState(1);
     let [currentBookInfo, setCurrentBookInfo] = useState({});
+    
+    // TextEditor의 markdown value
+    let [markdownValue, setMarkdownValue] = useState('');
+    console.log(markdownValue);
     useEffect(() => {
         axios.get(`http://43.200.26.215:3000/users/${userIdx}/pdfs`)
         .then((response) => {
@@ -156,7 +160,7 @@ function PersonalReading(props) {
             clearTimeout(timer);
         };
         
-    }, [currentPageNumber, props.mode])
+    }, [currentPageNumber, props.mode, html])
     
     return (
         <main className="PersonalReading">            

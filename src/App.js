@@ -2,7 +2,7 @@ import "./App.css";
 import Nav from './component/Nav/Nav'
 import Login from "./component/Login/Login";
 import Signup from "./component/SignUp/SignUp.js";
-import Userpage from "./component/UserPage/UserPage";
+import Userpage from "./component/User/User";
 import Library from "./component/Library/Library"
 import PersonalReading from "./components/PersonalReading/PersonalReading.js";
 import Footer from './component/Footer/Footer'

@@ -27,7 +27,7 @@ function NavDefault(){
             </div>
             <nav className={styles.navRead}>
                 <button className={styles.button} onClick={() => { navigate('/') }}>Logout</button>
-                <img className={styles.randomImg} src={process.env.PUBLIC_URL + `/images/example.ico`} onClick={() => { navigate('/userpage')}}/>
+                <img className={styles.randomImg} src={process.env.PUBLIC_URL + `/images/o.png`} onClick={() => { navigate('/userpage')}}/>
             </nav>
         </header>
     )
@@ -45,7 +45,7 @@ function NavReading(props){
                 <label className={styles.labelRead}>Upload
                     <input style={{display:'none'}} type='file'/>
                 </label>
-                <img className={styles.randomImg} src={process.env.PUBLIC_URL + `/images/example.ico`} onClick={() => { navigate('/userpage')}}/>
+                <img className={styles.randomImg} src={process.env.PUBLIC_URL + `/images/o.png`} onClick={() => { navigate('/userpage')}}/>
                 <img className={styles.switch} style={{ cursor: 'default', height: '1.5rem'}} src={process.env.PUBLIC_URL + `/images/division1.png`}/>
                 <img className={styles.switch} onClick={()=>{props.setMode(false)}} src={process.env.PUBLIC_URL + `/images/division2.png`}/>
                 <img className={styles.switch} onClick={()=>{props.setMode(true)}} src={process.env.PUBLIC_URL + `/images/division3.png`}/>

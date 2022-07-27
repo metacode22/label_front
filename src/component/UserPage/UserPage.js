@@ -9,7 +9,7 @@ export default function UserPage(){
                     <div className={styles.divText}><h2>My Page</h2></div>
                     {/* 사진 정보 받아와야 함 */}
                     <div className={styles.profile}>
-                        <img className={styles.profileImg} src={process.env.PUBLIC_URL + `/images/example.ico`}/>
+                        <img className={styles.profileImg} src={process.env.PUBLIC_URL + `/images/o.png`}/>
                         <div className={styles.profileInfo}>
                             <p>My Profile</p>
                             {/* ↓ 정보 받아와야 함 */}

@@ -57,8 +57,10 @@ export default function Login(props){
                     <button className={styles.buttonLogin} onClick={(event) => {
                         doLogin(event);
                     }}>Login</button>
-                    {/* <button className={styles.buttonGoogle}>Login with Google</button> */}
-                    <SocialLogin></SocialLogin>
+                    <label>
+                        <SocialLogin></SocialLogin>
+                        <p className={styles.buttonGoogle}></p>
+                    </label>
                 </form>
                 <p className={styles.pBottom}>Don't have an account? <a className={styles.a} onClick={()=>{navigate('/signup')}}>Join free today!</a></p>
             </aside>
@@ -84,7 +86,6 @@ function SocialLogin() {
         .catch((error) => {
             console.log(error);
         })
-        
     }
     
     const onFailure = (response) => {
@@ -92,7 +93,7 @@ function SocialLogin() {
     }
 
     return (
-        <div id="signInButton" style={{textAlign: 'center', marginTop:'50px'}}>
+        <div id="signInButton" style={{display: 'none'}}>
             <GoogleLogin 
                 clientId={clientId}
                 buttonText="Log in with Google"

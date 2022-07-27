@@ -1,9 +1,13 @@
 import styles from './SignUp.module.css'
 import { useRef } from 'react';
-import { TempleBuddhist } from '@mui/icons-material';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from "react-router-dom";
+
+// social login
+import { GoogleLogin } from "react-google-login";
+
+const clientId = "432604043005-ha7dq6k3unqersiaciethfdi8tr2lcr0.apps.googleusercontent.com";
 
 export default function SignUp(){
     const [cookies, setCookie, removeCookie] = useCookies(['sessionID_label']);
@@ -58,10 +62,51 @@ export default function SignUp(){
                     <button className={styles.buttonLogin} onClick={(event) => {
                         doSignUp(event);
                     }}>Sign up</button>
-                    <button className={styles.buttonGoogle}>Sign up with Google</button>
+                    <label>
+                        <SocialLogin></SocialLogin>
+                        <p className={styles.buttonGoogle}></p>
+                    </label>
                 </form>
                 <p className={styles.pBottom}>By continuing you agree to Label's Terms of Service and Privacy Policy.</p>
             </aside>
         </main>
+    )
+}
+
+function SocialLogin() {
+    const [cookies, setCookie, removeCookie] = useCookies(['id']);
+    let navigate = useNavigate();
+    
+    const onSuccess = (response) => {
+        console.log(response.accessToken);
+        
+        axios.post('http://localhost:3001/socialLogin', {
+            tokens: response.accessToken
+        })
+        .then((response) => {
+            setCookie('sessionID_label', response.data.result);
+            console.log(response);
+            navigate('/library');
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }
+    
+    const onFailure = (response) => {
+        console.log("LOGIN FAILED! response: ", response);
+    }
+
+    return (
+        <div id="signInButton" style={{display: 'none'}}>
+            <GoogleLogin 
+                clientId={clientId}
+                buttonText="Log in with Google"
+                onSuccess={onSuccess}
+                onFailure={onFailure}
+                cookiePolicy={'single_host_origin'}
+                isSignedIn={false}
+            />
+        </div>
     )
 }

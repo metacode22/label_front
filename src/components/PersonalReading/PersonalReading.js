@@ -34,6 +34,7 @@ function PersonalReading(props) {
     
     // library에서 넘어올 때 받아와야 할 듯.
     // useLocation
+
     let userIdx = 58;
     
     // let [totalPage, setTotalPage] = useState(1);

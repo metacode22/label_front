@@ -14,13 +14,17 @@ function Logout() {
     }
     
     const onSuccess = () => {
-        removeCookie('sessionID_label');
-        axios.post('http://localhost:3001/logout', {header})
+        axios.post('http://localhost:3001/logout', {
+            headers: {
+                param: cookies.sessionID_label
+            }
+        })
         //     headers: {
         //         sessionidforauth: cookies.sessionID_label
         //     }
         // })
         .then((response) => {
+            // removeCookie('sessionID_label');
             console.log('logout success:', response);
         })
         .catch((error) => {

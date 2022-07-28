@@ -21,6 +21,7 @@ export default function User(){
                     {/* <div className={close ? styles.divHistoryOff : styles.divHistoryOn} onClick={()=>{setClose(!close)}}> */}
                     <div className={styles.divHistoryOn}>
                         <p className={styles.commitDate}>2022.07.28</p>
+                        <li className={styles.commitLi}>메타버스</li>
                         <CommitHistory></CommitHistory>
                     </div>
                 </section>
@@ -89,14 +90,45 @@ const UserProfileShow = (props)=>{
 }
 
 const CommitHistory = ()=>{
+
+    const [result, setResult] = useState([]);
+    
+    useEffect(()=>{
+        fetch(`http://43.200.26.215:3000/commits/users/58/books/75`)
+        .then(res=>{
+            return res.json()
+        })
+        .then(res=>{
+            setResult(res.result);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    })
+
     return(
-        <>
-            <ul>
-                <li className={styles.commitLi}>메타버스</li>
-                <p className={styles.commitp}>chap.8 89 - 95 완료!</p>
-            </ul>
-        </>
+        <CommitShow result={result} length={result.length}></CommitShow>
     )
+}
+
+const CommitShow = (props)=>{
+
+    // console.log(props.result)
+
+    const rendering = ()=>{
+        const result = Array();
+
+        for (let i = 0; i < props.result.length; i++){
+            result.push(
+                <ul>
+                    {/* <li className={styles.commitLi}>메타버스</li> */}
+                    <p className={styles.commitp}>{props.result[i].commitMessage}</p>
+                </ul>
+            )
+        }
+        return result;
+    }
+    return rendering()
 }
 
 const Tr = ()=>{

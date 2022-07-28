@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-
+import { editorViewOptionsCtx } from '@milkdown/core';
 import { defaultValueCtx, Editor, rootCtx } from '@milkdown/core';
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
 import { prism } from '@milkdown/plugin-prism';
@@ -20,7 +20,7 @@ const url: string = 'ws://13.125.242.9:3000';
 let socket:any;
 
 let timerId : NodeJS.Timeout
-export class WrapperTextEditor extends React.Component<{userIdx: string, pdfIdx: string}, { fp: string, flag: boolean }> {
+export class WrapperTextEditor extends React.Component<{markdownValue: string, commitIdx: number, userIdx: string, pdfIdx: string}, { fp: string, flag: boolean }> {
     constructor(props: any) {
         super(props);
         socket = io(url, { 
@@ -31,11 +31,9 @@ export class WrapperTextEditor extends React.Component<{userIdx: string, pdfIdx:
             }
         });
         
-        console.log(this.props.userIdx);
-        console.log(this.props.pdfIdx);
         this.state = {fp: 'hello', flag: false};
         socket.on('connect',() => {
-            console.log('connect-------------');
+            // console.log('connect-------------');
             socket.once('updateEditorOnce', (value: any) => {
                 this.setState({
                     fp: value,
@@ -43,20 +41,25 @@ export class WrapperTextEditor extends React.Component<{userIdx: string, pdfIdx:
                 })
             })
         })
+        
+        if (this.props.commitIdx !== -1) {
+            socket.disconnect();
+        }
     }
+
 
     render() {
         // console.log('value in render:', this.state.fp, this.state.flag)
         return (
             <div>
-                {this.state.flag && <TextEditor value={this.state.fp} userIdx={this.props.userIdx} pdfIdx={this.props.pdfIdx}/>}
+                {this.state.flag && <TextEditor value={this.state.fp} markdownValue={this.props.markdownValue} commitIdx={this.props.commitIdx} userIdx={this.props.userIdx} pdfIdx={this.props.pdfIdx}/>}
             </div>
         )
     };
 
     componentWillUnmount() {
         if (socket != null && socket.connected === true) {
-            console.log('disconnect');
+            // console.log('disconnect');
             socket.disconnect();
         }
     }
@@ -69,13 +72,22 @@ function updateEditor(userID : string, pdfID : string, value : string) {
     }, 700)
 }
 
-export const TextEditor: FC<{ value: string, userIdx: string, pdfIdx: string }> = ({ value, userIdx, pdfIdx }) => {
+export const TextEditor: FC<{ value: string, markdownValue: string, commitIdx: number, userIdx: string, pdfIdx: string }> = ({ value, markdownValue, commitIdx, userIdx, pdfIdx }) => {
+    // let readonly = false;
+    // const editable = () => !readonly;
     const { editor, loading, getInstance } = useEditor((root, renderReact) => {
                 const editor = Editor.make()
                     .config((ctx) => {
-                        // console.log('defaultValueCtx:', 'hey');
                         ctx.set(rootCtx, root);
-                        ctx.set(defaultValueCtx, value);
+                        // ctx.set(editorViewOptionsCtx, { editable })
+                        
+                        if (commitIdx === -1) {
+                            ctx.set(defaultValueCtx, value);    
+                        } else {
+                            console.log('-----------------', markdownValue);
+                            ctx.set(defaultValueCtx, markdownValue);  
+                        }
+                        
                         ctx.get(listenerCtx).markdownUpdated((_, value) => {
                             const userID = userIdx;
                             const pdfID = pdfIdx;
@@ -110,16 +122,23 @@ export const TextEditor: FC<{ value: string, userIdx: string, pdfIdx: string }> 
                     .use(listener)
 
                     return editor
-        })
-        useEffect(() => {
-            document.querySelector('.ProseMirror.editor')?.setAttribute('ondrop', 'drop_handler(event)');
-            document.querySelector('.ProseMirror.editor')?.setAttribute('ondragover', 'dragover_handler(event)');
-            
-            let height = document.querySelector('.PersonalReading__mainPage')?.clientHeight;
-            if (height != null) {
-                document.querySelector('.milkdown')?.setAttribute('style', `height: ${height - 240}px`);    
-            }
-        });
+        }, [commitIdx, markdownValue])
+           
+    useEffect(() => {
+        document.querySelector('.ProseMirror.editor')?.setAttribute('ondrop', 'drop_handler(event)');
+        document.querySelector('.ProseMirror.editor')?.setAttribute('ondragover', 'dragover_handler(event)');
+        
+        let height = document.querySelector('.PersonalReading__mainPage')?.clientHeight;
+        if (height != null) {
+            document.querySelector('.milkdown')?.setAttribute('style', `height: ${height - 240}px`);    
+        }
+    });
+    
+    useEffect(() => {
+        if (commitIdx !== -1) {
+            document.querySelector('.ProseMirror.editor')?.setAttribute('contenteditable', 'false');
+        }
+    })
     
     return <ReactEditor editor={editor} />
 };

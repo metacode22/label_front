@@ -3,15 +3,13 @@ import { useState, useEffect } from 'react';
 
 export default function User(){
 
-    // const [On, setOn] = useState({display:'none'});
-    // 현재 CommitHistory는 display none으로 빼둠
+    const [close, setClose] = useState(false);
 
     return(
         <main className={styles.main}>
             <article>
                 <section>
                     <div className={styles.divText}><h2>My Page</h2></div>
-                    {/* 사진 정보 받아와야 함 */}
                     <div className={styles.profile}>
                         <UserProfile></UserProfile>
                     </div>
@@ -19,11 +17,10 @@ export default function User(){
                         <p className={styles.grassP}>Your commit history</p>
                         <Grass></Grass>
                     </div>
-                    <div className={styles.divHistory}>
-                    {/* <div onMouseEnter={e => {setOn({display: 'block'})}} onMouseLeave={e => {setOn({display: 'none'})}} className={styles.divHistory}> */}
-                        <p className={styles.commitDate}>2022.07.28 - data load plz</p>
-                        <CommitHistory></CommitHistory>
-                        <CommitHistory></CommitHistory>
+                    {/* <div className={styles.divHistory}> */}
+                    {/* <div className={close ? styles.divHistoryOff : styles.divHistoryOn} onClick={()=>{setClose(!close)}}> */}
+                    <div className={styles.divHistoryOn}>
+                        <p className={styles.commitDate}>2022.07.28</p>
                         <CommitHistory></CommitHistory>
                     </div>
                 </section>
@@ -95,8 +92,8 @@ const CommitHistory = ()=>{
     return(
         <>
             <ul>
-                <li className={styles.commitLi}>commit data 받아야함</li>
-                <p className={styles.commitp}>today reading</p>
+                <li className={styles.commitLi}>메타버스</li>
+                <p className={styles.commitp}>chap.8 89 - 95 완료!</p>
             </ul>
         </>
     )
@@ -191,3 +188,9 @@ const GrassShow = (props) => {
         return rendering();
     }
 };
+
+/* 마이 라이브러리에 삭제 버튼 구현
+   라이브러리에 타이틀 누르면 해당 책으로 이동해야 하는지?
+   지금 유저 1명만 불러오고 있음 -> 여러 유저를 조회할 수 있게 바꿔야 함
+   squares 누르면 커밋한 것들 불러와야 하고, 안 눌렀다면 default가 display: none 상태임
+   현재 CommitHistory는 display none으로 빼둠 */

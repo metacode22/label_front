@@ -38,6 +38,16 @@
     margin-top: 2%;
 }
 
+.divHistoryOn{
+    display: block;
+    margin-top: 2%;
+}
+
+.divHistoryOff{
+    display: none;
+    margin-top: 2%;
+}
+
 .commitDate{
     font-size: 16px;
     color: #4A5568;

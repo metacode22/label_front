@@ -15,6 +15,10 @@ function SideBar(props) {
 	
 	function handleSubmit(event) {
 		event.preventDefault();
+		console.log(userIdx);
+		console.log(props.currentBookInfo.pdfIdx);
+		console.log(result);
+		console.log(commitInput.current.value);
 
 		axios.post('http://43.200.26.215:3000/commits', {
 				pdfIdx: props.currentBookInfo.pdfIdx,
@@ -24,16 +28,18 @@ function SideBar(props) {
 			})
 			.then((response) => {
 				console.log('Commit response:', response);
+				axios.get(`http://43.200.26.215:3000/commits/users/${userIdx}/books/${props.currentBookInfo.pdfIdx}`)
+					.then((response) => {
+						console.log('Reset commitsInfo response:', response);
+						setCommitsInfo(response.data.result);
+					})
+					.catch((error) => {
+						console.log('Reset commitsInfo Fail, error:', error);
+					})
 			})
 			.catch((error) => {
 				console.log('Commit Fail, error:', error);
 			})
-			// .then(() => {
-			// 	axios.get(`http://43.200.26.215:3000`)
-			// 		.then((response) => {
-			// 			setCommitsInfo();
-			// 		})
-			// })
 	}
 	
 	useEffect(() => {
@@ -61,7 +67,7 @@ function SideBar(props) {
 						<input ref={commitInput} className={styles.historyInput} placeholder={'기록을 남기세요.'}></input>
 					</form>
 					<div className={styles.historyWrap}>
-						<History commitsInfo={commitsInfo}></History>
+						<History commitIdx={props.commitIdx} setCommitIdx={props.setCommitIdx} commitsInfo={commitsInfo}></History>
 					</div>
 				</div>
 				
@@ -73,14 +79,7 @@ function SideBar(props) {
 
 function History(props) {
 	function rollback(element) {
-		console.log(element.commitIdx);
-		// axios.get('http://43.200.26.215:3000/commits/books/2/2')
-		// 	.then((response) => {
-		// 		console.log('Commit Data GET response:', response);
-		// 	})
-		// 	.catch((error) => {
-		// 		console.log('Commit Data GET Fail, error:', error);
-		// 	})
+		props.setCommitIdx(element.commitIdx);
 	}
 	
 	return (

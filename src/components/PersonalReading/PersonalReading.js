@@ -24,7 +24,8 @@ function PersonalReading(props) {
     let { pdfIdx, recentlyReadPage } = location.state;
     let [html, setHtml] = useState('');
     let [updateHighlightList, setUpdateHighlightList] = useState(true);
-    let [commitIdx, setCoomitIdx] = useState(-1);
+    let [commitIdx, setCommitIdx] = useState(-1);
+    let [markdownValue, setMarkdownValue] = useState('');
      
     const highlightButton = useRef();
     
@@ -51,61 +52,109 @@ function PersonalReading(props) {
             console.log('TotalPage GET Fail, error:', error);
         })
     }, [pdfIdx])
-    
+
     useEffect(() => {
-        axios.get(`http://43.200.26.215:3000/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
-            .then((response) => {
-                console.log('pageLink GET response:', response);      
-                
-                return response.data.result.pageLink;
-            })
-            .catch((error) => {
-                console.log('pageLink GET Fail, error:', error);
-            })
-            .then((pageLink) => {
-                axios.get(`${pageLink}`)
-                    .then((response) => {
-                        console.log('html GET response:', response);
-                        setHtml(response.data);
-                    })
-            })
-            .catch((error) => {
-                console.log('html GET Fail, error:', error);
-            })
-            .then(() => {
-                axios.get(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
-                    .then((response) => {
-                        console.log('highlight data GET response:', response);
-                        
-                        for(let i = 0; i < response.data.result?.length; i++) {
-                            // if (response.data.result[i].active === 1) {
-                                // console.log(document.querySelector('.y6'));
+        if (commitIdx === -1) {
+            axios.get(`http://43.200.26.215:3000/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
+                .then((response) => {
+                    console.log('pageLink GET response:', response);      
+                    
+                    return response.data.result.pageLink;
+                })
+                .catch((error) => {
+                    console.log('pageLink GET Fail, error:', error);
+                })
+                .then((pageLink) => {
+                    axios.get(`${pageLink}`)
+                        .then((response) => {
+                            console.log('html GET response:', response);
+                            setHtml(response.data);
+                        })
+                })
+                .catch((error) => {
+                    console.log('html GET Fail, error:', error);
+                })
+                .then(() => {
+                    axios.get(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
+                        .then((response) => {
+                            console.log('highlight data GET response:', response);
+                            
+                            for(let i = 0; i < response.data.result?.length; i++) {
                                 doHighlight(response.data.result[i], response.data.result[i].highlightIdx);    
-                            // }
-                        }
-                    })
-                    // .catch((error) => {
-                    //     console.log('highlight data GET Fail, error:', error);
-                    // })
-            })
-    }, [currentPageNumber, props.mode])
+                            }
+                        })
+                        // .catch((error) => {
+                        //     console.log('highlight data GET Fail, error:', error);
+                        // })
+                })
+        }
+        
+        else {
+            console.log(pdfIdx);
+            console.log(currentPageNumber);
+            console.log(commitIdx);
+            axios.get(`http://43.200.26.215:3000/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
+                .then((response) => {
+                    console.log('pageLink GET response:', response);      
+                    
+                    return response.data.result.pageLink;
+                })
+                .catch((error) => {
+                    console.log('pageLink GET Fail, error:', error);
+                })
+                .then((pageLink) => {
+                    axios.get(`${pageLink}`)
+                        .then((response) => {
+                            console.log('html GET response:', response);
+                            setHtml(response.data);
+                        })
+                })
+                .catch((error) => {
+                    console.log('html GET Fail, error:', error);
+                })
+                .then(() => {
+                    axios.get(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/commitIdx/${commitIdx}`)
+                        .then((response) => {
+                            console.log('highlight data GET response:', response);
+                            
+                            for(let i = 0; i < response.data.result?.length; i++) {
+                                doHighlight(response.data.result[i], response.data.result[i].highlightIdx);    
+                            }
+                        })
+                })
+        }
+        
+    }, [currentPageNumber, props.mode, commitIdx])
     
     useEffect(() => {
         // html이 바뀔 때, 전 페이지를 잡는 에러가 있어서 추가.
-        axios.get(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/`)
-            .then((response) => {
-                console.log('highlight data GET response:', response);
-                
-                for(let i = 0; i < response.data.result?.length; i++) {
-                    // if (response.data.result[i].active === 1) {
-                        // console.log(document.querySelector('.y6'));
-                        doHighlight(response.data.result[i], response.data.result[i].highlightIdx);    
-                    // }
-                }
-            })
+        if (commitIdx === -1) {
+            axios.get(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/`)
+                .then((response) => {
+                    console.log('highlight data GET response:', response);
+                    
+                    for(let i = 0; i < response.data.result?.length; i++) {
+                        // if (response.data.result[i].active === 1) {
+                            // console.log(document.querySelector('.y6'));
+                            doHighlight(response.data.result[i], response.data.result[i].highlightIdx);    
+                        // }
+                    }
+                })
             // .catch((error) => {
             //     console.log('highlight data GET Fail, error:', error);
             // })
+        }
+        
+        else {
+            axios.get(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/commitIdx/${commitIdx}`)
+                .then((response) => {
+                    console.log('highlight data GET response:', response);
+                    
+                    for(let i = 0; i < response.data.result?.length; i++) {
+                        doHighlight(response.data.result[i], response.data.result[i].highlightIdx);    
+                    }
+                })
+        }
         
         let timer = null;
         function selectableTextAreaMouseUp(event) {
@@ -154,9 +203,22 @@ function PersonalReading(props) {
             });
             clearTimeout(timer);
         };
-        
-    }, [currentPageNumber, props.mode, html])
+    }, [currentPageNumber, props.mode, html, commitIdx])
     
+    useEffect(() => {
+        if (commitIdx === -1) {
+            
+        } else {
+            axios.post('http://43.200.26.215:3000/commits/books/2/2', {
+                    commitIdx: commitIdx
+                })
+                .then((response) => {
+                    setMarkdownValue(response.data.result[0].editorLog);
+                })
+        }
+        
+    }, [commitIdx])
+
     return (
         <main className="PersonalReading">            
             <button 
@@ -168,7 +230,7 @@ function PersonalReading(props) {
             
             <div className="PersonalReading__container">
                 <aside className="PersonalReading__sideBar">
-                    <SideBar currentBookInfo={currentBookInfo}></SideBar>
+                    <SideBar commitIdx={commitIdx} setCommitIdx={setCommitIdx} currentBookInfo={currentBookInfo}></SideBar>
                 </aside>
                 
                 <div className="PersonalReading__mainPage" style={props.mode === true ? {flex: 3} : {flex: 1}}>
@@ -193,7 +255,7 @@ function PersonalReading(props) {
                     </article> 
                     : null}
                     <aside className="PersonalReading__highlightList" style={props.mode === true ? {flex: 1} : {flex: 1}}>
-                        <HighlightList pdfIdx={pdfIdx} totalPage={currentBookInfo.totalPage} currentPageNumber={currentPageNumber} updateHighlightList={updateHighlightList} setUpdateHighlightList={setUpdateHighlightList}></HighlightList>
+                        <HighlightList commitIdx={commitIdx} setCommitIdx={setCommitIdx} pdfIdx={pdfIdx} totalPage={currentBookInfo.totalPage} currentPageNumber={currentPageNumber} updateHighlightList={updateHighlightList} setUpdateHighlightList={setUpdateHighlightList}></HighlightList>
                     </aside>
                 </div>
                 
@@ -202,7 +264,7 @@ function PersonalReading(props) {
                         <p style={{ fontSize: '16px' }}>{currentBookInfo.pdfName}</p>
                         <p style={{ fontSize: '12px', textDecoration: 'underline' }}>5분 전에 수정하였습니다.</p>
                     </div>
-                    <WrapperTextEditor userIdx={String(userIdx)} pdfIdx={String(pdfIdx)}></WrapperTextEditor>
+                    <WrapperTextEditor markdownValue={markdownValue} commitIdx={commitIdx} userIdx={String(userIdx)} pdfIdx={String(pdfIdx)}></WrapperTextEditor>
                 </article>
             </div>
         </main>

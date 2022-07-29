@@ -13,7 +13,7 @@ import ShowAndHideSwitch from "./sideComponents/ShowAndHideSwitch/ShowAndHideSwi
 import SideBar from './sideComponents/SideBar/SideBar.js';
 
 // sideFunction for highlighting
-import { clickHighlight, doHighlight, turnOver } from './sideFunction/sideFunction';
+import { clickHighlight, doHighlight, turnOver, selectableTextAreaMouseUp } from './sideFunction/sideFunction';
 
 // fontawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -54,7 +54,7 @@ function PersonalReading(props) {
     }, [pdfIdx])
 
     useEffect(() => {
-        if (commitIdx === -1) {
+        // if (commitIdx === -1) {
             axios.get(`http://43.200.26.215:3000/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
                 .then((response) => {
                     console.log('pageLink GET response:', response);      
@@ -74,55 +74,52 @@ function PersonalReading(props) {
                 .catch((error) => {
                     console.log('html GET Fail, error:', error);
                 })
-                .then(() => {
-                    axios.get(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
-                        .then((response) => {
-                            console.log('highlight data GET response:', response);
+                // .then(() => {
+                //     axios.get(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
+                //         .then((response) => {
+                //             console.log('highlight data GET response:', response);
                             
-                            for(let i = 0; i < response.data.result?.length; i++) {
-                                doHighlight(response.data.result[i], response.data.result[i].highlightIdx);    
-                            }
-                        })
-                        // .catch((error) => {
-                        //     console.log('highlight data GET Fail, error:', error);
-                        // })
-                })
-        }
+                //             for(let i = 0; i < response.data.result?.length; i++) {
+                //                 doHighlight(response.data.result[i], response.data.result[i].highlightIdx);    
+                //             }
+                //         })
+                //         // .catch((error) => {
+                //         //     console.log('highlight data GET Fail, error:', error);
+                //         // })
+                // })
+        // }
         
-        else {
-            console.log(pdfIdx);
-            console.log(currentPageNumber);
-            console.log(commitIdx);
-            axios.get(`http://43.200.26.215:3000/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
-                .then((response) => {
-                    console.log('pageLink GET response:', response);      
+        // else {
+        //     axios.get(`http://43.200.26.215:3000/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
+        //         .then((response) => {
+        //             console.log('pageLink GET response:', response);      
                     
-                    return response.data.result.pageLink;
-                })
-                .catch((error) => {
-                    console.log('pageLink GET Fail, error:', error);
-                })
-                .then((pageLink) => {
-                    axios.get(`${pageLink}`)
-                        .then((response) => {
-                            console.log('html GET response:', response);
-                            setHtml(response.data);
-                        })
-                })
-                .catch((error) => {
-                    console.log('html GET Fail, error:', error);
-                })
-                .then(() => {
-                    axios.get(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/commitIdx/${commitIdx}`)
-                        .then((response) => {
-                            console.log('highlight data GET response:', response);
+        //             return response.data.result.pageLink;
+        //         })
+        //         .catch((error) => {
+        //             console.log('pageLink GET Fail, error:', error);
+        //         })
+        //         .then((pageLink) => {
+        //             axios.get(`${pageLink}`)
+        //                 .then((response) => {
+        //                     console.log('html GET response:', response);
+        //                     setHtml(response.data);
+        //                 })
+        //         })
+        //         .catch((error) => {
+        //             console.log('html GET Fail, error:', error);
+        //         })
+        //         .then(() => {
+        //             axios.get(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/commitIdx/${commitIdx}`)
+        //                 .then((response) => {
+        //                     console.log('highlight data GET response:', response);
                             
-                            for(let i = 0; i < response.data.result?.length; i++) {
-                                doHighlight(response.data.result[i], response.data.result[i].highlightIdx);    
-                            }
-                        })
-                })
-        }
+        //                     for(let i = 0; i < response.data.result?.length; i++) {
+        //                         doHighlight(response.data.result[i], response.data.result[i].highlightIdx);    
+        //                     }
+        //                 })
+        //         })
+        // }
         
     }, [currentPageNumber, props.mode, commitIdx])
     
@@ -156,11 +153,10 @@ function PersonalReading(props) {
                 })
         }
         
-        let timer = null;
         function selectableTextAreaMouseUp(event) {
             const highlightButtonCurrent = highlightButton.current;
 
-            timer = setTimeout(() => {
+            let timer = setTimeout(() => {
                 if (window.getSelection().toString().trim() != 0) {
                     const x = event.pageX;
                     const y = event.pageY;
@@ -184,10 +180,8 @@ function PersonalReading(props) {
 
         function documentMouseDown(event) {
             const highlightButtonCurrent = highlightButton.current;
-            if (
-                highlightButtonCurrent.style.display === "block" &&
-                event.target.value != "this is for documentMouseDown"
-            ) {
+            if (highlightButtonCurrent.style.display === "block" && event.target.value != "this is for documentMouseDown") {
+                
                 highlightButtonCurrent.style.display = "none";
                 highlightButtonCurrent.classList.remove("btnEntrance");
                 window.getSelection().empty();
@@ -201,7 +195,6 @@ function PersonalReading(props) {
             selectableTextArea?.forEach((element) => {
                 element?.removeEventListener("mouseup", selectableTextAreaMouseUp);
             });
-            clearTimeout(timer);
         };
     }, [currentPageNumber, props.mode, html, commitIdx])
     
@@ -220,7 +213,7 @@ function PersonalReading(props) {
     }, [commitIdx])
 
     return (
-        <main className="PersonalReading">            
+        <main className="PersonalReading">
             <button 
                 ref={highlightButton} 
                 className="HighlightButton"

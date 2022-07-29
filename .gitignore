@@ -167,3 +167,5 @@ dist
 
 .package-lock.json
 package-lock.json
+
+firebase-hosting-merge.yml

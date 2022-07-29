@@ -30,7 +30,6 @@ function doHighlight(highlightData, highlightIdx) {
         newNode.classList.add("highlighted");
         newNode.classList.add('highlight' + highlightIdx);
         if ( decimalYOfSelectedStartContainer === decimalYOfSelectedEndContainer) {
-            console.log(currentElement);
             newRange.setStart( currentElement?.childNodes[indexOfSelectedStartContainer], offsetOfSelectedStartContainer);
             newRange.setEnd( currentElement?.childNodes[indexOfSelectedEndContainer], offsetOfSelectedEndContainer);
 

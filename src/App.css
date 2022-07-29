@@ -45,6 +45,7 @@
 
 body{
     font-size: 12px;
+    cursor: default;
 }
 
 .App-logo {

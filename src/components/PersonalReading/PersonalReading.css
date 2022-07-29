@@ -112,6 +112,7 @@
                         /* border-radius: 8px; */
                         width: 20px;
                         color: var(--color-1-b);
+                        cursor: text;
                     }
                     
                     .PersonalReading__mainPage--info--input::placeholder {

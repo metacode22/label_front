@@ -38,13 +38,12 @@
 }
 
 .commitDate{
-    font-size: 16px;
-    color: #4A5568;
-    margin-left: 2.5%;
+    color: #66996f;
 }
 
 .commitLi{
     font-size: 16px;
+    color: #163d22;
     font-weight: bold;
 }
 
@@ -53,7 +52,7 @@
 }
 
 .commitp{
-    color: #4A5568;
+    color: #3c6644;
 }
 
 .lineImg{

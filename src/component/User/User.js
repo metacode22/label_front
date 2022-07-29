@@ -19,11 +19,8 @@ export default function User(){
                         <Grass></Grass>
                     </div>
                     { onOffHistory === true ? <div className={styles.divHistory}>
-                        <p className={styles.commitDate}>2022.07.28</p>
-                        <li className={styles.commitLi}>메타버스</li>
                         <CommitHistory></CommitHistory>
                     </div> : null}
-                    
                 </section>
                 <img className={styles.lineImg} src={process.env.PUBLIC_URL + `/images/line.png`}></img>
                 <section>
@@ -121,8 +118,10 @@ const CommitShow = (props)=>{
         for (let i = 0; i < props.result.length; i++){
             result.push(
                 <ul>
-                    {/* <li className={styles.commitLi}>메타버스</li> */}
+                    {/* 밑에거 제목 뜨게 하고 싶으면 커밋 db에 제목도 추가해야할 것 같습니다~ */}
+                    <li className={styles.commitLi}>메타버스</li>
                     <p className={styles.commitp}>{props.result[i].commitMessage}</p>
+                    <p className={styles.commitDate}>{props.result[i].createdAt}</p>
                 </ul>
             )
         }
@@ -216,6 +215,7 @@ const GrassShow = (props) => {
                     }}></li>);
                 } else if (props.date[0].commitGrass[i] == "0") {
                     //0이라면 빈 값이 들어가게
+                    //이후에 매칭을 날짜별로 시키게 된다면, 이 토글도 눌렀을 때 널값이 뜨게끔 해야하지 않을까? 흐음??
                     result.push(<li key={i} index={i}></li>);
                 }
             }

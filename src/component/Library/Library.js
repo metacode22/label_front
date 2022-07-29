@@ -53,19 +53,20 @@ export default function Library(){
                     setSearch(res.result);
                     // console.log(res);
                 })
-        } else {
-            fetch(`http://43.200.26.215:3000/pdfs`)
-            .then(res=>{
-                return res.json()
-            })
-            .then(res=>{
-                setSearch(res.result);
-                // console.log(res);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
         }
+        // else {
+        //     fetch(`http://43.200.26.215:3000/pdfs`)
+        //     .then(res=>{
+        //         return res.json()
+        //     })
+        //     .then(res=>{
+        //         setSearch(res.result);
+        //         // console.log(res);
+        //     })
+        //     .catch((err) => {
+        //         console.log(err);
+        //     })
+        // }
     };
 
     return(
@@ -75,26 +76,26 @@ export default function Library(){
             </label>
             <article>
                 <section className={styles.sectionTitle}>
-                    <p style={{ fontSize: '40px', fontWeight: 'bold'}}>MY LIBRARY</p>
-                    <p className={styles.p}>최근에 읽었던 책 또는 한 번이라도 열어봤던 책 리스트입니다. 오늘도 Label과 즐거운 책 읽기를 해보세요.</p>
-                    <label className={styles.search} onClick={()=>{setClose(!close)}}>
+                    <p style={{ fontSize: '40px', fontWeight: 'bold'}} onClick={()=>{setClose(false)}}>MY LIBRARY</p>
+                    <p className={styles.p} onClick={()=>{setClose(false)}}>최근에 읽었던 책 또는 한 번이라도 열어봤던 책 리스트입니다. 오늘도 Label과 즐거운 책 읽기를 해보세요.</p>
+                    <label className={styles.search} onFocus={()=>{setClose(!false)}}>
                         <img className={styles.searchImg} src={process.env.PUBLIC_URL + '/images/search.png'}></img>
                         <input onChange={onSearch} type='text' className={styles.searchInput} placeholder='찾고 싶은 책 이름 또는 제목을 입력해보세요.'></input>
                     </label>
                 </section>
-                {close === true ? <section className={styles.section} >
+                {close === true ? <section className={styles.section}>
                     <div className={styles.divText}><h2>Search Book</h2></div>
                     <div className={styles.bookList}>
                         <SearchBook result={search}></SearchBook>
                     </div>
                 </section> : null}
-                <section className={styles.section}>
+                <section className={styles.section} onClick={()=>{setClose(false)}}>
                     <div className={styles.divText}><h2>Recently Read</h2></div>
                     <div className={styles.bookList}>
                         <RecentBookList result={result}></RecentBookList>
                     </div>
                 </section>
-                <section className={styles.section}>
+                <section className={styles.section} onClick={()=>{setClose(false)}}>
                     <div className={styles.divText}><h2>How about this one?</h2></div>
                     <div className={styles.bookList}>
                         <BookList result={allBook} length={allBook.length}></BookList>

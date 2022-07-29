@@ -34,17 +34,6 @@
 }
 
 .divHistory{
-    display: none;
-    margin-top: 2%;
-}
-
-.divHistoryOn{
-    display: block;
-    margin-top: 2%;
-}
-
-.divHistoryOff{
-    display: none;
     margin-top: 2%;
 }
 

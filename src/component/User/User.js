@@ -18,7 +18,7 @@ export default function User(){
                         <p className={styles.grassP}>Your commit history</p>
                         <Grass></Grass>
                     </div>
-                    { onOffHistory === true ? <div className={sytles.divHistory}>
+                    { onOffHistory === true ? <div className={styles.divHistory}>
                         <p className={styles.commitDate}>2022.07.28</p>
                         <li className={styles.commitLi}>메타버스</li>
                         <CommitHistory></CommitHistory>

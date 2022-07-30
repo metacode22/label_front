@@ -28,9 +28,6 @@ export default function Popup(props){
                         <p style={{ color: '#3E4051', fontSize: '10px'}}>🚫 PDF 파일만 업로드가 가능합니다! 🚫</p>
                     </label>
                 </aside>
-                {/* <div className={styles.btnWrap} onClick={()=>{ onClose(false) }}>
-                    닫기
-                </div> */}
             </div>
         </div>
     )

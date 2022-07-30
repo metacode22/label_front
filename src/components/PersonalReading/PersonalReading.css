@@ -4,6 +4,7 @@
     padding: 2% 0 2% 0;
     /* border: 1px solid black; */
     background-color: #F5F5F5;
+    position: relative;
 }
 
 .PersonalReading__container {
@@ -151,24 +152,46 @@
             }
     
 /* highlight Button */
-.HighlightButton {
-    width: 1.8rem;
-    height: 1.8rem;
-    cursor: pointer;
-    border: 1px solid var(--color-1-c);
-    border-radius: 50%;
-    position: absolute;
-    top: 150px;
-    left: 150px;
-    z-index: 10;
-    display: none;
-    transition: color 0.2s, background-color 0.2s ease-in-out;
-    background: url('../../../public/images/pencil.png') center/82% no-repeat;
+.HighlightButton__wrap {
+    width: 96px;
+    height: 32px;
+    border: 1px solid #E2E5E6;
+    border-radius: 16px;
     background-color: var(--color-white);
+    position: absolute;
+    z-index: 10;
+    
+    /* display: none; */
+    display: none;
+    align-items: center;
+    justify-content: space-evenly;
 }
 
-.HighlightButton:hover {
-    filter: invert(100%);
+.HighlightButton {
+    border: 1px solid #93E7A2;
+    background-color: #E6F9EF
+}
+
+.HighlightButton__purple {
+    border: 1px solid #9747FF;
+    background-color: #E1BCEF;
+}
+
+.HighlightButton__yellow {
+    border: 1px solid #FFD644;
+    background-color: #FDF796;
+}
+
+.HighlightButton, .HighlightButton__purple, .HighlightButton__yellow {
+    width: 1.3rem;
+    height: 1.3rem;
+    cursor: pointer;
+    border-radius: 50%;
+    z-index: 10;
+}
+
+.HighlightButton:hover, .HighlightButton__purple:hover, .HighlightButton__yellow:hover {
+    opacity: 0.5;
 }
 
 .HighlightButton i {
@@ -181,12 +204,35 @@
     animation-name: btnEntrance;
 }
 
-.highlighted {
+.highlightedGreen {
     font-weight: bold;
-    background-color: var(--color-2-c);
+    background-color: #E6F9EF;
     border-radius: var(--border-radius-2);
     
     animation: highlightSmoothAppear 0.25s;
+}
+
+.highlightedPurple {
+    font-weight: bold;
+    background-color: #E1BCEF;
+    border-radius: var(--border-radius-2);
+    
+    animation: highlightSmoothAppear 0.25s;
+}
+
+.highlightedYellow {
+    font-weight: bold;
+    background-color: #FDF796;
+    border-radius: var(--border-radius-2);
+    
+    animation: highlightSmoothAppear 0.25s;
+}
+
+.ToPdfButton {
+    cursor: pointer;
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
 }
 
 @keyframes btnEntrance {

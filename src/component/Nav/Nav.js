@@ -61,9 +61,9 @@ function NavReading(props){
                 <img className={styles.logoRead} src={process.env.PUBLIC_URL + '/images/labelLogoWhite.png'} onClick={() => { navigate('/library')}}></img>
             </div>
             <nav className={styles.navRead}>
-                <label className={styles.labelRead}>Upload
+                {/* <label className={styles.labelRead}>Upload
                     <input style={{display:'none'}} type='file'/>
-                </label>
+                </label> */}
                 <UserImg></UserImg>
                 <img className={styles.switch} style={{ cursor: 'default', height: '1.5rem'}} src={process.env.PUBLIC_URL + `/images/division1.png`}/>
                 <img className={styles.switch} onClick={()=>{props.setMode(false)}} src={process.env.PUBLIC_URL + `/images/division2.png`}/>

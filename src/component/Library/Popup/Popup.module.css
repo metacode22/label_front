@@ -1,0 +1,90 @@
+.popWrap{
+    position: fixed;
+    background-color: #2D3748;
+    top:0; left: 0; bottom: 0; right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popBox{
+    position: absolute;
+    display: flex;
+    background-color: white;
+    width: 50rem;
+    height: 28rem;
+    border-radius: 16px;
+}
+
+.article{
+    display: flex;
+    flex-direction: column;
+    margin: 5% 0 5% 5%;
+}
+
+.pTitle{
+    font-size: 16px;
+    margin-bottom: -5%;
+}
+
+.pSubTitle{
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.inputWrap{
+    display: flex;
+    flex-direction: column;
+}
+
+.label{
+    color: #4A5568;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5%;
+}
+
+.input{
+    margin-top: 1%;
+    width: 22rem;
+    height: 3rem;
+    border: 1px solid #E8E8E8;
+    border-radius: 5px;
+}
+
+.img{
+    width: 10rem;
+    cursor: pointer;
+    margin-bottom: 10%;
+}
+
+.file::file-selector-button {
+    display: none;
+}
+
+.aside{
+    margin: 5% 0 5% 10%;
+    display: flex;
+    align-items: center;
+}
+
+.uploadLabel{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/* 이걸 넣어 말아..? */
+.btnWrap{
+    margin-left: 1rem;
+    margin-top: 1rem;
+    font-size: 16px;
+    cursor: pointer;
+    border: 1px solid;
+}
+
+.btnWrap:hover{
+    font-weight: bold;
+}

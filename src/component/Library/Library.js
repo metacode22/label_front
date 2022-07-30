@@ -1,6 +1,8 @@
 import styles from './Library.module.css'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Popup from './Popup/Popup'
+import Drag from './Drag/Drag'
 
 export default function Library(){   
     let [result,setResult] = useState([]);
@@ -8,6 +10,7 @@ export default function Library(){
     let [search, setSearch] = useState([]);
 
     const [close, setClose] = useState(false);
+    const [popup, setPopup] = useState(true);
 
 
     let userIdx = 58;
@@ -71,8 +74,8 @@ export default function Library(){
 
     return(
         <main className={styles.main}>
-            <label className={styles.label}>+ Upload
-                <input style={{display:'none'}} type='file'/>
+            {popup ? <Popup onClose={setPopup}/> : null}
+            <label onClick={()=>{setPopup(!popup)}} className={styles.label}>+ Upload
             </label>
             <article>
                 <section className={styles.sectionTitle}>
@@ -84,7 +87,7 @@ export default function Library(){
                     </label>
                 </section>
                 {close === true ? <section className={styles.section}>
-                    <div className={styles.divText}><h2>Search Book</h2></div>
+                    <div className={styles.divText}><h2>Searched Result</h2></div>
                     <div className={styles.bookList}>
                         <SearchBook result={search}></SearchBook>
                     </div>

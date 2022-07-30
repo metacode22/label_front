@@ -19,6 +19,10 @@ import { clickHighlight, doHighlight, turnOver, selectableTextAreaMouseUp } from
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
+// PDF Download
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+
 function PersonalReading(props) {
     let location = useLocation();
     let { pdfIdx, recentlyReadPage } = location.state;
@@ -257,6 +261,42 @@ function PersonalReading(props) {
                         <p style={{ fontSize: '16px' }}>{currentBookInfo.pdfName}</p>
                         <p style={{ fontSize: '12px', textDecoration: 'underline' }}>5분 전에 수정하였습니다.</p>
                     </div>
+                    <button onClick={() => {
+                        
+                    }}>remove overflow</button>
+                    <button onClick={() => {
+                        document.querySelector('.editor')?.setAttribute('style', 'overflow: visible !important');
+                        document.querySelector('.editor')?.setAttribute('style', 'height: auto !important');
+                        
+                        html2canvas(document.querySelector('.editor')).then((canvas) => {
+                            console.log(canvas);
+                            var imgData = canvas.toDataURL('image/png');
+
+                            var imgWidth = 210; 
+                            var pageHeight = imgWidth * 1.414;  
+                            var imgHeight = canvas.height * imgWidth / canvas.width;
+                            var heightLeft = imgHeight;
+                            var margin = 20;
+
+                            var doc = new jsPDF('p', 'mm', 'a4');
+                            var position = 0;
+
+                            doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
+                            heightLeft -= pageHeight;
+
+                            while (heightLeft >= 0) {
+                                position = heightLeft - imgHeight;
+                                doc.addPage();
+                                doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
+                                heightLeft -= pageHeight;
+                            }
+                            doc.save('sample-file.pdf');
+                            
+                            document.querySelector('.editor')?.setAttribute('style', 'overflow: scroll !important');
+                            document.querySelector('.editor')?.setAttribute('style', 'height: 100% !important');
+                        })
+                    }}>to pdf</button>
+                    
                     <WrapperTextEditor markdownValue={markdownValue} commitIdx={commitIdx} userIdx={String(userIdx)} pdfIdx={String(pdfIdx)}></WrapperTextEditor>
                 </article>
             </div>

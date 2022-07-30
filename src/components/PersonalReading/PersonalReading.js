@@ -5,23 +5,19 @@ import { useLocation } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
 // sideComponents
-// import { TextEditor } from "./sideComponents/TextEditor/TextEditor_jun.tsx";
-import { TextEditor, WrapperTextEditor } from "./sideComponents/TextEditor/TextEditor.tsx";
+import { WrapperTextEditor } from "./sideComponents/TextEditor/TextEditor.tsx";
 import PageRendered from "./sideComponents/PageRendered/PageRendered.js";
 import HighlightList from "./sideComponents/HighlightList/HighlightList.js";
 import ShowAndHideSwitch from "./sideComponents/ShowAndHideSwitch/ShowAndHideSwitch.js";
 import SideBar from './sideComponents/SideBar/SideBar.js';
 
 // sideFunction for highlighting
-import { clickHighlight, doHighlight, turnOver, selectableTextAreaMouseUp } from './sideFunction/sideFunction';
+import { clickHighlight, doHighlight, turnOver, toPdf } from './sideFunction/sideFunction';
 
 // fontawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
-
-// PDF Download
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
+import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
 
 function PersonalReading(props) {
     let location = useLocation();
@@ -31,7 +27,10 @@ function PersonalReading(props) {
     let [commitIdx, setCommitIdx] = useState(-1);
     let [markdownValue, setMarkdownValue] = useState('');
      
+    const highlightButtonsWrap = useRef();
     const highlightButton = useRef();
+    const highlightButtonPurple = useRef();
+    const highlightButtonYellow = useRef();
     
     // 수정 필요, props로 받아야 할 듯.
     // library에서 넘어올 때 currentPageNumber를 유저로부터 가져와야 함.
@@ -158,7 +157,7 @@ function PersonalReading(props) {
         }
         
         function selectableTextAreaMouseUp(event) {
-            const highlightButtonCurrent = highlightButton.current;
+            const highlightButtonCurrent = highlightButtonsWrap.current;
 
             let timer = setTimeout(() => {
                 if (window.getSelection().toString().trim() != 0) {
@@ -168,9 +167,9 @@ function PersonalReading(props) {
                     const highlightButtonCurrentWidth = Number(getComputedStyle(highlightButtonCurrent).width.slice(0, -2));
                     const highlightButtonCurrentHeight = Number(getComputedStyle(highlightButtonCurrent).width.slice(0, -2));
 
-                    highlightButtonCurrent.style.left = `${x - highlightButtonCurrentWidth * 0.25}px`;
-                    highlightButtonCurrent.style.top = `${y - highlightButtonCurrentHeight * 1.25}px`;
-                    highlightButtonCurrent.style.display = "block";
+                    highlightButtonCurrent.style.left = `${x - highlightButtonCurrentWidth * 0.5}px`;
+                    highlightButtonCurrent.style.top = `${y - highlightButtonCurrentHeight * 1.0}px`;
+                    highlightButtonCurrent.style.display = "flex";
                     highlightButtonCurrent.classList.add("btnEntrance");
                 }
             }, 0);
@@ -183,8 +182,9 @@ function PersonalReading(props) {
         });
 
         function documentMouseDown(event) {
-            const highlightButtonCurrent = highlightButton.current;
-            if (highlightButtonCurrent.style.display === "block" && event.target.value != "this is for documentMouseDown") {
+            const highlightButtonCurrent = highlightButtonsWrap.current;
+
+            if (highlightButtonCurrent.style.display === "flex" && event.target.classList.contains('specific') === false) {
                 
                 highlightButtonCurrent.style.display = "none";
                 highlightButtonCurrent.classList.remove("btnEntrance");
@@ -218,12 +218,20 @@ function PersonalReading(props) {
 
     return (
         <main className="PersonalReading">
-            <button 
-                ref={highlightButton} 
-                className="HighlightButton"
-                value="this is for documentMouseDown"
-                onClick={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButton, updateHighlightList, setUpdateHighlightList); }}
-            ></button>
+            
+            <div ref={highlightButtonsWrap} className="HighlightButton__wrap specific">
+                <button ref={highlightButton} className="HighlightButton specific"
+                    onClick={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedGreen'); }}
+                ></button>
+                
+                <button ref={highlightButtonPurple} className="HighlightButton__purple specific"
+                    onClick={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedPurple'); }}
+                ></button>
+                
+                <button ref={highlightButtonYellow} className="HighlightButton__yellow specific"
+                    onClick={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedYellow'); }}
+                ></button>
+            </div>
             
             <div className="PersonalReading__container">
                 <aside className="PersonalReading__sideBar">
@@ -261,42 +269,7 @@ function PersonalReading(props) {
                         <p style={{ fontSize: '16px' }}>{currentBookInfo.pdfName}</p>
                         <p style={{ fontSize: '12px', textDecoration: 'underline' }}>5분 전에 수정하였습니다.</p>
                     </div>
-                    <button onClick={() => {
-                        
-                    }}>remove overflow</button>
-                    <button onClick={() => {
-                        document.querySelector('.editor')?.setAttribute('style', 'overflow: visible !important');
-                        document.querySelector('.editor')?.setAttribute('style', 'height: auto !important');
-                        
-                        html2canvas(document.querySelector('.editor')).then((canvas) => {
-                            console.log(canvas);
-                            var imgData = canvas.toDataURL('image/png');
-
-                            var imgWidth = 210; 
-                            var pageHeight = imgWidth * 1.414;  
-                            var imgHeight = canvas.height * imgWidth / canvas.width;
-                            var heightLeft = imgHeight;
-                            var margin = 20;
-
-                            var doc = new jsPDF('p', 'mm', 'a4');
-                            var position = 0;
-
-                            doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
-                            heightLeft -= pageHeight;
-
-                            while (heightLeft >= 0) {
-                                position = heightLeft - imgHeight;
-                                doc.addPage();
-                                doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
-                                heightLeft -= pageHeight;
-                            }
-                            doc.save('sample-file.pdf');
-                            
-                            document.querySelector('.editor')?.setAttribute('style', 'overflow: scroll !important');
-                            document.querySelector('.editor')?.setAttribute('style', 'height: 100% !important');
-                        })
-                    }}>to pdf</button>
-                    
+                    <FontAwesomeIcon className="ToPdfButton" icon={faFilePdf} onClick={() => { toPdf(); }}></FontAwesomeIcon>
                     <WrapperTextEditor markdownValue={markdownValue} commitIdx={commitIdx} userIdx={String(userIdx)} pdfIdx={String(pdfIdx)}></WrapperTextEditor>
                 </article>
             </div>

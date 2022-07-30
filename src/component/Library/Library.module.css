@@ -102,15 +102,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid black;
     border-radius: 20px;
     background-color: #2D3748;
     color: #fff;
     cursor: pointer;
     font-size: 15px;
     position: fixed;
-    bottom: 45px;
+    bottom: 55px;
     right: 50px;
+    user-select: none;
+    z-index: 1;
 }
 
 .label:hover{

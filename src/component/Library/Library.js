@@ -11,7 +11,7 @@ export default function Library(){
 
     const [close, setClose] = useState(false);
     const [popup, setPopup] = useState(true);
-
+    const [text, setText] = useState(false);
 
     let userIdx = 58;
 
@@ -74,9 +74,11 @@ export default function Library(){
 
     return(
         <main className={styles.main}>
-            {popup ? <Popup onClose={setPopup}/> : null}
-            <label onClick={()=>{setPopup(!popup)}} className={styles.label}>+ Upload
-            </label>
+            {!popup ? <Popup onClose={setPopup}/> : null}
+            <label onClick={()=>{
+                setPopup(!popup);
+                setText(!text);
+            }} className={styles.label}>{text ? `닫기` : `Upload`}</label>
             <article>
                 <section className={styles.sectionTitle}>
                     <p style={{ fontSize: '40px', fontWeight: 'bold'}} onClick={()=>{setClose(false)}}>MY LIBRARY</p>

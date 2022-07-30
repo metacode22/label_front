@@ -1,12 +1,16 @@
 import axios from 'axios';
 
+// PDF Download
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+
 // Highlighting Logic
 function drawHighlight(range, node) {
     node.appendChild(range.extractContents());
     range.insertNode(node);
 }
 
-function doHighlight(highlightData, highlightIdx) {
+function doHighlight(highlightData, highlightIdx, color) {
     const yOfSelectedStartContainer = highlightData.startLine;
     const offsetOfSelectedStartContainer = highlightData.startOffset;
     const indexOfSelectedStartContainer = highlightData.startNode;
@@ -27,7 +31,7 @@ function doHighlight(highlightData, highlightIdx) {
         
         // delete 시 곧바로 삭제할 수 있도록 미리 class를 더해놓음.
         // 나중에 지울 때 class를 통해 곧바로 노드를 찾아서 highlighted 클래스를 제거하면 됨.
-        newNode.classList.add("highlighted");
+        newNode.classList.add(color);
         newNode.classList.add('highlight' + highlightIdx);
         if ( decimalYOfSelectedStartContainer === decimalYOfSelectedEndContainer) {
             newRange.setStart( currentElement?.childNodes[indexOfSelectedStartContainer], offsetOfSelectedStartContainer);
@@ -52,7 +56,7 @@ function doHighlight(highlightData, highlightIdx) {
     }
 }
 
-function clickHighlight( pdfIdx, currentPageNumber, highlightButton, updateHighlightList, setUpdateHighlightList ) {
+function clickHighlight( pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, color ) {
     const selectedText = window.getSelection().toString().trim();
     const selectedRange = window.getSelection().getRangeAt(0);
 
@@ -123,11 +127,11 @@ function clickHighlight( pdfIdx, currentPageNumber, highlightButton, updateHighl
         .then(() => {
             axios.get(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
                 .then((response) => {
-                    doHighlight(highlightData, response.data.result[response.data.result.length - 1].highlightIdx);
+                    doHighlight(highlightData, response.data.result[response.data.result.length - 1].highlightIdx, color);
                 })
         })
 
-    highlightButton.current.style.display = "none";
+    highlightButtonsWrap.current.style.display = "none";
 }
 
 // Turn over functions
@@ -149,4 +153,37 @@ function turnOver(direction, currentPageNumber, setCurrentPageNumber, totalPage)
     }
 }
 
-export { clickHighlight, doHighlight, turnOver };
+function toPdf() {
+    document.querySelector('.editor')?.setAttribute('style', 'overflow: visible !important');
+    document.querySelector('.editor')?.setAttribute('style', 'height: auto !important');
+    
+    html2canvas(document.querySelector('.editor')).then((canvas) => {
+        console.log(canvas);
+        var imgData = canvas.toDataURL('image/png');
+
+        var imgWidth = 180; 
+        var pageHeight = imgWidth * 1.414;  
+        var imgHeight = canvas.height * imgWidth / canvas.width;
+        var heightLeft = imgHeight;
+        var margin = 20;
+
+        var doc = new jsPDF('p', 'mm', 'a4');
+        var position = 0;
+
+        doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+
+        while (heightLeft >= 0) {
+            position = heightLeft - imgHeight;
+            doc.addPage();
+            doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+        }
+        doc.save('sample-file.pdf');
+        
+        document.querySelector('.editor')?.setAttribute('style', 'overflow: scroll !important');
+        document.querySelector('.editor')?.setAttribute('style', 'height: 100% !important');
+    })
+}
+
+export { clickHighlight, doHighlight, turnOver, toPdf };

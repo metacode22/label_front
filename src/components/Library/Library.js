@@ -10,7 +10,7 @@ function Library() {
 
     useEffect(() => {
         axios
-            .post("http://43.200.26.215:3000/auth/test", {
+            .post("https://inkyuoh.shop/auth/test", {
                 forauthorization: cookies.id,
                 // credentials: "same-origin",
             })
@@ -32,7 +32,7 @@ function Library() {
     let userIdx = 58;
 
     useEffect(() => {
-        fetch(`http://43.200.26.215:3000/users/${userIdx}/pdfs`)
+        fetch(`https://inkyuoh.shop/users/${userIdx}/pdfs`)
             .then((res) => {
                 return res.json();
             })

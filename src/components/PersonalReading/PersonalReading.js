@@ -45,7 +45,7 @@ function PersonalReading(props) {
     // let [totalPage, setTotalPage] = useState(1);
     let [currentBookInfo, setCurrentBookInfo] = useState({});
     useEffect(() => {
-        axios.get(`http://43.200.26.215:3000/users/${userIdx}/pdfs`)
+        axios.get(`https://inkyuoh.shop/users/${userIdx}/pdfs`)
         .then((response) => {
             console.log('TotalPage GET response:', response);
             let newCurrentBookInfo = response.data.result.find(x => x.pdfIdx === pdfIdx);
@@ -59,7 +59,7 @@ function PersonalReading(props) {
 
     useEffect(() => {
         // if (commitIdx === -1) {
-            axios.get(`http://43.200.26.215:3000/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
+            axios.get(`https://inkyuoh.shop/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
                 .then((response) => {
                     console.log('pageLink GET response:', response);      
                     
@@ -79,7 +79,7 @@ function PersonalReading(props) {
                     console.log('html GET Fail, error:', error);
                 })
                 // .then(() => {
-                //     axios.get(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
+                //     axios.get(`https://inkyuoh.shop/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
                 //         .then((response) => {
                 //             console.log('highlight data GET response:', response);
                             
@@ -94,7 +94,7 @@ function PersonalReading(props) {
         // }
         
         // else {
-        //     axios.get(`http://43.200.26.215:3000/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
+        //     axios.get(`https://inkyuoh.shop/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
         //         .then((response) => {
         //             console.log('pageLink GET response:', response);      
                     
@@ -114,7 +114,7 @@ function PersonalReading(props) {
         //             console.log('html GET Fail, error:', error);
         //         })
         //         .then(() => {
-        //             axios.get(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/commitIdx/${commitIdx}`)
+        //             axios.get(`https://inkyuoh.shop/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/commitIdx/${commitIdx}`)
         //                 .then((response) => {
         //                     console.log('highlight data GET response:', response);
                             
@@ -130,7 +130,7 @@ function PersonalReading(props) {
     useEffect(() => {
         // html이 바뀔 때, 전 페이지를 잡는 에러가 있어서 추가.
         if (commitIdx === -1) {
-            axios.get(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/`)
+            axios.get(`https://inkyuoh.shop/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/`)
                 .then((response) => {
                     console.log('highlight data GET response:', response);
                     
@@ -147,7 +147,7 @@ function PersonalReading(props) {
         }
         
         else {
-            axios.get(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/commitIdx/${commitIdx}`)
+            axios.get(`https://inkyuoh.shop/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/commitIdx/${commitIdx}`)
                 .then((response) => {
                     console.log('highlight data GET response:', response);
                     
@@ -206,7 +206,7 @@ function PersonalReading(props) {
         if (commitIdx === -1) {
             
         } else {
-            axios.post('http://43.200.26.215:3000/commits/books/2/2', {
+            axios.post('https://inkyuoh.shop/commits/books/2/2', {
                     commitIdx: commitIdx
                 })
                 .then((response) => {

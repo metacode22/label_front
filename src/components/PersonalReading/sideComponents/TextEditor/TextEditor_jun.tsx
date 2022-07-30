@@ -108,7 +108,7 @@ export const TextEditor: React.FC<{ value: string, height: number}> = ({ value }
     
     // useEffect(() => {
     //     async function getMarkdown() {
-    //         await axios.get(`http://43.200.26.215:3000/highlights/pdfs/${1}/pages/${7}`)
+    //         await axios.get(`https://inkyuoh.shop/highlights/pdfs/${1}/pages/${7}`)
     //         .then((response) => {
     //             let markdown = '';
                 

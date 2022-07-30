@@ -102,7 +102,7 @@ function clickHighlight( pdfIdx, currentPageNumber, highlightButton, updateHighl
         data: selectedText,
     };
 
-    axios.post("http://43.200.26.215:3000/highlights", {
+    axios.post("https://inkyuoh.shop/highlights", {
             pdfIdx: pdfIdx,
             pageNum: currentPageNumber,
             startLine: yOfSelectedStartContainer,
@@ -121,7 +121,7 @@ function clickHighlight( pdfIdx, currentPageNumber, highlightButton, updateHighl
             console.log("Highlight POST Fail\nerror:", error);
         })
         .then(() => {
-            axios.get(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
+            axios.get(`https://inkyuoh.shop/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
                 .then((response) => {
                     doHighlight(highlightData, response.data.result[response.data.result.length - 1].highlightIdx);
                 })

@@ -26,7 +26,7 @@ function NavDefault(){
 
     function eraseCookie() {
         console.log('hello');
-        axios.post('http://43.200.26.215:3000/logout', {
+        axios.post('https://inkyuoh.shop/logout', {
                 param: cookies.sessionID_label
         })
         .then((response) => {
@@ -90,7 +90,7 @@ const UserImg = ()=>{
     const [result, setResult] = useState([]);
 
     useEffect(()=>{
-        fetch(`http://43.200.26.215:3000/userInfo`)
+        fetch(`https://inkyuoh.shop/userInfo`)
         .then((res) => {
             return res.json();
         })

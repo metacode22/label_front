@@ -24,7 +24,7 @@ function SideBar(props) {
 	function handleSubmit(event) {
 		event.preventDefault();
 
-		axios.post('http://43.200.26.215:3000/commits', {
+		axios.post('https://inkyuoh.shop/commits', {
 				pdfIdx: props.currentBookInfo.pdfIdx,
 				userIdx: userIdx,
 				createdAt: result,
@@ -33,7 +33,7 @@ function SideBar(props) {
 			.then((response) => {
 				setShowSnackBar(true);
 				console.log('Commit response:', response);
-				axios.get(`http://43.200.26.215:3000/commits/users/${userIdx}/books/${props.currentBookInfo.pdfIdx}`)
+				axios.get(`https://inkyuoh.shop/commits/users/${userIdx}/books/${props.currentBookInfo.pdfIdx}`)
 					.then((response) => {
 						console.log('Reset commitsInfo response:', response);
 						setCommitsInfo(response.data.result.reverse());
@@ -50,7 +50,7 @@ function SideBar(props) {
 	}
 	
 	useEffect(() => {
-		axios.get(`http://43.200.26.215:3000/commits/users/${userIdx}/books/${props.currentBookInfo.pdfIdx}`)
+		axios.get(`https://inkyuoh.shop/commits/users/${userIdx}/books/${props.currentBookInfo.pdfIdx}`)
 			.then((response) => {
 				console.log(response);
 				setCommitsInfo(response.data.result.reverse());

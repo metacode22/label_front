@@ -16,7 +16,7 @@ export default function Library(){
     let userIdx = 58;
 
     useEffect(()=>{
-        fetch(`http://43.200.26.215:3000/users/${userIdx}/pdfs`)
+        fetch(`https://inkyuoh.shop/users/${userIdx}/pdfs`)
         .then(res=>{
             return res.json()
         })
@@ -30,7 +30,7 @@ export default function Library(){
     }, []);
 
     useEffect(() =>{
-        fetch(`http://43.200.26.215:3000/pdfs`)
+        fetch(`https://inkyuoh.shop/pdfs`)
         .then(res=>{
             return res.json()
         })
@@ -48,7 +48,7 @@ export default function Library(){
         e.preventDefault();
 
         if (e.target.value !== '') {
-            fetch(`http://43.200.26.215:3000/pdfs/library/search?keyword=${e.target.value}`)
+            fetch(`https://inkyuoh.shop/pdfs/library/search?keyword=${e.target.value}`)
                 .then(res => {
                     return res.json()
                 })
@@ -58,7 +58,7 @@ export default function Library(){
                 })
         }
         // else {
-        //     fetch(`http://43.200.26.215:3000/pdfs`)
+        //     fetch(`https://inkyuoh.shop/pdfs`)
         //     .then(res=>{
         //         return res.json()
         //     })

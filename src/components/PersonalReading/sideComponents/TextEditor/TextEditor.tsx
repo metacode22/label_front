@@ -132,13 +132,13 @@ export const TextEditor: FC<{ value: string, markdownValue: string, commitIdx: n
         if (height != null) {
             document.querySelector('.milkdown')?.setAttribute('style', `height: ${height - 240}px`);    
         }
-    });
-    
-    useEffect(() => {
+        
         if (commitIdx !== -1) {
             document.querySelector('.ProseMirror.editor')?.setAttribute('contenteditable', 'false');
         }
-    })
+        
+        // document.querySelector('.editor')?.setAttribute('style', 'overflow: scroll !important');
+    });
     
     return <ReactEditor editor={editor} />
 };

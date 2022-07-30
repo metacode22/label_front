@@ -24,6 +24,7 @@
     background-color: inherit !important;
     overflow: scroll !important;
     height: 100% !important;
+    /* height: auto !important; */
     padding-top: 20px !important;
     padding-bottom: 0 !important;
     /* max-height: 100% !important; */
@@ -31,6 +32,7 @@
 
 .paragraph {
     margin: 2px 0 !important;
+    cursor: text;
 }
 
 .milkdown-1e1shhb {

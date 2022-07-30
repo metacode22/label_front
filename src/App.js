@@ -8,6 +8,7 @@ import PersonalReading from "./components/PersonalReading/PersonalReading.js";
 import Footer from './component/Footer/Footer'
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { useState } from 'react';
+import Practice from './components/Practice/Practice.js';
 
 export default function App() {
     const location = useLocation();
@@ -29,6 +30,8 @@ function AppColor(props){
             <Nav mode={mode} setMode={setMode}></Nav>
 
             <Routes>
+                <Route path="/practice" element={<Practice></Practice>}></Route>
+                    
                 <Route path="/" element={<Login></Login>}></Route>
                 <Route path="/signup" element={<Signup></Signup>}></Route>
                 <Route path="/library/*" element={<Library></Library>}></Route>
@@ -49,6 +52,8 @@ function AppNonColor(props){
             <Nav mode={mode} setMode={setMode}></Nav>
 
             <Routes>
+                <Route path="/practice" element={<Practice></Practice>}></Route>
+                
                 <Route path="/" element={<Login></Login>}></Route>
                 <Route path="/signup" element={<Signup></Signup>}></Route>
                 <Route path="/library/*" element={<Library></Library>}></Route>

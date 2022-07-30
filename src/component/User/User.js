@@ -1,9 +1,10 @@
 import styles from './User.module.css'
 import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { toggleOnOffHistory } from '../../store';
 
 export default function User(){
-
-    const [close, setClose] = useState(false);
+    let onOffHistory = useSelector((state) => {return state.onOffHistory});
 
     return(
         <main className={styles.main}>
@@ -17,13 +18,9 @@ export default function User(){
                         <p className={styles.grassP}>Your commit history</p>
                         <Grass></Grass>
                     </div>
-                    {/* <div className={styles.divHistory}> */}
-                    {/* <div className={close ? styles.divHistoryOff : styles.divHistoryOn} onClick={()=>{setClose(!close)}}> */}
-                    <div className={styles.divHistoryOn}>
-                        <p className={styles.commitDate}>2022.07.28</p>
-                        <li className={styles.commitLi}>메타버스</li>
+                    { onOffHistory === true ? <div className={styles.divHistory}>
                         <CommitHistory></CommitHistory>
-                    </div>
+                    </div> : null}
                 </section>
                 <img className={styles.lineImg} src={process.env.PUBLIC_URL + `/images/line.png`}></img>
                 <section>
@@ -121,8 +118,10 @@ const CommitShow = (props)=>{
         for (let i = 0; i < props.result.length; i++){
             result.push(
                 <ul>
-                    {/* <li className={styles.commitLi}>메타버스</li> */}
+                    {/* 밑에거 제목 뜨게 하고 싶으면 커밋 db에 제목도 추가해야할 것 같습니다~ */}
+                    <li className={styles.commitLi}>메타버스</li>
                     <p className={styles.commitp}>{props.result[i].commitMessage}</p>
+                    <p className={styles.commitDate}>{props.result[i].createdAt}</p>
                 </ul>
             )
         }
@@ -200,6 +199,8 @@ function Grass() {
 }
 
 const GrassShow = (props) => {
+    let dispatch = useDispatch();
+
     if (props.date.length != 0) {
         const rendering = () => {
             const result = Array();
@@ -209,9 +210,12 @@ const GrassShow = (props) => {
             for (let i = 1; i < 365; i++) {
                 if (props.date[0].commitGrass[i] !== "0") {
                     // 1일 때만 들어가게
-                    result.push(<li key={i} index={i} data-level={1}></li>);
+                    result.push(<li key={i} index={i} data-level={1} onClick={() => {
+                        dispatch(toggleOnOffHistory());
+                    }}></li>);
                 } else if (props.date[0].commitGrass[i] == "0") {
                     //0이라면 빈 값이 들어가게
+                    //이후에 매칭을 날짜별로 시키게 된다면, 이 토글도 눌렀을 때 널값이 뜨게끔 해야하지 않을까? 흐음??
                     result.push(<li key={i} index={i}></li>);
                 }
             }
@@ -223,6 +227,4 @@ const GrassShow = (props) => {
 
 /* 마이 라이브러리에 삭제 버튼 구현
    라이브러리에 타이틀 누르면 해당 책으로 이동해야 하는지?
-   지금 유저 1명만 불러오고 있음 -> 여러 유저를 조회할 수 있게 바꿔야 함
-   squares 누르면 커밋한 것들 불러와야 하고, 안 눌렀다면 default가 display: none 상태임
-   현재 CommitHistory는 display none으로 빼둠 */
+   지금 유저 1명만 불러오고 있음 -> 여러 유저를 조회할 수 있게 바꿔야 함 */

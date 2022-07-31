@@ -13,7 +13,7 @@ function Login() {
     const onSuccess = (response) => {
         console.log(response.accessToken);
         
-        axios.post('http://43.200.26.215:3000/socialLogin', {
+        axios.post('https://inkyuoh.shop/socialLogin', {
             tokens: response.accessToken
         })
         .then((response) => {

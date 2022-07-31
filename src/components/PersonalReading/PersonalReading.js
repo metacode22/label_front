@@ -219,7 +219,7 @@ function PersonalReading(props) {
     return (
         <main className="PersonalReading">
             
-            <div ref={highlightButtonsWrap} className="HighlightButton__wrap specific">
+            <div ref={highlightButtonsWrap} className="HighlightButton__wrap">
                 <button ref={highlightButton} className="HighlightButton specific"
                     onClick={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedGreen'); }}
                 ></button>
@@ -265,11 +265,12 @@ function PersonalReading(props) {
                 </div>
                 
                 <article className="PersonalReading__mainPage--textEditor" style={props.mode === true ? {width: '368px'} : {flex: 1}}>
+                <FontAwesomeIcon className="ToPdfButton" icon={faFilePdf} onClick={() => { toPdf(); }}></FontAwesomeIcon>
                     <div className="PersonalReading__mainPage--textEditor--info">
                         <p style={{ fontSize: '16px' }}>{currentBookInfo.pdfName}</p>
                         <p style={{ fontSize: '12px', textDecoration: 'underline' }}>5분 전에 수정하였습니다.</p>
                     </div>
-                    <FontAwesomeIcon className="ToPdfButton" icon={faFilePdf} onClick={() => { toPdf(); }}></FontAwesomeIcon>
+                    
                     <WrapperTextEditor markdownValue={markdownValue} commitIdx={commitIdx} userIdx={String(userIdx)} pdfIdx={String(pdfIdx)}></WrapperTextEditor>
                 </article>
             </div>

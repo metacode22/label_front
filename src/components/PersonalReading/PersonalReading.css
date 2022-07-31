@@ -206,7 +206,7 @@
 
 .highlightedGreen {
     font-weight: bold;
-    background-color: #E6F9EF;
+    background-color: #93E7A2;
     border-radius: var(--border-radius-2);
     
     animation: highlightSmoothAppear 0.25s;
@@ -222,7 +222,7 @@
 
 .highlightedYellow {
     font-weight: bold;
-    background-color: #FDF796;
+    background-color: #eef352dc;
     border-radius: var(--border-radius-2);
     
     animation: highlightSmoothAppear 0.25s;

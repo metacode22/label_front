@@ -96,9 +96,19 @@ function HighlightCards(props) {
                             setHighlightData(response.data.result);
                             setUpdateHighlightList(!updateHighlightList);
                             const selectedHighlight = document.getElementsByClassName('highlight' + highlightIdx);
-                            
+                            console.log(selectedHighlight);
                             for (let i = 0; i < selectedHighlight.length; i++) {
-                                selectedHighlight[i].classList.remove('highlighted', `${highlightIdx}`);
+                                if (selectedHighlight[i].classList.contains('highlightedGreen') === true) {
+                                    selectedHighlight[i].classList.remove('highlightedGreen');
+                                }
+                                
+                                if (selectedHighlight[i].classList.contains('highlightedPurple') === true) {
+                                    selectedHighlight[i].classList.remove('highlightedPurple');
+                                }
+                                
+                                if (selectedHighlight[i].classList.contains('highlightedYellow') === true) {
+                                    selectedHighlight[i].classList.remove('highlightedYellow');
+                                }
                             }
                         })
                 })

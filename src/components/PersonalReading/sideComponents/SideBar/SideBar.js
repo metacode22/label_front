@@ -25,7 +25,7 @@ function SideBar(props) {
 		event.preventDefault();
 		
 		if (commitInput.current.value !== '') {
-			axios.post('http://43.200.26.215:3000/commits', {
+			axios.post('https://inkyuoh.shop/commits', {
 					pdfIdx: props.currentBookInfo.pdfIdx,
 					userIdx: userIdx,
 					createdAt: result,
@@ -33,7 +33,7 @@ function SideBar(props) {
 				})
 				.then((response) => {
 					console.log('Commit response:', response);
-					axios.get(`http://43.200.26.215:3000/commits/users/${userIdx}/books/${props.currentBookInfo.pdfIdx}`)
+					axios.get(`https://inkyuoh.shop/commits/users/${userIdx}/books/${props.currentBookInfo.pdfIdx}`)
 						.then((response) => {
 							console.log('Reset commitsInfo response:', response);
 							setCommitsInfo(response?.data?.result?.reverse());

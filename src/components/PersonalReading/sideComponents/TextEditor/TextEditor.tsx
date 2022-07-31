@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { editorViewOptionsCtx } from '@milkdown/core';
 import { defaultValueCtx, Editor, rootCtx } from '@milkdown/core';
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
@@ -16,19 +15,19 @@ import io from 'socket.io-client';
 import React from 'react';
 import './TextEditor.css';
 
-const url: string = 'ws://13.125.242.9:3000';
+const url:string = 'wss://15.164.211.22:443';
 let socket:any;
 
-let timerId : NodeJS.Timeout
+let timerId:NodeJS.Timeout
 export class WrapperTextEditor extends React.Component<{markdownValue: string, commitIdx: number, userIdx: string, pdfIdx: string}, { fp: string, flag: boolean }> {
     constructor(props: any) {
         super(props);
-        socket = io(url, { 
-            transports: ["websocket"],
+        socket = io('https://15.164.211.22:443', {
             query: {
                 "userId": String(this.props.userIdx),
                 "pdfId": String(this.props.pdfIdx)
-            }
+            },
+            secure: true,
         });
         
         this.state = {fp: 'hello', flag: false};

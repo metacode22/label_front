@@ -23,37 +23,41 @@ function SideBar(props) {
 	
 	function handleSubmit(event) {
 		event.preventDefault();
-
-		axios.post('http://43.200.26.215:3000/commits', {
-				pdfIdx: props.currentBookInfo.pdfIdx,
-				userIdx: userIdx,
-				createdAt: result,
-				commitMessage: commitInput.current.value
-			})
-			.then((response) => {
-				setShowSnackBar(true);
-				console.log('Commit response:', response);
-				axios.get(`http://43.200.26.215:3000/commits/users/${userIdx}/books/${props.currentBookInfo.pdfIdx}`)
-					.then((response) => {
-						console.log('Reset commitsInfo response:', response);
-						setCommitsInfo(response.data.result.reverse());
-					})
-					.catch((error) => {
-						console.log('Reset commitsInfo Fail, error:', error);
-					})
-			})
-			.catch((error) => {
-				console.log('Commit Fail, error:', error);
-			})
-			
-		commitInput.current.value = null;
+		
+		if (commitInput.current.value !== '') {
+			axios.post('http://43.200.26.215:3000/commits', {
+					pdfIdx: props.currentBookInfo.pdfIdx,
+					userIdx: userIdx,
+					createdAt: result,
+					commitMessage: commitInput.current.value
+				})
+				.then((response) => {
+					console.log('Commit response:', response);
+					axios.get(`http://43.200.26.215:3000/commits/users/${userIdx}/books/${props.currentBookInfo.pdfIdx}`)
+						.then((response) => {
+							console.log('Reset commitsInfo response:', response);
+							setCommitsInfo(response?.data?.result?.reverse());
+							setShowSnackBar(true);
+						})
+						.catch((error) => {
+							console.log('Reset commitsInfo Fail, error:', error);
+						})
+				})
+				.catch((error) => {
+					console.log('Commit Fail, error:', error);
+				})
+				
+			commitInput.current.value = null;
+		} else {
+			setShowErrorSnackBar(true);
+		}
 	}
 	
 	useEffect(() => {
 		axios.get(`http://43.200.26.215:3000/commits/users/${userIdx}/books/${props.currentBookInfo.pdfIdx}`)
 			.then((response) => {
 				console.log(response);
-				setCommitsInfo(response.data.result.reverse());
+				setCommitsInfo(response?.data?.result?.reverse());
 			})
 			.catch((error) => {
 				console.log(error);
@@ -62,6 +66,7 @@ function SideBar(props) {
 	
 	// snack bar
 	const [showSnackBar, setShowSnackBar] = useState(false);
+	const [showErrorSnackBar, setShowErrorSnackBar] = useState(false);
 	
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -69,6 +74,7 @@ function SideBar(props) {
         }
         
         setShowSnackBar(false);
+		setShowErrorSnackBar(false);
     }
     
     const Alert = React.forwardRef(function Alert(props, ref) {
@@ -94,9 +100,14 @@ function SideBar(props) {
 				</div>
 				
 				<Stack spacing={2} sx={{ width: '100%'}}>
-					<Snackbar open={showSnackBar} autoHideDuration={3000} onClose={handleClose}>
+					<Snackbar open={showSnackBar} autoHideDuration={4500} onClose={handleClose}>
 						<Alert onClose={handleClose} severity="success" sx={{width: '100%'}}>
 							저장이 완료되었습니다.
+						</Alert>
+					</Snackbar>
+					<Snackbar open={showErrorSnackBar} autoHideDuration={4500} onClose={handleClose}>
+						<Alert onClose={handleClose} severity="error" sx={{width: '100%'}}>
+							기록 내용을 작성해주시기 바랍니다.
 						</Alert>
 					</Snackbar>
 				</Stack>

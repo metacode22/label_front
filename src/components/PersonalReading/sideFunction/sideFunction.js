@@ -10,7 +10,7 @@ function drawHighlight(range, node) {
     range.insertNode(node);
 }
 
-function doHighlight(highlightData, highlightIdx, color) {
+function doHighlight(highlightData, highlightIdx) {
     const yOfSelectedStartContainer = highlightData.startLine;
     const offsetOfSelectedStartContainer = highlightData.startOffset;
     const indexOfSelectedStartContainer = highlightData.startNode;
@@ -21,7 +21,21 @@ function doHighlight(highlightData, highlightIdx, color) {
 
     const decimalYOfSelectedStartContainer = parseInt( yOfSelectedStartContainer.slice(1), 16);
     const decimalYOfSelectedEndContainer = parseInt( yOfSelectedEndContainer.slice(1), 16);
-
+    
+    let highlightColor;
+    
+    if (highlightData.color === 0) {
+        highlightColor = 'highlightedGreen';
+    }
+    
+    if (highlightData.color === 1) {
+        highlightColor = 'highlightedPurple';
+    }
+    
+    if (highlightData.color === 2) {
+        highlightColor = 'highlightedYellow';
+    }
+    
     // currentElement를 잘 잡지 못해서 에러가 난다.
     for ( let i = decimalYOfSelectedStartContainer; i <= decimalYOfSelectedEndContainer; i++) {
         const currentElement = document.getElementsByClassName( `y${i.toString(16)}`)[0];
@@ -31,7 +45,8 @@ function doHighlight(highlightData, highlightIdx, color) {
         
         // delete 시 곧바로 삭제할 수 있도록 미리 class를 더해놓음.
         // 나중에 지울 때 class를 통해 곧바로 노드를 찾아서 highlighted 클래스를 제거하면 됨.
-        newNode.classList.add(color);
+        
+        newNode.classList.add(highlightColor);
         newNode.classList.add('highlight' + highlightIdx);
         if ( decimalYOfSelectedStartContainer === decimalYOfSelectedEndContainer) {
             newRange.setStart( currentElement?.childNodes[indexOfSelectedStartContainer], offsetOfSelectedStartContainer);
@@ -68,8 +83,8 @@ function clickHighlight( pdfIdx, currentPageNumber, highlightButtonsWrap, update
 
     const offsetOfSelectedStartContainer = selectedRange.startOffset;
     let indexOfSelectedStartContainer = 0;
-    for ( let i = 0; i < selectedStartContainer.parentElement.childNodes.length; i++ ) {
-        if ( selectedStartContainer.parentElement.childNodes[i] === selectedStartContainer ) {
+    for ( let i = 0; i < parentElementOfSelectedStartContainer.childNodes.length; i++ ) {
+        if ( parentElementOfSelectedStartContainer.childNodes[i] === selectedStartContainer ) {
             indexOfSelectedStartContainer = i;
         }
     }
@@ -78,11 +93,12 @@ function clickHighlight( pdfIdx, currentPageNumber, highlightButtonsWrap, update
     const offsetOfSelectedEndContainer = selectedRange.endOffset;
     let indexOfSelectedEndContainer = 0;
 
-    for ( let i = 0; i < selectedEndContainer.parentElement.childNodes.length; i++) {
-        if ( selectedEndContainer.parentElement.childNodes[i] === selectedEndContainer ) {
+    for ( let i = 0; i < parentElementOfSelectedEndContainer.childNodes.length; i++) {
+        if ( parentElementOfSelectedEndContainer.childNodes[i] === selectedEndContainer ) {
             indexOfSelectedEndContainer = i;
         }
     }
+    
     function recur(x, count) {
         if (x.classList.toString().includes("y") === true) {
             return x.classList;
@@ -93,7 +109,21 @@ function clickHighlight( pdfIdx, currentPageNumber, highlightButtonsWrap, update
 
     let yOfSelectedStartContainer = recur( parentElementOfSelectedStartContainer, 0 )[4];
     let yOfSelectedEndContainer = recur( parentElementOfSelectedEndContainer, 0 )[4];
-
+    
+    let highlightColorIndex;
+    
+    if (color === 'highlightedGreen') {
+        highlightColorIndex = 0;
+    }
+    
+    if (color === 'highlightedPurple') {
+        highlightColorIndex = 1;
+    }
+    
+    if (color === 'highlightedYellow') {
+        highlightColorIndex = 2;
+    }
+    
     const highlightData = {
         pdfIdx: pdfIdx,
         pageNum: currentPageNumber,
@@ -104,6 +134,7 @@ function clickHighlight( pdfIdx, currentPageNumber, highlightButtonsWrap, update
         endOffset: offsetOfSelectedEndContainer,
         endNode: indexOfSelectedEndContainer,
         data: selectedText,
+        color: highlightColorIndex
     };
 
     axios.post("http://43.200.26.215:3000/highlights", {
@@ -116,6 +147,7 @@ function clickHighlight( pdfIdx, currentPageNumber, highlightButtonsWrap, update
             endOffset: offsetOfSelectedEndContainer,
             endNode: indexOfSelectedEndContainer,
             data: selectedText,
+            color: highlightColorIndex,
         })
         .then((response) => {
             console.log("Highlight POST Success\nresponse:", response);
@@ -127,7 +159,7 @@ function clickHighlight( pdfIdx, currentPageNumber, highlightButtonsWrap, update
         .then(() => {
             axios.get(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
                 .then((response) => {
-                    doHighlight(highlightData, response.data.result[response.data.result.length - 1].highlightIdx, color);
+                    doHighlight(highlightData, response.data.result[response.data.result.length - 1].highlightIdx);
                 })
         })
 
@@ -180,10 +212,10 @@ function toPdf() {
             heightLeft -= pageHeight;
         }
         doc.save('sample-file.pdf');
-        
-        document.querySelector('.editor')?.setAttribute('style', 'overflow: scroll !important');
-        document.querySelector('.editor')?.setAttribute('style', 'height: 100% !important');
     })
+    
+    document.querySelector('.editor')?.setAttribute('style', 'overflow: scroll !important');
+    document.querySelector('.editor')?.setAttribute('style', 'height: 100% !important');
 }
 
 export { clickHighlight, doHighlight, turnOver, toPdf };

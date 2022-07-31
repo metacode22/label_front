@@ -15,19 +15,19 @@ import io from 'socket.io-client';
 import React from 'react';
 import './TextEditor.css';
 
-const url:string = 'wss://15.164.211.22:443';
+const url:string = 'https://tradingstudy.shop:443';
 let socket:any;
 
 let timerId:NodeJS.Timeout
 export class WrapperTextEditor extends React.Component<{markdownValue: string, commitIdx: number, userIdx: string, pdfIdx: string}, { fp: string, flag: boolean }> {
     constructor(props: any) {
         super(props);
-        socket = io('https://15.164.211.22:443', {
+        socket = io(url, {
+            transports: ["websocket"],
             query: {
                 "userId": String(this.props.userIdx),
                 "pdfId": String(this.props.pdfIdx)
             },
-            secure: true,
         });
         
         this.state = {fp: 'hello', flag: false};

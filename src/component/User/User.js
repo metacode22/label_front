@@ -54,7 +54,7 @@ const UserProfile = ()=>{
     const [result, setResult] = useState([]);
 
     useEffect(()=>{
-        fetch(`http://43.200.26.215:3000/userInfo`)
+        fetch(`https://inkyuoh.shop/userInfo`)
         .then((res) => {
             return res.json();
         })
@@ -91,7 +91,7 @@ const CommitHistory = ()=>{
     const [result, setResult] = useState([]);
     
     useEffect(()=>{
-        fetch(`http://43.200.26.215:3000/commits/users/58/books/75`)
+        fetch(`https://inkyuoh.shop/commits/users/58/books/75`)
         .then(res=>{
             return res.json()
         })
@@ -136,7 +136,7 @@ const Tr = ()=>{
     let userIdx = 58;
 
     useEffect(()=>{
-        fetch(`http://43.200.26.215:3000/users/${userIdx}/pdfs`)
+        fetch(`https://inkyuoh.shop/users/${userIdx}/pdfs`)
         .then(res=>{
             return res.json()
         })
@@ -179,7 +179,7 @@ function Grass() {
 
     useEffect(() => {
         // let userIdx = 5;
-        fetch(`http://43.200.26.215:3000/userInfo`) //실제 서버에서 받으면 개인 유저 1명만 부를 수 있게
+        fetch(`https://inkyuoh.shop/userInfo`) //실제 서버에서 받으면 개인 유저 1명만 부를 수 있게
             .then((res) => {
                 return res.json();
             })

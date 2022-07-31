@@ -12,7 +12,7 @@ function SearchBar(props) {
     function handleSearchChange(event) {
         if (event.target.value === '') {
             async function getHighlightData() {
-                await axios.get(`http://43.200.26.215:3000/highlights/pdfs/${props.pdfIdx}/pages/${props.currentPageNumber}`)
+                await axios.get(`https://inkyuoh.shop/highlights/pdfs/${props.pdfIdx}/pages/${props.currentPageNumber}`)
                     .then((response) => {
                         // let result = Array();
                         
@@ -29,7 +29,7 @@ function SearchBar(props) {
     
             getHighlightData();
         } else {
-            axios.get(`http://43.200.26.215:3000/pdfs/${props.pdfIdx}/highlights/search?keyword=${event.target.value}`)
+            axios.get(`https://inkyuoh.shop/pdfs/${props.pdfIdx}/highlights/search?keyword=${event.target.value}`)
                 .then((response) => {
                     console.log('Search highlight data response:', response);
                     props.setHighlightData(response.data.result);

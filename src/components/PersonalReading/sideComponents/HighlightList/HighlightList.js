@@ -17,7 +17,7 @@ function HighlightList(props) {
     useEffect(() => {
         if (props.commitIdx === -1) {
             async function getHighlightData() {
-                await axios.get(`http://43.200.26.215:3000/highlights/pdfs/${props.pdfIdx}/pages/${props.currentPageNumber}`)
+                await axios.get(`https://inkyuoh.shop/highlights/pdfs/${props.pdfIdx}/pages/${props.currentPageNumber}`)
                     .then((response) => {
                         // let result = Array();
                         
@@ -38,7 +38,7 @@ function HighlightList(props) {
             console.log(props.currentPageNumber);
             console.log(props.commitIdx);
             async function getHighlightData() {
-                await axios.get(`http://43.200.26.215:3000/highlights/pdfs/${props.pdfIdx}/pages/${props.currentPageNumber}/commitIdx/${props.commitIdx}`)
+                await axios.get(`https://inkyuoh.shop/highlights/pdfs/${props.pdfIdx}/pages/${props.currentPageNumber}/commitIdx/${props.commitIdx}`)
                     .then((response) => {
                         setHighlightData(response.data.result);
                     })
@@ -83,7 +83,7 @@ function HighlightCards(props) {
         
         if (commitIdx === -1) {
             
-            await axios.delete(`http://43.200.26.215:3000/highlights/${highlightIdx}`)
+            await axios.delete(`https://inkyuoh.shop/highlights/${highlightIdx}`)
                 .then((response) => {
                     console.log("highlight delete response:", response);
                 })
@@ -91,7 +91,7 @@ function HighlightCards(props) {
                     console.log("highlight delete error:", error);
                 })
                 .then(async () => {
-                    await axios.get(`http://43.200.26.215:3000/highlights/pdfs/${props.pdfIdx}/pages/${currentPageNumber}`)
+                    await axios.get(`https://inkyuoh.shop/highlights/pdfs/${props.pdfIdx}/pages/${currentPageNumber}`)
                         .then((response) => {
                             setHighlightData(response.data.result);
                             setUpdateHighlightList(!updateHighlightList);
@@ -114,7 +114,7 @@ function HighlightCards(props) {
                 })
         } else {
             
-            // await axios.delete(`http://43.200.26.215:3000/highlights/${highlightIdx}`)
+            // await axios.delete(`https://inkyuoh.shop/highlights/${highlightIdx}`)
             //     .then((response) => {
             //         console.log("highlight delete response:", response);
             //     })
@@ -122,7 +122,7 @@ function HighlightCards(props) {
             //         console.log("highlight delete error:", error);
             //     })
             //     .then(async () => {
-            //         await axios.get(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/commitIdx/${commitIdx}`)
+            //         await axios.get(`https://inkyuoh.shop/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/commitIdx/${commitIdx}`)
             //             .then((response) => {
             //                 setHighlightData(response.data.result);
             //                 setUpdateHighlightList(!updateHighlightList);

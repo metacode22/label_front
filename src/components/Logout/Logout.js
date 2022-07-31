@@ -14,7 +14,7 @@ function Logout() {
     }
     
     const onSuccess = () => {
-        axios.post('http://43.200.26.215:3000/logout', {
+        axios.post('https://inkyuoh.shop/logout', {
             headers: {
                 param: cookies.sessionID_label
             }

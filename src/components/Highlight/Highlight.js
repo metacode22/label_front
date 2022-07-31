@@ -9,7 +9,7 @@ function HighlightList() {
     let pdfIdx = 1;
 
     useEffect(() => {
-        fetch(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}`)
+        fetch(`https://inkyuoh.shop/highlights/pdfs/${pdfIdx}`)
             .then((res) => {
                 return res.json();
             })
@@ -38,7 +38,7 @@ function TitleList() {
     let userIdx = 58;
 
     useEffect(() => {
-        fetch(`http://43.200.26.215:3000/users/${userIdx}/pdfs`)
+        fetch(`https://inkyuoh.shop/users/${userIdx}/pdfs`)
             .then((res) => {
                 return res.json();
             })

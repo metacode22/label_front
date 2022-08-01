@@ -6,4 +6,5 @@
     height: 50px;
     justify-content: center;
     align-items: center;
+    user-select: none;
 }

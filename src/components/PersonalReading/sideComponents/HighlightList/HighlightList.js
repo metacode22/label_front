@@ -1,6 +1,6 @@
 import styles from "./HighlightList.module.css";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import SearchBar from '../SearchBar/SearchBar.js';
 import HighlightBadge from './HighlightBadge/HighlightBadge.js';
 import Card from "@mui/material/Card";
@@ -10,14 +10,16 @@ import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import ClearIcon from "@mui/icons-material/Clear";
 import IconButton from "@mui/material/IconButton";
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function HighlightList(props) {
-    let [highlightData, setHighlightData] = useState([]);
+    const [highlightData, setHighlightData] = useState([]);
     
     useEffect(() => {
         if (props.commitIdx === -1) {
             async function getHighlightData() {
-                await axios.get(`http://43.200.26.215:3000/highlights/pdfs/${props.pdfIdx}/pages/${props.currentPageNumber}`)
+                await axios.get(`https://inkyuoh.shop/highlights/pdfs/${props.pdfIdx}/pages/${props.currentPageNumber}`)
                     .then((response) => {
                         // let result = Array();
                         
@@ -38,7 +40,7 @@ function HighlightList(props) {
             console.log(props.currentPageNumber);
             console.log(props.commitIdx);
             async function getHighlightData() {
-                await axios.get(`http://43.200.26.215:3000/highlights/pdfs/${props.pdfIdx}/pages/${props.currentPageNumber}/commitIdx/${props.commitIdx}`)
+                await axios.get(`https://inkyuoh.shop/highlights/pdfs/${props.pdfIdx}/pages/${props.currentPageNumber}/commitIdx/${props.commitIdx}`)
                     .then((response) => {
                         setHighlightData(response.data.result);
                     })
@@ -82,8 +84,7 @@ function HighlightCards(props) {
     async function deleteHighlight(commitIdx, highlightIdx, setHighlightData, updateHighlightList, setUpdateHighlightList, currentPageNumber) {
         
         if (commitIdx === -1) {
-            
-            await axios.delete(`http://43.200.26.215:3000/highlights/${highlightIdx}`)
+            await axios.delete(`https://inkyuoh.shop/highlights/${highlightIdx}`)
                 .then((response) => {
                     console.log("highlight delete response:", response);
                 })
@@ -91,12 +92,12 @@ function HighlightCards(props) {
                     console.log("highlight delete error:", error);
                 })
                 .then(async () => {
-                    await axios.get(`http://43.200.26.215:3000/highlights/pdfs/${props.pdfIdx}/pages/${currentPageNumber}`)
+                    await axios.get(`https://inkyuoh.shop/highlights/pdfs/${props.pdfIdx}/pages/${currentPageNumber}`)
                         .then((response) => {
                             setHighlightData(response.data.result);
                             setUpdateHighlightList(!updateHighlightList);
                             const selectedHighlight = document.getElementsByClassName('highlight' + highlightIdx);
-                            console.log(selectedHighlight);
+                            
                             for (let i = 0; i < selectedHighlight.length; i++) {
                                 if (selectedHighlight[i].classList.contains('highlightedGreen') === true) {
                                     selectedHighlight[i].classList.remove('highlightedGreen');
@@ -114,7 +115,7 @@ function HighlightCards(props) {
                 })
         } else {
             
-            // await axios.delete(`http://43.200.26.215:3000/highlights/${highlightIdx}`)
+            // await axios.delete(`https://inkyuoh.shop/highlights/${highlightIdx}`)
             //     .then((response) => {
             //         console.log("highlight delete response:", response);
             //     })
@@ -122,7 +123,7 @@ function HighlightCards(props) {
             //         console.log("highlight delete error:", error);
             //     })
             //     .then(async () => {
-            //         await axios.get(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/commitIdx/${commitIdx}`)
+            //         await axios.get(`https://inkyuoh.shop/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/commitIdx/${commitIdx}`)
             //             .then((response) => {
             //                 setHighlightData(response.data.result);
             //                 setUpdateHighlightList(!updateHighlightList);
@@ -137,6 +138,7 @@ function HighlightCards(props) {
         
     }
 
+    
     return (
         <>
             {props.highlightData?.map(function (element, index) {
@@ -158,6 +160,16 @@ function HighlightCards(props) {
                                 </Typography>
                             </CardContent>
                         </Card>
+                        {/* <div className={styles.highlightCardWrap} key={index}>
+                            <div className={styles.highlightCardTitle}>{element.data}</div>
+                            <div>
+                                <FontAwesomeIcon icon={faTrash} className={
+                                    element.color === 0 ? 'trashIconGreen' :
+                                        element.color === 1 ? 'trashIconPurple' :
+                                            'trashIconYellow'
+                                }></FontAwesomeIcon>
+                            </div>
+                        </div> */}
                     </>
                 );
             })}

@@ -143,13 +143,21 @@
             /* flex: 1; */
             box-sizing: border-box;
             
-            /* flex-grow: 3; */            
+            /* flex-grow: 3; */ 
+            display: flex;
+            flex-direction: column;           
         }
         
-            /* mainPage--textEditor--info */
-            .PersonalReading__mainPage--textEditor--info {
-                margin: 24px;
-            }
+            .PersonalReading__mainPage--textEditor--wrap {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }    
+        
+                /* mainPage--textEditor--info */
+                .PersonalReading__mainPage--textEditor--info {
+                    margin: 24px;
+                }
     
 /* highlight Button */
 .HighlightButton__wrap {
@@ -209,7 +217,7 @@
     background-color: #93E7A2;
     border-radius: var(--border-radius-2);
     
-    animation: highlightSmoothAppear 0.25s;
+    /* animation: highlightSmoothAppear 0.25s; */
 }
 
 .highlightedPurple {
@@ -217,7 +225,7 @@
     background-color: #E1BCEF;
     border-radius: var(--border-radius-2);
     
-    animation: highlightSmoothAppear 0.25s;
+    /* animation: highlightSmoothAppear 0.25s; */
 }
 
 .highlightedYellow {
@@ -225,14 +233,18 @@
     background-color: #eef352dc;
     border-radius: var(--border-radius-2);
     
-    animation: highlightSmoothAppear 0.25s;
+    /* animation: highlightSmoothAppear 0.25s; */
 }
 
 .ToPdfButton {
     cursor: pointer;
-    position: absolute;
-    bottom: 5px;
-    left: 5px;
+    font-size: 32px;
+    transition: all 0.25s;
+    margin-right: 32px;
+}
+
+.ToPdfButton:hover {
+    transform: rotate(20deg) scale3d(1.2, 1.2, 1.2);
 }
 
 @keyframes btnEntrance {

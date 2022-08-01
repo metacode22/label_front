@@ -78,3 +78,36 @@
     
     align-self: flex-start;
 }
+
+.highlightCardWrap {
+    border: 1px solid #E2E5E6;
+    height: 10%;
+    overflow: hidden;
+    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.highlightCardTitle {
+    
+    display: flex;
+}
+
+.trashIconGreen {
+    width: 48px !important;
+    background-color: #04C35C !important;
+    color: rgba(4, 196, 92, 0.1) !important;
+}
+
+.trashIconPurple {
+    width: 48px !important;
+    background-color: rgba(151, 71, 255, 0.1) !important;
+    color: #9747FF !important;
+}
+
+.trashIconYellow {
+    width: 48px !important;
+    background-color: #FDF796 !important;
+    color: #FFD644 !important;
+}

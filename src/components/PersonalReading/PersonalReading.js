@@ -1,6 +1,6 @@
 import "./PersonalReading.css";
 import axios from 'axios';
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useLocation } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
@@ -20,12 +20,14 @@ import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
 
 function PersonalReading(props) {
-    let location = useLocation();
-    let { pdfIdx, recentlyReadPage } = location.state;
-    let [html, setHtml] = useState('');
-    let [updateHighlightList, setUpdateHighlightList] = useState(true);
-    let [commitIdx, setCommitIdx] = useState(-1);
-    let [markdownValue, setMarkdownValue] = useState('');
+    const location = useLocation();
+    const { pdfIdx, recentlyReadPage } = location.state;
+    const [html, setHtml] = useState('');
+    const [updateHighlightList, setUpdateHighlightList] = useState(true);
+    const [commitIdx, setCommitIdx] = useState(-1);
+    const [markdownValue, setMarkdownValue] = useState('');
+    
+    const [highlightData, setHighlightData] = useState([]);
      
     const highlightButtonsWrap = useRef();
     const highlightButton = useRef();
@@ -35,30 +37,33 @@ function PersonalReading(props) {
     // 수정 필요, props로 받아야 할 듯.
     // library에서 넘어올 때 currentPageNumber를 유저로부터 가져와야 함.
     // redux?
-    let [currentPageNumber, setCurrentPageNumber] = useState(recentlyReadPage);
+    const [currentPageNumber, setCurrentPageNumber] = useState(recentlyReadPage);
     
     // library에서 넘어올 때 받아와야 할 듯.
     // useLocation
     let userIdx = 58;
     
     // let [totalPage, setTotalPage] = useState(1);
-    let [currentBookInfo, setCurrentBookInfo] = useState({});
+    const [currentBookInfo, setCurrentBookInfo] = useState({});
+
     useEffect(() => {
-        axios.get(`http://43.200.26.215:3000/users/${userIdx}/pdfs`)
-        .then((response) => {
-            console.log('TotalPage GET response:', response);
-            let newCurrentBookInfo = response.data.result.find(x => x.pdfIdx === pdfIdx);
-            // setTotalPage(nowPdf.totalPage)
-            setCurrentBookInfo(newCurrentBookInfo);
-        })
-        .catch((error) => {
-            console.log('TotalPage GET Fail, error:', error);
-        })
+        console.log('hello1');
+        axios.get(`https://inkyuoh.shop/users/${userIdx}/pdfs`)
+            .then((response) => {
+                console.log('TotalPage GET response:', response);
+                let newCurrentBookInfo = response.data.result.find(x => x.pdfIdx === pdfIdx);
+                // setTotalPage(nowPdf.totalPage)
+                setCurrentBookInfo(newCurrentBookInfo);
+            })
+            .catch((error) => {
+                console.log('TotalPage GET Fail, error:', error);
+            })
     }, [pdfIdx])
 
     useEffect(() => {
-        // if (commitIdx === -1) {
-            axios.get(`http://43.200.26.215:3000/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
+        console.log('hello2');
+        if (commitIdx === -1) {
+            axios.get(`https://inkyuoh.shop/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
                 .then((response) => {
                     console.log('pageLink GET response:', response);      
                     
@@ -77,89 +82,74 @@ function PersonalReading(props) {
                 .catch((error) => {
                     console.log('html GET Fail, error:', error);
                 })
-                // .then(() => {
-                //     axios.get(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
-                //         .then((response) => {
-                //             console.log('highlight data GET response:', response);
-                            
-                //             for(let i = 0; i < response.data.result?.length; i++) {
-                //                 doHighlight(response.data.result[i], response.data.result[i].highlightIdx);    
-                //             }
-                //         })
-                //         // .catch((error) => {
-                //         //     console.log('highlight data GET Fail, error:', error);
-                //         // })
-                // })
-        // }
-        
-        // else {
-        //     axios.get(`http://43.200.26.215:3000/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
-        //         .then((response) => {
-        //             console.log('pageLink GET response:', response);      
+                .then(() => {
+                    axios.get(`https://inkyuoh.shop/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
+                        .then((response) => {
+                            console.log('highlight data GET response:', response);
+                            setHighlightData(response.data.result);
+                        })
+                        // .catch((error) => {
+                        //     console.log('highlight data GET Fail, error:', error);
+                        // })
+                })
+        } else {
+            axios.get(`https://inkyuoh.shop/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
+                .then((response) => {
+                    console.log('pageLink GET response:', response);      
                     
-        //             return response.data.result.pageLink;
-        //         })
-        //         .catch((error) => {
-        //             console.log('pageLink GET Fail, error:', error);
-        //         })
-        //         .then((pageLink) => {
-        //             axios.get(`${pageLink}`)
-        //                 .then((response) => {
-        //                     console.log('html GET response:', response);
-        //                     setHtml(response.data);
-        //                 })
-        //         })
-        //         .catch((error) => {
-        //             console.log('html GET Fail, error:', error);
-        //         })
-        //         .then(() => {
-        //             axios.get(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/commitIdx/${commitIdx}`)
-        //                 .then((response) => {
-        //                     console.log('highlight data GET response:', response);
-                            
-        //                     for(let i = 0; i < response.data.result?.length; i++) {
-        //                         doHighlight(response.data.result[i], response.data.result[i].highlightIdx);    
-        //                     }
-        //                 })
-        //         })
-        // }
+                    return response.data.result.pageLink;
+                })
+                .catch((error) => {
+                    console.log('pageLink GET Fail, error:', error);
+                })
+                .then((pageLink) => {
+                    axios.get(`${pageLink}`)
+                        .then((response) => {
+                            console.log('html GET response:', response);
+                            setHtml(response.data);
+                        })
+                })
+                .catch((error) => {
+                    console.log('html GET Fail, error:', error);
+                })
+                .then(() => {
+                    axios.get(`https://inkyuoh.shop/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/commitIdx/${commitIdx}`)
+                        .then((response) => {
+                            console.log('Commit highlight data GET response:', response);
+                            setHighlightData(response.data.result);
+                        })
+                })
+        }
         
     }, [currentPageNumber, props.mode, commitIdx])
     
     useEffect(() => {
+        console.log('hello3');
         // html이 바뀔 때, 전 페이지를 잡는 에러가 있어서 추가.
-        if (commitIdx === -1) {
-            axios.get(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/`)
-                .then((response) => {
-                    console.log('highlight data GET response:', response);
+        // if (commitIdx === -1) {
+        //     axios.get(`https://inkyuoh.shop/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/`)
+        //         .then((response) => {
+        //             console.log('highlight data GET response:', response);
                     
-                    for(let i = 0; i < response.data.result?.length; i++) {
-                        // if (response.data.result[i].active === 1) {
-                            // console.log(document.querySelector('.y6'));
-                            doHighlight(response.data.result[i], response.data.result[i].highlightIdx);    
-                        // }
-                    }
-                })
-            // .catch((error) => {
-            //     console.log('highlight data GET Fail, error:', error);
-            // })
-        }
-        
-        else {
-            axios.get(`http://43.200.26.215:3000/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/commitIdx/${commitIdx}`)
-                .then((response) => {
-                    console.log('highlight data GET response:', response);
-                    
-                    for(let i = 0; i < response.data.result?.length; i++) {
-                        doHighlight(response.data.result[i], response.data.result[i].highlightIdx);    
-                    }
-                })
-        }
+        //             for(let i = 0; i < response.data.result?.length; i++) {
+        //                 setHighlightData(response.data.result);
+        //             }
+        //         })
+        //     // .catch((error) => {
+        //     //     console.log('highlight data GET Fail, error:', error);
+        //     // })
+        // } else {
+        //     axios.get(`https://inkyuoh.shop/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/commitIdx/${commitIdx}`)
+        //         .then((response) => {
+        //             console.log('Commit highlight data GET response:', response);
+        //             setHighlightData(response.data.result);
+        //         })
+        // }
         
         function selectableTextAreaMouseUp(event) {
             const highlightButtonCurrent = highlightButtonsWrap.current;
 
-            let timer = setTimeout(() => {
+            setTimeout(() => {
                 if (window.getSelection().toString().trim() != 0) {
                     const x = event.pageX;
                     const y = event.pageY;
@@ -202,11 +192,12 @@ function PersonalReading(props) {
         };
     }, [currentPageNumber, props.mode, html, commitIdx])
     
+    // Text Editor Value
     useEffect(() => {
         if (commitIdx === -1) {
             
         } else {
-            axios.post('http://43.200.26.215:3000/commits/books/2/2', {
+            axios.post('https://inkyuoh.shop/commits/books/2/2', {
                     commitIdx: commitIdx
                 })
                 .then((response) => {
@@ -215,7 +206,19 @@ function PersonalReading(props) {
         }
         
     }, [commitIdx])
-
+    
+    // Draw Highlight
+    useEffect(() => {
+        try {
+            for (let i = 0; i < highlightData.length; i++) {
+                doHighlight(highlightData[i], highlightData[i].highlightIdx);
+            }       
+        }
+        catch {
+            console.log('hello');
+        }
+    }, [currentPageNumber, highlightData])
+    
     return (
         <main className="PersonalReading">
             
@@ -265,12 +268,13 @@ function PersonalReading(props) {
                 </div>
                 
                 <article className="PersonalReading__mainPage--textEditor" style={props.mode === true ? {width: '368px'} : {flex: 1}}>
-                <FontAwesomeIcon className="ToPdfButton" icon={faFilePdf} onClick={() => { toPdf(); }}></FontAwesomeIcon>
-                    <div className="PersonalReading__mainPage--textEditor--info">
-                        <p style={{ fontSize: '16px' }}>{currentBookInfo.pdfName}</p>
-                        <p style={{ fontSize: '12px', textDecoration: 'underline' }}>5분 전에 수정하였습니다.</p>
+                    <div className="PersonalReading__mainPage--textEditor--wrap">
+                        <div className="PersonalReading__mainPage--textEditor--info">
+                            <p style={{ fontSize: '16px' }}>{currentBookInfo.pdfName}</p>
+                            <p style={{ fontSize: '12px', textDecoration: 'underline' }}>5분 전에 수정하였습니다.</p>
+                        </div>
+                        <FontAwesomeIcon className="ToPdfButton" icon={faFilePdf} onClick={() => { toPdf(); }}></FontAwesomeIcon>
                     </div>
-                    
                     <WrapperTextEditor markdownValue={markdownValue} commitIdx={commitIdx} userIdx={String(userIdx)} pdfIdx={String(pdfIdx)}></WrapperTextEditor>
                 </article>
             </div>

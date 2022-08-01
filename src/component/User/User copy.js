@@ -2,9 +2,14 @@ import styles from './User.module.css'
 import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleOnOffHistory } from '../../store';
+import Moment from 'react-moment';
+import 'moment/locale/ko';
+import moment from 'moment';
 
 export default function User(){
     let onOffHistory = useSelector((state) => {return state.onOffHistory});
+
+    const nowTime = moment().format('YYYY-MM-DD')
 
     return(
         <main className={styles.main}>
@@ -29,6 +34,7 @@ export default function User(){
                         <button className={styles.button}>삭제</button>
                     </form>
                     <div className={styles.divTable}>
+                        <p><Moment>{nowTime}</Moment></p>
                         <table>
                             <thead className={styles.thead}>
                                 <tr>
@@ -65,7 +71,7 @@ const UserProfile = ()=>{
         .catch((err) => {
             console.log(err);
         })
-    },[])
+    })
 
     return(
         <UserProfileShow result={result} length={result.length}></UserProfileShow>
@@ -90,30 +96,18 @@ const CommitHistory = ()=>{
 
     const [result, setResult] = useState([]);
     
-    // useEffect(()=>{
-    //     fetch(`https://inkyuoh.shop/commits/users/58`)
-    //     .then(res=>{
-    //         return res.json()
-    //     })
-    //     .then(res=>{
-    //         setResult(res.result);
-    //     })
-    //     .catch((err) => {
-    //         console.log(err);
-    //     })
-    // })
-
-    let date = `2022-08-01`
-
     useEffect(()=>{
-        fetch(`http://43.200.26.215:3000/commits/daily/date/${date}`)
+        fetch(`https://inkyuoh.shop/commits/users/58`)
         .then(res=>{
             return res.json()
         })
         .then(res=>{
-            setResult(res.result)
+            setResult(res.result);
         })
-    },[])
+        .catch((err) => {
+            console.log(err);
+        })
+    })
 
     return(
         <CommitShow result={result} length={result.length}></CommitShow>
@@ -131,7 +125,7 @@ const CommitShow = (props)=>{
             result.push(
                 <ul>
                     {/* 밑에거 제목 뜨게 하고 싶으면 커밋 db에 제목도 추가해야할 것 같습니다~ */}
-                    <li className={styles.commitLi}>{props.result[i].bookName}</li>
+                    <li className={styles.commitLi}>메타버스</li>
                     <p className={styles.commitp}>{props.result[i].commitMessage}</p>
                     <p className={styles.commitDate}>{props.result[i].createdAt}</p>
                 </ul>
@@ -159,7 +153,7 @@ const Tr = ()=>{
         .catch((err) => {
             console.log(err);
         })
-    },[]);
+    });
 
     return (
         <BookList result={result} length={result.length}></BookList>
@@ -213,30 +207,40 @@ function Grass() {
 const GrassShow = (props) => {
     let dispatch = useDispatch();
 
-    function subtractDays(numOfDays, date = new Date()) {
-        date.setDate(date.getDate() - numOfDays);
-        
-        const calculDate = date.getFullYear() + "-" + (date.getMonth()+1) + '-' + date.getDate()
-    
-        return calculDate;
+    const CommitClick = useRef(null);
+
+    const onSubmit = (e)=>{
+        console.log(CommitClick.current.value);
+
+        fetch(``, {
+            method: 'post',
+            headers: {
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify({
+                
+            })
+        })
     }
 
     if (props.date.length != 0) {
         const rendering = () => {
             const result = Array();
 
+            
+
             // index 이용해서 날짜별로 뜨게 한다?? 이거 설명 다시 들어야할듯 ㅠㅠ
             //실제 서버로 한 사람씩 조회하면 데이터는 1명씩만 뜰테니까, 원래라면 date만 쓰면 될듯?
             for (let i = 1; i < 365; i++) {
                 if (props.date[0].commitGrass[i] !== "0") {
                     // 1일 때만 들어가게
-                    result.push(<li key={i} date={subtractDays(-i+364, new Date())} data-level={1} onClick={() => {
+                    result.push(<li key={i} index={i} data-level={1} onClick={() => {
                         dispatch(toggleOnOffHistory());
                     }}></li>);
                 } else if (props.date[0].commitGrass[i] == "0") {
                     //0이라면 빈 값이 들어가게
                     //이후에 매칭을 날짜별로 시키게 된다면, 이 토글도 눌렀을 때 널값이 뜨게끔 해야하지 않을까? 흐음??
-                    result.push(<li key={i} date={subtractDays(-i+364, new Date())}></li>);
+                    result.push(<li key={i} index={i}></li>);
                 }
             }
             return result;

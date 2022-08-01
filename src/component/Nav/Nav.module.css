@@ -67,6 +67,7 @@
     align-items: center;
     justify-content: space-between;
     background-color: #2D3748;
+    user-select: none;
 }
 
 .navRead{

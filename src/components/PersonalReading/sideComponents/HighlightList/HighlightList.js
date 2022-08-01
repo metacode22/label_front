@@ -1,6 +1,6 @@
 import styles from "./HighlightList.module.css";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import SearchBar from '../SearchBar/SearchBar.js';
 import HighlightBadge from './HighlightBadge/HighlightBadge.js';
 import Card from "@mui/material/Card";
@@ -10,9 +10,11 @@ import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import ClearIcon from "@mui/icons-material/Clear";
 import IconButton from "@mui/material/IconButton";
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function HighlightList(props) {
-    let [highlightData, setHighlightData] = useState([]);
+    const [highlightData, setHighlightData] = useState([]);
     
     useEffect(() => {
         if (props.commitIdx === -1) {
@@ -95,7 +97,7 @@ function HighlightCards(props) {
                             setHighlightData(response.data.result);
                             setUpdateHighlightList(!updateHighlightList);
                             const selectedHighlight = document.getElementsByClassName('highlight' + highlightIdx);
-                            console.log(selectedHighlight);
+                            
                             for (let i = 0; i < selectedHighlight.length; i++) {
                                 if (selectedHighlight[i].classList.contains('highlightedGreen') === true) {
                                     selectedHighlight[i].classList.remove('highlightedGreen');
@@ -136,6 +138,7 @@ function HighlightCards(props) {
         
     }
 
+    
     return (
         <>
             {props.highlightData?.map(function (element, index) {
@@ -157,6 +160,16 @@ function HighlightCards(props) {
                                 </Typography>
                             </CardContent>
                         </Card>
+                        {/* <div className={styles.highlightCardWrap} key={index}>
+                            <div className={styles.highlightCardTitle}>{element.data}</div>
+                            <div>
+                                <FontAwesomeIcon icon={faTrash} className={
+                                    element.color === 0 ? 'trashIconGreen' :
+                                        element.color === 1 ? 'trashIconPurple' :
+                                            'trashIconYellow'
+                                }></FontAwesomeIcon>
+                            </div>
+                        </div> */}
                     </>
                 );
             })}

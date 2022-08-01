@@ -45,7 +45,7 @@ function PersonalReading(props) {
     
     // let [totalPage, setTotalPage] = useState(1);
     const [currentBookInfo, setCurrentBookInfo] = useState({});
-    console.log(commitIdx);
+
     useEffect(() => {
         console.log('hello1');
         axios.get(`https://inkyuoh.shop/users/${userIdx}/pdfs`)
@@ -126,30 +126,30 @@ function PersonalReading(props) {
     useEffect(() => {
         console.log('hello3');
         // html이 바뀔 때, 전 페이지를 잡는 에러가 있어서 추가.
-        if (commitIdx === -1) {
-            axios.get(`https://inkyuoh.shop/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/`)
-                .then((response) => {
-                    console.log('highlight data GET response:', response);
+        // if (commitIdx === -1) {
+        //     axios.get(`https://inkyuoh.shop/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/`)
+        //         .then((response) => {
+        //             console.log('highlight data GET response:', response);
                     
-                    for(let i = 0; i < response.data.result?.length; i++) {
-                        setHighlightData(response.data.result);
-                    }
-                })
-            // .catch((error) => {
-            //     console.log('highlight data GET Fail, error:', error);
-            // })
-        } else {
-            axios.get(`https://inkyuoh.shop/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/commitIdx/${commitIdx}`)
-                .then((response) => {
-                    console.log('Commit highlight data GET response:', response);
-                    setHighlightData(response.data.result);
-                })
-        }
+        //             for(let i = 0; i < response.data.result?.length; i++) {
+        //                 setHighlightData(response.data.result);
+        //             }
+        //         })
+        //     // .catch((error) => {
+        //     //     console.log('highlight data GET Fail, error:', error);
+        //     // })
+        // } else {
+        //     axios.get(`https://inkyuoh.shop/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/commitIdx/${commitIdx}`)
+        //         .then((response) => {
+        //             console.log('Commit highlight data GET response:', response);
+        //             setHighlightData(response.data.result);
+        //         })
+        // }
         
         function selectableTextAreaMouseUp(event) {
             const highlightButtonCurrent = highlightButtonsWrap.current;
 
-            let timer = setTimeout(() => {
+            setTimeout(() => {
                 if (window.getSelection().toString().trim() != 0) {
                     const x = event.pageX;
                     const y = event.pageY;
@@ -192,6 +192,7 @@ function PersonalReading(props) {
         };
     }, [currentPageNumber, props.mode, html, commitIdx])
     
+    // Text Editor Value
     useEffect(() => {
         if (commitIdx === -1) {
             
@@ -206,7 +207,8 @@ function PersonalReading(props) {
         
     }, [commitIdx])
     
-    useEffect(() => {        
+    // Draw Highlight
+    useEffect(() => {
         try {
             for (let i = 0; i < highlightData.length; i++) {
                 doHighlight(highlightData[i], highlightData[i].highlightIdx);
@@ -215,7 +217,7 @@ function PersonalReading(props) {
         catch {
             console.log('hello');
         }
-    }, [highlightData])
+    }, [currentPageNumber, highlightData])
     
     return (
         <main className="PersonalReading">

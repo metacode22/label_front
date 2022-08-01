@@ -82,7 +82,6 @@ function HighlightCards(props) {
     async function deleteHighlight(commitIdx, highlightIdx, setHighlightData, updateHighlightList, setUpdateHighlightList, currentPageNumber) {
         
         if (commitIdx === -1) {
-            
             await axios.delete(`https://inkyuoh.shop/highlights/${highlightIdx}`)
                 .then((response) => {
                     console.log("highlight delete response:", response);

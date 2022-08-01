@@ -26,6 +26,8 @@ function PersonalReading(props) {
     const [updateHighlightList, setUpdateHighlightList] = useState(true);
     const [commitIdx, setCommitIdx] = useState(-1);
     const [markdownValue, setMarkdownValue] = useState('');
+    
+    const [highlightData, setHighlightData] = useState([]);
      
     const highlightButtonsWrap = useRef();
     const highlightButton = useRef();
@@ -84,10 +86,7 @@ function PersonalReading(props) {
                     axios.get(`https://inkyuoh.shop/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
                         .then((response) => {
                             console.log('highlight data GET response:', response);
-                            
-                            for (let i = 0; i < response.data.result?.length; i++) {
-                                doHighlight(response.data.result[i], response.data.result[i].highlightIdx);    
-                            }
+                            setHighlightData(response.data.result);
                         })
                         // .catch((error) => {
                         //     console.log('highlight data GET Fail, error:', error);
@@ -117,10 +116,7 @@ function PersonalReading(props) {
                     axios.get(`https://inkyuoh.shop/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/commitIdx/${commitIdx}`)
                         .then((response) => {
                             console.log('Commit highlight data GET response:', response);
-                            
-                            for(let i = 0; i < response.data.result?.length; i++) {
-                                doHighlight(response.data.result[i], response.data.result[i].highlightIdx);    
-                            }
+                            setHighlightData(response.data.result);
                         })
                 })
         }
@@ -136,10 +132,7 @@ function PersonalReading(props) {
                     console.log('highlight data GET response:', response);
                     
                     for(let i = 0; i < response.data.result?.length; i++) {
-                        // if (response.data.result[i].active === 1) {
-                            // console.log(document.querySelector('.y6'));
-                            doHighlight(response.data.result[i], response.data.result[i].highlightIdx);    
-                        // }
+                        setHighlightData(response.data.result);
                     }
                 })
             // .catch((error) => {
@@ -149,10 +142,7 @@ function PersonalReading(props) {
             axios.get(`https://inkyuoh.shop/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/commitIdx/${commitIdx}`)
                 .then((response) => {
                     console.log('Commit highlight data GET response:', response);
-                    
-                    for(let i = 0; i < response.data.result?.length; i++) {
-                        doHighlight(response.data.result[i], response.data.result[i].highlightIdx);    
-                    }
+                    setHighlightData(response.data.result);
                 })
         }
         
@@ -215,7 +205,18 @@ function PersonalReading(props) {
         }
         
     }, [commitIdx])
-
+    
+    useEffect(() => {        
+        try {
+            for (let i = 0; i < highlightData.length; i++) {
+                doHighlight(highlightData[i], highlightData[i].highlightIdx);
+            }       
+        }
+        catch {
+            console.log('hello');
+        }
+    }, [highlightData])
+    
     return (
         <main className="PersonalReading">
             

@@ -48,6 +48,7 @@ function doHighlight(highlightData, highlightIdx) {
         
         newNode.classList.add(highlightColor);
         newNode.classList.add('highlight' + highlightIdx);
+        newNode.classList.add('forRollBack');
         if ( decimalYOfSelectedStartContainer === decimalYOfSelectedEndContainer) {
             newRange.setStart( currentElement?.childNodes[indexOfSelectedStartContainer], offsetOfSelectedStartContainer);
             newRange.setEnd( currentElement?.childNodes[indexOfSelectedEndContainer], offsetOfSelectedEndContainer);
@@ -193,7 +194,7 @@ function toPdf() {
         console.log(canvas);
         var imgData = canvas.toDataURL('image/png');
 
-        var imgWidth = 180; 
+        var imgWidth = 150; 
         var pageHeight = imgWidth * 1.414;  
         var imgHeight = canvas.height * imgWidth / canvas.width;
         var heightLeft = imgHeight;

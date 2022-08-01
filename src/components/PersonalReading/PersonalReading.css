@@ -217,7 +217,7 @@
     background-color: #93E7A2;
     border-radius: var(--border-radius-2);
     
-    animation: highlightSmoothAppear 0.25s;
+    /* animation: highlightSmoothAppear 0.25s; */
 }
 
 .highlightedPurple {
@@ -225,7 +225,7 @@
     background-color: #E1BCEF;
     border-radius: var(--border-radius-2);
     
-    animation: highlightSmoothAppear 0.25s;
+    /* animation: highlightSmoothAppear 0.25s; */
 }
 
 .highlightedYellow {
@@ -233,7 +233,7 @@
     background-color: #eef352dc;
     border-radius: var(--border-radius-2);
     
-    animation: highlightSmoothAppear 0.25s;
+    /* animation: highlightSmoothAppear 0.25s; */
 }
 
 .ToPdfButton {

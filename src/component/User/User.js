@@ -91,7 +91,7 @@ const CommitHistory = ()=>{
     const [result, setResult] = useState([]);
     
     useEffect(()=>{
-        fetch(`https://inkyuoh.shop/commits/users/58/books/75`)
+        fetch(`https://inkyuoh.shop/commits/users/58`)
         .then(res=>{
             return res.json()
         })

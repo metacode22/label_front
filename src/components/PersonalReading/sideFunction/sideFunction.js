@@ -194,7 +194,7 @@ function toPdf() {
         console.log(canvas);
         var imgData = canvas.toDataURL('image/png');
 
-        var imgWidth = 150; 
+        var imgWidth = 180; 
         var pageHeight = imgWidth * 1.414;  
         var imgHeight = canvas.height * imgWidth / canvas.width;
         var heightLeft = imgHeight;

@@ -48,6 +48,7 @@ function doHighlight(highlightData, highlightIdx) {
         
         newNode.classList.add(highlightColor);
         newNode.classList.add('highlight' + highlightIdx);
+        newNode.classList.add('forRollBack');
         if ( decimalYOfSelectedStartContainer === decimalYOfSelectedEndContainer) {
             newRange.setStart( currentElement?.childNodes[indexOfSelectedStartContainer], offsetOfSelectedStartContainer);
             newRange.setEnd( currentElement?.childNodes[indexOfSelectedEndContainer], offsetOfSelectedEndContainer);

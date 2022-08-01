@@ -83,7 +83,7 @@ export const TextEditor: FC<{ value: string, markdownValue: string, commitIdx: n
                         if (commitIdx === -1) {
                             ctx.set(defaultValueCtx, value);    
                         } else {
-                            console.log('-----------------', markdownValue);
+                            // console.log('-----------------', markdownValue);
                             ctx.set(defaultValueCtx, markdownValue);  
                         }
                         

@@ -24,14 +24,14 @@ function SideBar(props) {
 	function handleSubmit(event) {
 		event.preventDefault();
 		
-		if (commitInput.current.value !== '') {
+		if (commitInput.current.value !== '') {			
 			axios.post('https://inkyuoh.shop/commits', {
 					pdfIdx: props.currentBookInfo.pdfIdx,
 					userIdx: userIdx,
 					createdAt: result,
 					commitMessage: commitInput.current.value
 				})
-				.then((response) => {
+				.then((response) => {					
 					console.log('Commit response:', response);
 					axios.get(`https://inkyuoh.shop/commits/users/${userIdx}/books/${props.currentBookInfo.pdfIdx}`)
 						.then((response) => {

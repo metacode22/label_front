@@ -3,7 +3,7 @@
 }
 
 .milkdown-menu {
-    /* flex-wrap: wrap !important; */
+    flex-wrap: wrap !important;
     border-left: none !important;
     border-right: none !important;
 }
@@ -63,5 +63,17 @@ button[title='redo'] {
 }
 
 button[title='undo'] {
+    display: none;
+}
+
+button[title='select'] {
+    display: none;
+}
+
+button[title='code'] {
+    display: none;
+}
+
+.milkdown-1xp8x74 {
     display: none;
 }

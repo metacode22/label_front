@@ -217,7 +217,7 @@ function PersonalReading(props) {
         catch {
             console.log('hello');
         }
-    }, [currentPageNumber, highlightData])
+    }, [highlightData, html])
     
     return (
         <main className="PersonalReading">

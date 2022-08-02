@@ -104,11 +104,7 @@ export const TextEditor: FC<{ value: string, markdownValue: string, commitIdx: n
                             return value;
                         });
                     })
-                    .use(block.configure(blockPlugin, {
-                        configBuilder: (ctx) => {
-                            return [/* your actions */];
-                        }
-                    }))
+                    .use(block)
                     .use(menu)
                     .use(nord)
                     .use(history)

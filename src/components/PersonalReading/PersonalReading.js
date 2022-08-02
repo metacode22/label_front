@@ -45,7 +45,7 @@ function PersonalReading(props) {
     
     // let [totalPage, setTotalPage] = useState(1);
     const [currentBookInfo, setCurrentBookInfo] = useState({});
-
+    console.log(currentBookInfo);
     useEffect(() => {
         console.log('hello1');
         axios.get(`https://inkyuoh.shop/users/${userIdx}/pdfs`)
@@ -113,7 +113,7 @@ function PersonalReading(props) {
                     console.log('html GET Fail, error:', error);
                 })
                 .then(() => {
-                    axios.get(`https://inkyuoh.shop/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/commitIdx/${commitIdx}`)
+                    axios.get(`https://inkyuoh.shop/highlights/pages/${currentPageNumber}/commitIdx/${commitIdx}`)
                         .then((response) => {
                             console.log('Commit highlight data GET response:', response);
                             setHighlightData(response.data.result);
@@ -139,7 +139,7 @@ function PersonalReading(props) {
         //     //     console.log('highlight data GET Fail, error:', error);
         //     // })
         // } else {
-        //     axios.get(`https://inkyuoh.shop/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/commitIdx/${commitIdx}`)
+        //     axios.get(`https://inkyuoh.shop/highlights/pages/${currentPageNumber}/commitIdx/${commitIdx}`)
         //         .then((response) => {
         //             console.log('Commit highlight data GET response:', response);
         //             setHighlightData(response.data.result);
@@ -194,9 +194,9 @@ function PersonalReading(props) {
     
     // Text Editor Value
     useEffect(() => {
-        if (commitIdx === -1) {
-            
-        } else {
+        setHtml({...html})
+        
+        if (commitIdx !== -1) {
             axios.post('https://inkyuoh.shop/commits/books/2/2', {
                     commitIdx: commitIdx
                 })
@@ -267,13 +267,13 @@ function PersonalReading(props) {
                     </aside>
                 </div>
                 
-                <article className="PersonalReading__mainPage--textEditor" style={props.mode === true ? {width: '368px'} : {flex: 1}}>
+                <article className="PersonalReading__mainPage--textEditor" style={props.mode === true ? {flex: 1} : {flex: 1}}>
                     <div className="PersonalReading__mainPage--textEditor--wrap">
                         <div className="PersonalReading__mainPage--textEditor--info">
                             <p style={{ fontSize: '16px' }}>{currentBookInfo.pdfName}</p>
                             <p style={{ fontSize: '12px', textDecoration: 'underline' }}>5분 전에 수정하였습니다.</p>
                         </div>
-                        <FontAwesomeIcon className="ToPdfButton" icon={faFilePdf} onClick={() => { toPdf(); }}></FontAwesomeIcon>
+                        <FontAwesomeIcon className="ToPdfButton" icon={faFilePdf} onClick={() => { toPdf(currentBookInfo.pdfName); }}></FontAwesomeIcon>
                     </div>
                     <WrapperTextEditor markdownValue={markdownValue} commitIdx={commitIdx} userIdx={String(userIdx)} pdfIdx={String(pdfIdx)}></WrapperTextEditor>
                 </article>

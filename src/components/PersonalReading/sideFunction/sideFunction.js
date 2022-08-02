@@ -186,7 +186,7 @@ function turnOver(direction, currentPageNumber, setCurrentPageNumber, totalPage)
     }
 }
 
-function toPdf() {
+function toPdf(pdfName) {
     document.querySelector('.editor')?.setAttribute('style', 'overflow: visible !important');
     document.querySelector('.editor')?.setAttribute('style', 'height: auto !important');
     
@@ -212,7 +212,7 @@ function toPdf() {
             doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
             heightLeft -= pageHeight;
         }
-        doc.save('sample-file.pdf');
+        doc.save(`${pdfName}.pdf`);
     })
     
     document.querySelector('.editor')?.setAttribute('style', 'overflow: scroll !important');

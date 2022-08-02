@@ -8,7 +8,7 @@ import { nord } from '@milkdown/theme-nord';
 import { FC, ReactNode, useEffect } from 'react';
 import { block, blockPlugin } from '@milkdown/plugin-block';
 import { math } from '@milkdown/plugin-math';
-import { menu } from '@milkdown/plugin-menu';
+import { menu, menuPlugin } from '@milkdown/plugin-menu';
 import { gfm } from '@milkdown/preset-gfm';
 import { history } from '@milkdown/plugin-history'
 import io from 'socket.io-client';
@@ -109,15 +109,12 @@ export const TextEditor: FC<{ value: string, markdownValue: string, commitIdx: n
                             return [/* your actions */];
                         }
                     }))
+                    .use(menu)
                     .use(nord)
                     .use(history)
-                    // .use(nodes)
-                    // .use(commonmarkPlugins)
                     .use(gfm)
                     .use(math)
-                    // .use(tooltip)
                     .use(prism)
-                    .use(menu)
                     .use(listener)
 
                     return editor

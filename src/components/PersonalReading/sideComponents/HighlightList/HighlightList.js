@@ -40,7 +40,7 @@ function HighlightList(props) {
             console.log(props.currentPageNumber);
             console.log(props.commitIdx);
             async function getHighlightData() {
-                await axios.get(`https://inkyuoh.shop/highlights/pdfs/${props.pdfIdx}/pages/${props.currentPageNumber}/commitIdx/${props.commitIdx}`)
+                await axios.get(`https://inkyuoh.shop/highlights/pages/${props.currentPageNumber}/commitIdx/${props.commitIdx}`)
                     .then((response) => {
                         setHighlightData(response.data.result);
                     })

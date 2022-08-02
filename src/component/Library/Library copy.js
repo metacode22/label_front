@@ -80,33 +80,29 @@ export default function Library(){
             }} className={styles.label}>{text ? `닫기` : `Upload`}</label>
             <article>
                 <section className={styles.sectionTitle}>
-                    <p style={{ fontSize: '40px', fontWeight: 'bold'}}>MY LIBRARY</p>
-                    <p className={styles.p}>최근에 읽었던 책 또는 한 번이라도 열어봤던 책 리스트입니다. 오늘도 Label과 즐거운 책 읽기를 해보세요.</p>
+                    <p style={{ fontSize: '40px', fontWeight: 'bold'}} onClick={()=>{setClose(false)}}>MY LIBRARY</p>
+                    <p className={styles.p} onClick={()=>{setClose(false)}}>최근에 읽었던 책 또는 한 번이라도 열어봤던 책 리스트입니다. 오늘도 Label과 즐거운 책 읽기를 해보세요.</p>
                     <label className={styles.search} onFocus={()=>{setClose(!false)}}>
                         <img className={styles.searchImg} src={process.env.PUBLIC_URL + '/images/search.png'}></img>
                         <input onChange={onSearch} type='text' className={styles.searchInput} placeholder='찾고 싶은 책 이름 또는 제목을 입력해보세요.'></input>
                     </label>
                 </section>
-                {close === true ? <section className={styles.sectionSearch}>
-                    {/* <button className={styles.searchClose} onClick={()=>{setClose(false)}}>X</button> */}
-                    <div className={styles.divTextSearch}>
-                        <h2>Searched Result</h2>
-                        <button className={styles.searchClose} onClick={()=>{setClose(false)}}></button>
-                    </div>
+                {close === true ? <section className={styles.section}>
+                    <div className={styles.divText}><h2>Searched Result</h2></div>
                     <div className={styles.bookList}>
                         <SearchBook result={search}></SearchBook>
                     </div>
-                </section> : <><section className={styles.section}>
-                    <div className={styles.divText}><h2>Recently Read</h2></div>
-                    <div className={styles.bookList}>
-                        <RecentBookList result={result}></RecentBookList>
-                    </div>
-                </section><section className={styles.section}>
-                        <div className={styles.divText}><h2>How about this one?</h2></div>
+                </section> : <><section className={styles.section} onClick={() => { setClose(false); } }>
+                        <div className={styles.divText}><h2>Recently Read</h2></div>
                         <div className={styles.bookList}>
-                            <BookList result={allBook} length={allBook.length}></BookList>
+                            <RecentBookList result={result}></RecentBookList>
                         </div>
-                    </section></>}
+                    </section><section className={styles.section} onClick={() => { setClose(false); } }>
+                            <div className={styles.divText}><h2>How about this one?</h2></div>
+                            <div className={styles.bookList}>
+                                <BookList result={allBook} length={allBook.length}></BookList>
+                            </div>
+                        </section></>}
             </article>
         </main>
     )

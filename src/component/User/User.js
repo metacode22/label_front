@@ -1,7 +1,7 @@
 import styles from './User.module.css'
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { toggleOnOffHistory, changeCommitInfo } from '../../store';
+import { toggleOnHistory, toggleOffHistory, changeCommitInfo } from '../../store';
 
 export default function User(){
     let onOffHistory = useSelector((state) => {return state.onOffHistory});
@@ -18,21 +18,21 @@ export default function User(){
                         <p className={styles.grassP}>Your commit history</p>
                         <Grass></Grass>
                     </div>
-                    { onOffHistory === true ? <div className={styles.divHistory}>
+                    { onOffHistory ? <div className={styles.divHistory}>
                         <CommitShow></CommitShow>
                     </div> : null}
                 </section>
                 <img className={styles.lineImg} src={process.env.PUBLIC_URL + `/images/line.png`}></img>
                 <section>
                     <div className={styles.divText}><h2>My Library</h2></div>
-                    <form className={styles.form}>
+                    {/* <form className={styles.form}>
                         <button className={styles.button}>삭제</button>
-                    </form>
+                    </form> */}
                     <div className={styles.divTable}>
                         <table>
                             <thead className={styles.thead}>
                                 <tr>
-                                    <th><input type='checkbox'/></th>
+                                    {/* <th><input type='checkbox'/></th> */}
                                     <th className={styles.th}>Title</th>
                                     <th className={styles.th}>Page</th>
                                     <th className={styles.th}>Date</th>
@@ -141,7 +141,7 @@ const BookList = (props)=>{
         for (let i = 0; i < props.result.length; i++){
             result.push(
                 <tr>
-                    <td className={styles.tdCheck}><input type='checkbox'/></td>
+                    {/* <td className={styles.tdCheck}><input type='checkbox'/></td> */}
                     <td className={styles.tdTitle}>{props.result[i].pdfName}</td>
                     <td className={styles.td}>{props.result[i].recentlyReadPage} / {props.result[i].totalPage}</td>
                     <td className={styles.td}>{props.result[i].updatedAt}</td>
@@ -158,7 +158,7 @@ function Grass() {
 
     useEffect(() => {
         // let userIdx = 5;
-        fetch(`https://inkyuoh.shop/userInfo`) //실제 서버에서 받으면 개인 유저 1명만 부를 수 있게
+        fetch(`https://inkyuoh.shop/userInfo`)
             .then((res) => {
                 return res.json();
             })
@@ -184,12 +184,10 @@ const GrassShow = (props) => {
         const rendering = () => {
             const result = Array();
 
-            //실제 서버로 한 사람씩 조회하면 데이터는 1명씩만 뜰테니까, 원래라면 date만 쓰면 될듯?
             for (let i = 1; i < 365; i++) {
                 if (props.date[0].commitGrass[i] !== "0") {
-                    // 1일 때만 들어가게
                     result.push(<li key={i} date={subtractDays(-i+364, new Date())} data-level={1} onClick={() => {
-                        dispatch(toggleOnOffHistory());
+                        dispatch(toggleOnHistory());
                         let day = subtractDays(-i+364, new Date());
                         fetch(`http://43.200.26.215:3000/commits/daily/date/${day}`)
                         .then(res=>{
@@ -200,9 +198,9 @@ const GrassShow = (props) => {
                         })
                     }}></li>);
                 } else if (props.date[0].commitGrass[i] == "0") {
-                    //0이라면 빈 값이 들어가게
-                    //이후에 매칭을 날짜별로 시키게 된다면, 이 토글도 눌렀을 때 널값이 뜨게끔 해야하지 않을까? 흐음??
-                    result.push(<li key={i} date={subtractDays(-i+364, new Date())}></li>);
+                    result.push(<li key={i} date={subtractDays(-i+364, new Date())} onClick={()=>{
+                        dispatch(toggleOffHistory());
+                    }}></li>);
                 }
             }
             return result;
@@ -218,7 +216,3 @@ function subtractDays(numOfDays, date = new Date()) {
 
     return calculDate;
 };
-
-/* 마이 라이브러리에 삭제 버튼 구현
-   라이브러리에 타이틀 누르면 해당 책으로 이동해야 하는지?
-   지금 유저 1명만 불러오고 있음 -> 여러 유저를 조회할 수 있게 바꿔야 함 */

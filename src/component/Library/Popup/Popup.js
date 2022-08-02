@@ -9,7 +9,7 @@ export default function Popup(){
         if(!e.target.files){
             return;
         }
-        console.log(e.target.files[0].name);
+        console.log(e.target.files[0]?.name);
     },[])
 
     const clickUpload = useCallback(()=>{

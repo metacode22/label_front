@@ -13,11 +13,10 @@ import Practice from './components/Practice/Practice.js';
 export default function App() {
     const location = useLocation();
     const site = location.pathname;
-    let [userIdx, setUserIdx] = useState(null);
 
     return (
         <>
-        {site === '/personalreading' ? <AppColor userIdx={userIdx}></AppColor> : <AppNonColor userIdx={userIdx}></AppNonColor>}
+        {site === '/personalreading' ? <AppColor></AppColor> : <AppNonColor></AppNonColor>}
         </>
     );
 }

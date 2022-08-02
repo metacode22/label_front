@@ -4,16 +4,31 @@ let onOffHistory = createSlice({
     name: 'onOffHistory',
     initialState: false,
     reducers: {
-        toggleOnOffHistory(state) {
-            return !state;
+        toggleOnHistory(state) {
+            return true;
+        },
+        toggleOffHistory(state){
+            return false;
         }
     }
 })
 
-export let { toggleOnOffHistory } = onOffHistory.actions;
+let commitInfo = createSlice({
+    name: 'commitInfo',
+    initialState: [],
+    reducers: {
+        changeCommitInfo(state, action) {
+            return [...action.payload];
+        }
+    }
+})
+
+export let { toggleOnHistory, toggleOffHistory } = onOffHistory.actions;
+export let { changeCommitInfo } = commitInfo.actions;
 
 export default configureStore({
     reducer: {
-        onOffHistory: onOffHistory.reducer
+        onOffHistory: onOffHistory.reducer,
+        commitInfo: commitInfo.reducer
     }
 })

@@ -23,11 +23,15 @@
     background: inherit !important;
     background-color: inherit !important;
     overflow: scroll !important;
-    height: 100% !important;
+    height: 95% !important;
     /* height: auto !important; */
     padding-top: 20px !important;
     padding-bottom: 0 !important;
     /* max-height: 100% !important; */
+}
+
+.editor * {
+    color: black;
 }
 
 .paragraph {
@@ -44,10 +48,32 @@
     width: 0 !important;
 }
 
-.menu-selector {
-    margin: 0px !important;
-}
-
 .milkdownMenuWrapperParent {
     height: 85% !important;
+}
+
+.menu-selector {
+    margin: 0px !important;
+    
+    display: none !important;
+}
+
+button[title='redo'] {
+    display: none;
+}
+
+button[title='undo'] {
+    display: none;
+}
+
+button[title='select'] {
+    display: none;
+}
+
+button[title='code'] {
+    display: none;
+}
+
+.milkdown-1xp8x74 {
+    display: none;
 }

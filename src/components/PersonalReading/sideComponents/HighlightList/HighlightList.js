@@ -21,13 +21,6 @@ function HighlightList(props) {
             async function getHighlightData() {
                 await axios.get(`https://inkyuoh.shop/highlights/pdfs/${props.pdfIdx}/pages/${props.currentPageNumber}`)
                     .then((response) => {
-                        // let result = Array();
-                        
-                        // for (let i = 0; i < response.data.result.length; i++) {
-                        //     if (response.data.result[i].active === 1) {
-                        //         result.push(response.data.result[i])
-                        //     }
-                        // }
                         setHighlightData(response.data.result);
                     });
             }
@@ -36,9 +29,6 @@ function HighlightList(props) {
         }
         
         else {
-            console.log(props.pdfIdx);
-            console.log(props.currentPageNumber);
-            console.log(props.commitIdx);
             async function getHighlightData() {
                 await axios.get(`https://inkyuoh.shop/highlights/pages/${props.currentPageNumber}/commitIdx/${props.commitIdx}`)
                     .then((response) => {
@@ -113,32 +103,10 @@ function HighlightCards(props) {
                             }
                         })
                 })
-        } else {
-            
-            // await axios.delete(`https://inkyuoh.shop/highlights/${highlightIdx}`)
-            //     .then((response) => {
-            //         console.log("highlight delete response:", response);
-            //     })
-            //     .catch((error) => {
-            //         console.log("highlight delete error:", error);
-            //     })
-            //     .then(async () => {
-            //         await axios.get(`https://inkyuoh.shop/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/commitIdx/${commitIdx}`)
-            //             .then((response) => {
-            //                 setHighlightData(response.data.result);
-            //                 setUpdateHighlightList(!updateHighlightList);
-            //                 const selectedHighlight = document.getElementsByClassName('highlight' + highlightIdx);
-                            
-            //                 for (let i = 0; i < selectedHighlight.length; i++) {
-            //                     selectedHighlight[i].classList.remove('highlighted', `${highlightIdx}`);
-            //                 }
-            //             })
-            //     })
         }
-        
     }
 
-    
+    console.log(props.highlightData);
     return (
         <>
             {props.highlightData?.map(function (element, index) {
@@ -146,30 +114,21 @@ function HighlightCards(props) {
                     <>
                         <Card sx={{ width: '100%', minWidth: 275, marginBottom: 1 }} key={index}>
                             <CardHeader 
-                                sx={{ paddingBottom: 0 }} 
-                                avatar={<Avatar sx={{ bgcolor: "#4DABB3", width: 10, height: 10 }} aria-label="recipe">{""}</Avatar>}
+                                sx={{ paddingBottom: 0 }}
+                                avatar={<Avatar sx={{ width: 10, height: 10, bgcolor: element.color === 0 ? '#93E7A2' : element.color === 1 ? '#9747FF' : element.color === 2 ? '#FFD644' : null}} 
+                                aria-label="recipe">{""}</Avatar>}
                                 title={<p style={{ color: "#DDDDDD" }}></p>}
                                 action={
                                     <IconButton onClick={() => { deleteHighlight( props.commitIdx, element.highlightIdx, props.setHighlightData, props.updateHighlightList, props.setUpdateHighlightList, props.currentPageNumber ); }}>
                                         <ClearIcon fontSize="small"></ClearIcon>
                                     </IconButton>
                                 }
-                            /><CardContent>
+                            /><CardContent sx={{ paddingTop: '4px'}}>
                                 <Typography sx={{ fontSize: 14 }} color="text.secondary" draggable="true" onDragStart={(event) => { dragStart_handler(event); }}>
                                     {element.data}
                                 </Typography>
                             </CardContent>
                         </Card>
-                        {/* <div className={styles.highlightCardWrap} key={index}>
-                            <div className={styles.highlightCardTitle}>{element.data}</div>
-                            <div>
-                                <FontAwesomeIcon icon={faTrash} className={
-                                    element.color === 0 ? 'trashIconGreen' :
-                                        element.color === 1 ? 'trashIconPurple' :
-                                            'trashIconYellow'
-                                }></FontAwesomeIcon>
-                            </div>
-                        </div> */}
                     </>
                 );
             })}

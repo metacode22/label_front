@@ -1,8 +1,10 @@
 import axios from 'axios';
+import $ from 'jquery';
 
 // PDF Download
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { create } from '@mui/material/styles/createTransitions';
 
 // Highlighting Logic
 function drawHighlight(range, node) {
@@ -48,7 +50,6 @@ function doHighlight(highlightData, highlightIdx) {
         
         newNode.classList.add(highlightColor);
         newNode.classList.add('highlight' + highlightIdx);
-        newNode.classList.add('forRollBack');
         if ( decimalYOfSelectedStartContainer === decimalYOfSelectedEndContainer) {
             newRange.setStart( currentElement?.childNodes[indexOfSelectedStartContainer], offsetOfSelectedStartContainer);
             newRange.setEnd( currentElement?.childNodes[indexOfSelectedEndContainer], offsetOfSelectedEndContainer);
@@ -186,34 +187,106 @@ function turnOver(direction, currentPageNumber, setCurrentPageNumber, totalPage)
     }
 }
 
+// function toPdf(pdfName) {
+//     document.querySelector('.editor')?.setAttribute('style', 'overflow: visible !important');
+//     document.querySelector('.editor')?.setAttribute('style', 'height: auto !important');
+    
+//     html2canvas(document.querySelector('.editor')).then((canvas) => {
+//         console.log(canvas);
+//         var imgData = canvas.toDataURL('image/png');
+
+//         var imgWidth = 180; 
+//         var pageHeight = imgWidth * 1.414;  
+//         var imgHeight = canvas.height * imgWidth / canvas.width;
+//         var heightLeft = imgHeight;
+//         var margin = 20;
+
+//         var doc = new jsPDF('p', 'mm', 'a4');
+//         var position = 0;
+
+//         doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
+//         heightLeft -= pageHeight;
+
+//         while (heightLeft >= 0) {
+//             position = heightLeft - imgHeight;
+//             doc.addPage();
+//             doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
+//             heightLeft -= pageHeight;
+//         }
+//         doc.save(`${pdfName}.pdf`);
+//     })
+    
+//     document.querySelector('.editor')?.setAttribute('style', 'overflow: scroll !important');
+//     document.querySelector('.editor')?.setAttribute('style', 'height: 100% !important');
+// }
+
 function toPdf(pdfName) {
     document.querySelector('.editor')?.setAttribute('style', 'overflow: visible !important');
     document.querySelector('.editor')?.setAttribute('style', 'height: auto !important');
+    // document.querySelectorAll('.editor > *').forEach((element) => {
+    //     element.setAttribute('style', 'margin: 12px;');
+    // })
     
-    html2canvas(document.querySelector('.editor')).then((canvas) => {
-        console.log(canvas);
-        var imgData = canvas.toDataURL('image/png');
-
-        var imgWidth = 180; 
-        var pageHeight = imgWidth * 1.414;  
-        var imgHeight = canvas.height * imgWidth / canvas.width;
-        var heightLeft = imgHeight;
-        var margin = 20;
-
-        var doc = new jsPDF('p', 'mm', 'a4');
-        var position = 0;
-
-        doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
-
-        while (heightLeft >= 0) {
-            position = heightLeft - imgHeight;
-            doc.addPage();
-            doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
-            heightLeft -= pageHeight;
+    // A4 => 297mm x 210mm
+    let renderedImg = new Array();
+    let contentWidth = 180;
+    let padding = 15;
+    
+    createPdf();
+    
+    function generateCanvas(i, doc, deferred, currentList) {
+        let pdfWidth = $(currentList).outerWidth() * 0.2645;
+        let pdfHeight = $(currentList).outerHeight() * 0.2645;
+        let heightCalculate = contentWidth * pdfHeight / pdfWidth;
+        
+        html2canvas(currentList).then(
+            function (canvas) {
+                let img = canvas.toDataURL('image/jpeg', 1.0);
+                renderedImg.push({num: i, image: img, height: heightCalculate});
+                deferred.resolve();
+            }
+        )
+    }
+    
+    function createPdf() {
+        let lists = document.querySelectorAll('.editor > *');
+        console.log(lists);
+        let deferreds = [];
+        let doc = new jsPDF('p', 'mm', 'a4');
+        
+        for (let i = 0; i < lists.length; i++) {
+            let deferred = $.Deferred();
+            deferreds.push(deferred.promise());
+            generateCanvas(i, doc, deferred, lists[i]);
         }
-        doc.save(`${pdfName}.pdf`);
-    })
+        
+        $.when.apply($, deferreds).then(function () {
+            let sorted = renderedImg.sort(function(a, b) {
+                return a.num < b.num ? -1 : 1;
+            })
+            let currentHeight = padding;
+            
+            for (let i = 0; i < sorted.length; i++) {
+                let sortedHeight = sorted[i].height;
+                let sortedImage = sorted[i].image;
+                
+                if ( currentHeight + sortedHeight > 297 - padding * 2) {
+                    doc.addPage();
+                    currentHeight = padding;
+                    doc.addImage(sortedImage, 'jpeg', padding, currentHeight, contentWidth, sortedHeight);
+                    currentHeight += sortedHeight;
+                } else {
+                    doc.addImage(sortedImage, 'jpeg', padding, currentHeight, contentWidth, sortedHeight);
+                    currentHeight += sortedHeight;
+                }
+            }
+            
+            doc.save(`${pdfName}.pdf`);
+            
+            currentHeight = padding;
+            renderedImg = new Array();
+        })
+    }
     
     document.querySelector('.editor')?.setAttribute('style', 'overflow: scroll !important');
     document.querySelector('.editor')?.setAttribute('style', 'height: 100% !important');

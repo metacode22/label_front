@@ -11,7 +11,7 @@ function SearchBar(props) {
     
     function handleSearchChange(event) {
         if (event.target.value === '') {
-            async function getHighlightData() {
+            async function getInitialHighlightData() {
                 await axios.get(`https://inkyuoh.shop/highlights/pdfs/${props.pdfIdx}/pages/${props.currentPageNumber}`)
                     .then((response) => {
                         // let result = Array();
@@ -27,16 +27,20 @@ function SearchBar(props) {
                     });
             }
     
-            getHighlightData();
+            getInitialHighlightData();
         } else {
-            axios.get(`https://inkyuoh.shop/pdfs/${props.pdfIdx}/highlights/search?keyword=${event.target.value}`)
-                .then((response) => {
-                    console.log('Search highlight data response:', response);
-                    props.setHighlightData(response.data.result);
-                })
-                .catch((error) => {
-                    console.log('Search highlight data Fail, error:', error);
-                })
+            async function getHighlightData() {
+                await axios.get(`https://inkyuoh.shop/pdfs/${props.pdfIdx}/highlights/search?keyword=${event.target.value}`)
+                    .then((response) => {
+                        console.log('Search highlight data response:', response);
+                        props.setHighlightData(response.data.result);
+                    })
+                    .catch((error) => {
+                        console.log('Search highlight data Fail, error:', error);
+                    })
+            }
+            
+            getHighlightData();
         }
     }
     

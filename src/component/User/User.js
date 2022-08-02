@@ -1,7 +1,7 @@
 import styles from './User.module.css'
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { toggleOnOffHistory } from '../../store';
+import { toggleOnOffHistory, changeCommitInfo } from '../../store';
 
 export default function User(){
     let onOffHistory = useSelector((state) => {return state.onOffHistory});
@@ -19,7 +19,7 @@ export default function User(){
                         <Grass></Grass>
                     </div>
                     { onOffHistory === true ? <div className={styles.divHistory}>
-                        <CommitHistory></CommitHistory>
+                        <CommitShow></CommitShow>
                     </div> : null}
                 </section>
                 <img className={styles.lineImg} src={process.env.PUBLIC_URL + `/images/line.png`}></img>
@@ -86,54 +86,21 @@ const UserProfileShow = (props)=>{
     )
 }
 
-const CommitHistory = ()=>{
+const CommitShow = ()=>{
 
-    const [result, setResult] = useState([]);
-    
-    // useEffect(()=>{
-    //     fetch(`https://inkyuoh.shop/commits/users/58`)
-    //     .then(res=>{
-    //         return res.json()
-    //     })
-    //     .then(res=>{
-    //         setResult(res.result);
-    //     })
-    //     .catch((err) => {
-    //         console.log(err);
-    //     })
-    // })
-
-    let date = `2022-08-01`
-
-    useEffect(()=>{
-        fetch(`http://43.200.26.215:3000/commits/daily/date/${date}`)
-        .then(res=>{
-            return res.json()
-        })
-        .then(res=>{
-            setResult(res.result)
-        })
-    },[])
-
-    return(
-        <CommitShow result={result} length={result.length}></CommitShow>
-    )
-}
-
-const CommitShow = (props)=>{
-
-    // console.log(props.result)
+    let commitInfo = useSelector((state) => state.commitInfo);
+    // console.log(commitInfo);
 
     const rendering = ()=>{
         const result = Array();
 
-        for (let i = 0; i < props.result.length; i++){
+        for (let i = 0; i < commitInfo.length; i++){
+            // console.log(commitInfo[i]);
             result.push(
                 <ul>
-                    {/* 밑에거 제목 뜨게 하고 싶으면 커밋 db에 제목도 추가해야할 것 같습니다~ */}
-                    <li className={styles.commitLi}>{props.result[i].bookName}</li>
-                    <p className={styles.commitp}>{props.result[i].commitMessage}</p>
-                    <p className={styles.commitDate}>{props.result[i].createdAt}</p>
+                    <li className={styles.commitLi}>{commitInfo[i].bookName}</li>
+                    <p className={styles.commitp}>{commitInfo[i].commitMessage}</p>
+                    <p className={styles.commitDate}>{commitInfo[i].createdAt}</p>
                 </ul>
             )
         }
@@ -213,25 +180,24 @@ function Grass() {
 const GrassShow = (props) => {
     let dispatch = useDispatch();
 
-    function subtractDays(numOfDays, date = new Date()) {
-        date.setDate(date.getDate() - numOfDays);
-        
-        const calculDate = date.getFullYear() + "-" + (date.getMonth()+1) + '-' + date.getDate()
-    
-        return calculDate;
-    }
-
     if (props.date.length != 0) {
         const rendering = () => {
             const result = Array();
 
-            // index 이용해서 날짜별로 뜨게 한다?? 이거 설명 다시 들어야할듯 ㅠㅠ
             //실제 서버로 한 사람씩 조회하면 데이터는 1명씩만 뜰테니까, 원래라면 date만 쓰면 될듯?
             for (let i = 1; i < 365; i++) {
                 if (props.date[0].commitGrass[i] !== "0") {
                     // 1일 때만 들어가게
                     result.push(<li key={i} date={subtractDays(-i+364, new Date())} data-level={1} onClick={() => {
                         dispatch(toggleOnOffHistory());
+                        let day = subtractDays(-i+364, new Date());
+                        fetch(`http://43.200.26.215:3000/commits/daily/date/${day}`)
+                        .then(res=>{
+                            return res.json()
+                        })
+                        .then(res=>{
+                            dispatch(changeCommitInfo(res.result));
+                        })
                     }}></li>);
                 } else if (props.date[0].commitGrass[i] == "0") {
                     //0이라면 빈 값이 들어가게
@@ -243,6 +209,14 @@ const GrassShow = (props) => {
         };
         return rendering();
     }
+};
+
+function subtractDays(numOfDays, date = new Date()) {
+    date.setDate(date.getDate() - numOfDays);
+    
+    const calculDate = date.getFullYear() + "-" + (date.getMonth()+1) + '-' + date.getDate()
+
+    return calculDate;
 };
 
 /* 마이 라이브러리에 삭제 버튼 구현

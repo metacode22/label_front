@@ -54,24 +54,42 @@
     border-radius: 5px;
 }
 
-.img{
-    width: 10rem;
-    cursor: pointer;
-    margin-bottom: 10%;
-}
-
-.file{
-    display: none;
-}
-
 .aside{
     margin: 5% 0 5% 14%;
     display: flex;
     align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .uploadLabel{
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.img{
+    width: 10rem;
+    cursor: pointer;
+}
+
+.file{
+    display: none;
+}
+
+.btn{
+    all: unset;
+    cursor: pointer;
+    background-color: #3C64B1;
+    color: #fff;
+    width: 6rem;
+    height: 2rem;
+    text-align: center;
+    border-radius: 1rem;
+    font-weight: bold;
+    margin-top: 2rem;
+}
+
+.btn:hover{
+    opacity: 80%;
 }

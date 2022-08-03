@@ -1,7 +1,7 @@
 import "./PersonalReading.css";
 import axios from 'axios';
 import { useState, useEffect, useRef, useCallback } from "react";
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
 // sideComponents
@@ -20,7 +20,15 @@ import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
 
 function PersonalReading(props) {
+    let navigate = useNavigate();
     const location = useLocation();
+    console.log(location);
+    useEffect(() => {
+        if (location.state === null) {
+            navigate('/library');
+        }
+    }, [])
+
     const { pdfIdx, recentlyReadPage } = location.state;
     const [html, setHtml] = useState('');
     const [updateHighlightList, setUpdateHighlightList] = useState(true);
@@ -203,6 +211,7 @@ function PersonalReading(props) {
 
         selectableTextArea?.forEach((element) => {
             element?.addEventListener("mouseup", selectableTextAreaMouseUp);
+            element?.addEventListener('ontouchend', selectableTextAreaMouseUp);
         });
 
         function documentMouseDown(event) {
@@ -217,6 +226,7 @@ function PersonalReading(props) {
         }
 
         document.addEventListener("mousedown", documentMouseDown);
+        document.addEventListener('ontouchstart', documentMouseDown);
 
         return () => {
             document.removeEventListener("mousedown", documentMouseDown);
@@ -269,9 +279,10 @@ function PersonalReading(props) {
             element.style.height = '110%';
         })
         
-        // document.querySelectorAll('.t').forEach((element) => {
-        //     element.style.height = '80px';
-        // })
+        document.querySelectorAll('.t').forEach((element) => {
+            element.style.height = '2.1em';
+            // element.style.width = '1.2em';
+        })
     }, [html])
     
     return (

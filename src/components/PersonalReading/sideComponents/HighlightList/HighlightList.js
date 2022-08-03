@@ -106,7 +106,6 @@ function HighlightCards(props) {
         }
     }
 
-    console.log(props.highlightData);
     return (
         <>
             {props.highlightData?.map(function (element, index) {

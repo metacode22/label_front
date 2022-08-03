@@ -135,13 +135,12 @@ export const TextEditor: FC<{ value: JSONRecord, markdownValue: JSONRecord, comm
                                 value: value,
                             });    
                         } else if (commitIdx === -1 && Object.keys(value).length === 0) {
-                            // console.log('-----------------', markdownValue);
                             ctx.set(defaultValueCtx, '');  
                         } else {
                             ctx.set(defaultValueCtx, {
-                                type: "json",
+                                type: 'json',
                                 value: markdownValue,
-                            });
+                            })
                             console.log(markdownValue);
                         }
                         

@@ -290,14 +290,17 @@ function PersonalReading(props) {
             
             <div ref={highlightButtonsWrap} className="HighlightButton__wrap">
                 <button ref={highlightButton} className="HighlightButton specific"
+                    onTouchStart={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedGreen'); }}
                     onClick={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedGreen'); }}
                 ></button>
                 
                 <button ref={highlightButtonPurple} className="HighlightButton__purple specific"
+                    onTouchStart={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedPurple'); }}
                     onClick={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedPurple'); }}
                 ></button>
                 
                 <button ref={highlightButtonYellow} className="HighlightButton__yellow specific"
+                    onTouchStart={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedYellow'); }}
                     onClick={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedYellow'); }}
                 ></button>
             </div>

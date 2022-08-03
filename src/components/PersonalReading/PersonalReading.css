@@ -40,6 +40,10 @@
         display: flex;
         /* flex-grow: 7; */
     }
+    
+    .t::selection {
+        
+    }
 
         /* mainPage--readingPage */
         .PersonalReading__mainPage--readingPage {

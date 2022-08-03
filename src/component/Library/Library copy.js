@@ -11,7 +11,6 @@ export default function Library(){
     const [close, setClose] = useState(false);
     const [popup, setPopup] = useState(true);
     const [text, setText] = useState(false);
-    const [more, setMore] = useState(true);
 
     let userIdx = 58;
 
@@ -102,24 +101,15 @@ export default function Library(){
                     <div className={styles.bookList}>
                         <RecentBookList result={result}></RecentBookList>
                     </div>
-                </section>
-                {more ? <><section className={styles.section}>
+                </section><section className={styles.section}>
                         <div className={styles.divText}><h2>How about this one?</h2></div>
                         <div className={styles.bookList}>
                             <BookList result={allBook} length={allBook.length}></BookList>
                         </div>
                     </section>
                     <div className={styles.moreDiv}>
-                    <button className={styles.moreBtn} onClick={()=>{setMore(!more)}}>더보기</button>
-                    </div></>: <><section className={styles.section}>
-                        <div className={styles.divText}><h2>How about this one?</h2></div>
-                        <div className={styles.bookList}>
-                            <MoreBook result={allBook} length={allBook.length}></MoreBook>
-                        </div>
-                    </section>
-                    <div className={styles.moreDiv}>
+                    <button className={styles.moreBtn}>더보기</button>
                     </div></>}
-                    </>}
             </article>
         </main>
     )
@@ -138,25 +128,12 @@ const SearchBook = (props)=>{
     return rendering()
 }
 
-const MoreBook = (props)=>{
-    // console.log(props.result)
-    const rendering = ()=>{
-        const result = Array();
-
-        for(let i = 0; i<props.result.length; i++){
-            result.push(<Book key={i} result={props.result[i]}></Book>)
-        }
-        return result;
-    }
-    return rendering()
-}
-
 const BookList = (props)=>{
     // console.log(props.result)
     const rendering = () => {
         const result = Array();
         
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < props.result.length; i++) {
             result.push(<Book key={i} result={props.result[i]}></Book>);
         }
         return result;
@@ -183,14 +160,14 @@ const Book = (props)=>{
     return (
         <div className={styles.bookContainer}>
             <div onClick={()=>{navigate('/personalreading', {state: {pdfIdx: props.result.pdfIdx, recentlyReadPage: 1}})}} className={styles.book} style={{
-                backgroundImage: "url(" + `${process.env.PUBLIC_URL + `${props.result?.firstPageLink}`}`,
+                backgroundImage: "url(" + `${process.env.PUBLIC_URL + `${props.result.firstPageLink}`}`,
                 backgroundPosition: "center",
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat"
             }}/>
             <div className={styles.bookInfo}>
-                <div className={styles.pdfName}>{props.result?.pdfName}</div>
-                <div className={styles.author}>{props.result?.author}</div>
+                <div className={styles.pdfName}>{props.result.pdfName}</div>
+                <div className={styles.author}>{props.result.author}</div>
             </div>
         </div>
     )

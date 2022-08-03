@@ -14,17 +14,12 @@ function SearchBar(props) {
             async function getInitialHighlightData() {
                 await axios.get(`https://inkyuoh.shop/highlights/pdfs/${props.pdfIdx}/pages/${props.currentPageNumber}`)
                     .then((response) => {
-                        // let result = Array();
-                        
-                        // for (let i = 0; i < response.data.result.length; i++) {
-                        //     if (response.data.result[i].active === 1) {
-                        //         result.push(response.data.result[i])
-                        //     }
-                        // }
-                        
+                        console.log('Search highlight data response:', response);
                         props.setHighlightData(response.data.result)
-                        // props.setHighlightData(result);
-                    });
+                    })
+                    .catch((error) => {
+                        console.log('Search highlight data Fail, error:', error);
+                    })
             }
     
             getInitialHighlightData();

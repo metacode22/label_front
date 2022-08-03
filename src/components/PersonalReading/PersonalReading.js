@@ -25,7 +25,7 @@ function PersonalReading(props) {
     const [html, setHtml] = useState('');
     const [updateHighlightList, setUpdateHighlightList] = useState(true);
     const [commitIdx, setCommitIdx] = useState(-1);
-    const [markdownValue, setMarkdownValue] = useState('');
+    const [markdownValue, setMarkdownValue] = useState({});
     const [highlightData, setHighlightData] = useState([]);
      
     const highlightButtonsWrap = useRef();
@@ -235,10 +235,13 @@ function PersonalReading(props) {
                     commitIdx: commitIdx
                 })
                 .then((response) => {
-                    setMarkdownValue(response.data.result[0].editorLog);
+                    return JSON.parse(response.data.result[0].editorLog);
+                })
+                .then((response) => {
+                    console.log(response);
+                    setMarkdownValue(response);
                 })
         }
-        
     }, [commitIdx])
     
     // Draw Highlight
@@ -252,6 +255,24 @@ function PersonalReading(props) {
             // console.log('hello');
         }
     }, [highlightData, commitIdx])
+    
+    useEffect(() => {
+        // document.querySelectorAll('.t.h2').forEach((element) => {
+        //     element.style.height = '80px';
+        // })
+        
+        // document.querySelectorAll('.t.h3').forEach((element) => {
+        //     element.style.height = '108px';
+        // })
+        
+        document.querySelectorAll('.c').forEach((element) => {
+            element.style.height = '110%';
+        })
+        
+        // document.querySelectorAll('.t').forEach((element) => {
+        //     element.style.height = '80px';
+        // })
+    }, [html])
     
     return (
         <main className="PersonalReading">

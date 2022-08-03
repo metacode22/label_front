@@ -50,8 +50,9 @@
             height: 100%;
             /* border: 1px solid black; */
             position: relative;
-            border-right: 1px solid #E2E5E6
+            border-right: 1px solid #E2E5E6;
             /* width: 65%; */
+            pointer-events: none;
             
             /* flex-grow: 3; */
         }

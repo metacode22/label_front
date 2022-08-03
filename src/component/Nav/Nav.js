@@ -101,7 +101,7 @@ const UserImg = ()=>{
         .catch((err) => {
             console.log(err);
         })
-    })
+    },[])
 
     return(
         <UserInfo result={result} length={result.length}></UserInfo>

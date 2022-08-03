@@ -1,7 +1,23 @@
+import { useCallback, useRef } from 'react'
 import styles from './Popup.module.css'
 
-export default function Popup(props){
-    const { onClose } = props;
+export default function Popup(){
+
+    const fileRef = useRef(null);
+
+    const uploadFile = useCallback((e)=>{
+        if(!e.target.files){
+            return;
+        }
+        console.log(e.target.files[0]?.name);
+    },[])
+
+    const clickUpload = useCallback(()=>{
+        if (!fileRef.current){
+            return;
+        }
+        fileRef.current.click();
+    },[])
     
     return (
         <div className={styles.popWrap}>
@@ -24,9 +40,11 @@ export default function Popup(props){
                 <aside className={styles.aside}>
                     <label className={styles.uploadLabel}>
                         <img className={styles.img} src={process.env.PUBLIC_URL + `/images/upload.png`}/>
-                        <input type='file' accept='.pdf' className={styles.file}/>
-                        <p style={{ color: '#3E4051', fontSize: '10px'}}>🚫 PDF 파일만 업로드가 가능합니다! 🚫</p>
+                        <input type='file' accept='.pdf' className={styles.file} ref={fileRef} onChange={uploadFile}/>
                     </label>
+                    <p style={{ color: '#3E4051', fontSize: '10px'}}>PDF 파일만 업로드가 가능합니다.</p>
+                    <button className={styles.btn} onClick={clickUpload}>파일 저장</button>
+                    <p style={{ color: '#3E4051', fontSize: '10px'}}>작성 및 파일 선택 후 저장 버튼을 눌러주세요.</p>
                 </aside>
             </div>
         </div>

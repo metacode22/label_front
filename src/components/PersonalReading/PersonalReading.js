@@ -211,7 +211,7 @@ function PersonalReading(props) {
 
         selectableTextArea?.forEach((element) => {
             element?.addEventListener("mouseup", selectableTextAreaMouseUp);
-            element?.addEventListener('ontouchend', selectableTextAreaMouseUp);
+            element?.addEventListener('touchend', selectableTextAreaMouseUp, false);
         });
 
         function documentMouseDown(event) {
@@ -226,7 +226,7 @@ function PersonalReading(props) {
         }
 
         document.addEventListener("mousedown", documentMouseDown);
-        document.addEventListener('ontouchstart', documentMouseDown);
+        document.addEventListener('touchstart', documentMouseDown, false);
 
         return () => {
             document.removeEventListener("mousedown", documentMouseDown);

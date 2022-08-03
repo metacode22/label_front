@@ -346,6 +346,7 @@ function PersonalReading(props) {
                                 event.preventDefault();
                                 if (window.event.keyCode === 13 && 1 <= event.target.value && event.target.value <= currentBookInfo.totalPage) {
                                     setCurrentPageNumber(Number(event.target.value));
+                                    event.target.value = null;
                                 }
                             }}></input> / {currentBookInfo.totalPage}</p>
                         </div>

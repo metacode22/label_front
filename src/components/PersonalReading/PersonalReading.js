@@ -300,7 +300,12 @@ function PersonalReading(props) {
         // document.addEventListener('touchend', bubbleStop, false);
         // document.addEventListener('touchmove', bubbleStop, false);
         // document.addEventListener('touchend', bubbleStop, false);
+        function bubbleStop(event) {
+            event.preventDefault();
+        }
         
+        document.querySelector('.PersonalReading__mainPage--readingPage').addEventListener('touchend', bubbleStop, false);
+                
         $('.HighlightButton').on('touchstart', function() {
             clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedGreen');
         });

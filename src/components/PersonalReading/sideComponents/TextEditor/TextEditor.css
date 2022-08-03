@@ -1,9 +1,13 @@
+::selection {
+    line-height: 3em;
+}
+
 .milkdown-menu-wrapper {
     height: 100% !important;
 }
 
 .milkdown-menu {
-    flex-wrap: wrap !important;
+    /* flex-wrap: wrap !important; */
     border-left: none !important;
     border-right: none !important;
 }
@@ -71,6 +75,14 @@ button[title='select'] {
 }
 
 button[title='code'] {
+    display: none;
+}
+
+button[title='image'] {
+    display: none;
+}
+
+button[title='table'] {
     display: none;
 }
 

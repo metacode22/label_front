@@ -284,20 +284,38 @@ function PersonalReading(props) {
             // element.style.width = '1.2em';
         })
     }, [html])
+      
+    useEffect(() => {
+        function bubbleStop(event) {
+            var parentSelector = '.PersonalReading__mainPage--readingPage';
+            
+            if(e.target.closest(parentSelector)) {
+                event.preventDefault();   
+            }
+        }
+        
+        document.addEventListener('touchend', bubbleStop, false);
+        document.addEventListener('touchmove', bubbleStop, false);
+        document.addEventListener('touchend', bubbleStop, false);
+        
+    }, [html])
     
     return (
         <main className="PersonalReading">
             
             <div ref={highlightButtonsWrap} className="HighlightButton__wrap">
                 <button ref={highlightButton} className="HighlightButton specific"
+                    onTouchStart={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedGreen'); }}
                     onClick={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedGreen'); }}
                 ></button>
                 
                 <button ref={highlightButtonPurple} className="HighlightButton__purple specific"
+                    onTouchStart={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedPurple'); }}
                     onClick={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedPurple'); }}
                 ></button>
                 
                 <button ref={highlightButtonYellow} className="HighlightButton__yellow specific"
+                    onTouchStart={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedYellow'); }}
                     onClick={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedYellow'); }}
                 ></button>
             </div>

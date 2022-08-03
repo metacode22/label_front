@@ -46,6 +46,14 @@
     margin-top: 3rem;
 }
 
+.sectionMore{
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .sectionSearch{
     margin-top: 2rem;
 }
@@ -151,4 +159,19 @@
 .author{
     margin-top: 1%;
     text-align: center;
+}
+
+.moreBtn{
+    all: unset;
+    border: 1px solid #D9D9D9;
+    border-radius: 6px;
+    width: 10rem;
+    height: 2rem;
+    text-align: center;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.moreBtn:hover{
+    opacity: 60%;
 }

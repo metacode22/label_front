@@ -189,7 +189,7 @@ const GrassShow = (props) => {
                     result.push(<li key={i} date={subtractDays(-i+364, new Date())} data-level={1} onClick={() => {
                         dispatch(toggleOnHistory());
                         let day = subtractDays(-i+364, new Date());
-                        fetch(`http://43.200.26.215:3000/commits/daily/date/${day}`)
+                        fetch(`https://inkyuoh.shop/commits/daily/date/${day}`)
                         .then(res=>{
                             return res.json()
                         })

@@ -106,6 +106,7 @@ export default function Library(){
                         <div className={styles.bookList}>
                             <BookList result={allBook} length={allBook.length}></BookList>
                         </div>
+                        {/* <button className={styles.moreBtn}>더보기</button> */}
                     </section></>}
             </article>
         </main>

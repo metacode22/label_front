@@ -286,22 +286,22 @@ function PersonalReading(props) {
         })
     }, [html])
       
-    useEffect(() => {
+    // useEffect(() => {
     
                 
-        $('.HighlightButton').on('touchstart', function() {
-            clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedGreen');
-        });
+    //     $('.HighlightButton').on('touchstart', function() {
+    //         clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedGreen');
+    //     });
         
-        $('.HighlightButton__purple').on('touchstart', function() {
-            clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedPurple');
-        });
+    //     $('.HighlightButton__purple').on('touchstart', function() {
+    //         clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedPurple');
+    //     });
         
-        $('.HighlightButton__yellow').on('touchstart', function() {
-            clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedYellow');
-        });
+    //     $('.HighlightButton__yellow').on('touchstart', function() {
+    //         clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedYellow');
+    //     });
         
-    }, [html])
+    // }, [html])
     
     return (
         <main className="PersonalReading">

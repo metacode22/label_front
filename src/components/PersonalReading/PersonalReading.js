@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import $ from 'jquery';
 
 // sideComponents
 import { WrapperTextEditor } from "./sideComponents/TextEditor/TextEditor.tsx";
@@ -286,17 +287,36 @@ function PersonalReading(props) {
     }, [html])
       
     useEffect(() => {
-        function bubbleStop(event) {
-            var parentSelector = '.PersonalReading__mainPage--readingPage';
+        // function bubbleStop(event) {
+        //     // var parentSelector = '.PersonalReading__mainPage--readingPage';
             
-            if(e.target.closest(parentSelector)) {
-                event.preventDefault();   
-            }
+        //     // if(e.target.closest(parentSelector)) {
+        //     //     event.preventDefault();   
+        //     // }
+            
+        //     event.preventDefault();
+        // }
+        
+        // document.addEventListener('touchend', bubbleStop, false);
+        // document.addEventListener('touchmove', bubbleStop, false);
+        // document.addEventListener('touchend', bubbleStop, false);
+        function bubbleStop(event) {
+            event.preventDefault();
         }
         
-        document.addEventListener('touchend', bubbleStop, false);
-        document.addEventListener('touchmove', bubbleStop, false);
-        document.addEventListener('touchend', bubbleStop, false);
+        document.querySelector('.PersonalReading__mainPage--readingPage').addEventListener('touchend', bubbleStop, false);
+                
+        $('.HighlightButton').on('touchstart', function() {
+            clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedGreen');
+        });
+        
+        $('.HighlightButton__purple').on('touchstart', function() {
+            clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedPurple');
+        });
+        
+        $('.HighlightButton__yellow').on('touchstart', function() {
+            clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedYellow');
+        });
         
     }, [html])
     
@@ -305,17 +325,17 @@ function PersonalReading(props) {
             
             <div ref={highlightButtonsWrap} className="HighlightButton__wrap">
                 <button ref={highlightButton} className="HighlightButton specific"
-                    onTouchStart={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedGreen'); }}
+                    // onTouchStart={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedGreen'); }}
                     onClick={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedGreen'); }}
                 ></button>
                 
                 <button ref={highlightButtonPurple} className="HighlightButton__purple specific"
-                    onTouchStart={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedPurple'); }}
+                    // onTouchStart={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedPurple'); }}
                     onClick={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedPurple'); }}
                 ></button>
                 
                 <button ref={highlightButtonYellow} className="HighlightButton__yellow specific"
-                    onTouchStart={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedYellow'); }}
+                    // onTouchStart={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedYellow'); }}
                     onClick={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedYellow'); }}
                 ></button>
             </div>

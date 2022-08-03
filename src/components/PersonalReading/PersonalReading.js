@@ -284,6 +284,21 @@ function PersonalReading(props) {
             // element.style.width = '1.2em';
         })
     }, [html])
+      
+    useEffect(() => {
+        function bubbleStop(event) {
+            var parentSelector = '.PersonalReading__mainPage--readingPage';
+            
+            if(e.target.closest(parentSelector)) {
+                event.preventDefault();   
+            }
+        }
+        
+        document.addEventListener('touchend', bubbleStop, false);
+        document.addEventListener('touchmove', bubbleStop, false);
+        document.addEventListener('touchend', bubbleStop, false);
+        
+    }, [html])
     
     return (
         <main className="PersonalReading">

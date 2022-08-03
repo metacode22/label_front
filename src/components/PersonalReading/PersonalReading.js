@@ -287,24 +287,7 @@ function PersonalReading(props) {
     }, [html])
       
     useEffect(() => {
-        // function bubbleStop(event) {
-        //     // var parentSelector = '.PersonalReading__mainPage--readingPage';
-            
-        //     // if(e.target.closest(parentSelector)) {
-        //     //     event.preventDefault();   
-        //     // }
-            
-        //     event.preventDefault();
-        // }
-        
-        // document.addEventListener('touchend', bubbleStop, false);
-        // document.addEventListener('touchmove', bubbleStop, false);
-        // document.addEventListener('touchend', bubbleStop, false);
-        function bubbleStop(event) {
-            event.preventDefault();
-        }
-        
-        document.querySelector('.PersonalReading__mainPage--readingPage').addEventListener('touchend', bubbleStop, false);
+    
                 
         $('.HighlightButton').on('touchstart', function() {
             clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedGreen');
@@ -349,12 +332,14 @@ function PersonalReading(props) {
                     {props.mode === true ? <article className="PersonalReading__mainPage--readingPage" style={props.mode === true ? {flex: 2} : {flex: 0}}>
                         <PageRendered className="PageRendered" html={html}></PageRendered>
                         <div className="PersonalReading__mainPage--goBackButtons">
-                            <FontAwesomeIcon icon={faCaretLeft} className="backButton" onClick={() => {
-                                turnOver('back', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);
-                            }}></FontAwesomeIcon>
-                            <FontAwesomeIcon icon={faCaretRight} className="goButton" onClick={() => {
-                                turnOver('go', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);
-                            }}></FontAwesomeIcon>
+                            <FontAwesomeIcon icon={faCaretLeft} className="backButton" 
+                                onClick={() => {turnOver('back', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);}}
+                                onTouchStart={() => {turnOver('back', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);}}
+                            ></FontAwesomeIcon>
+                            <FontAwesomeIcon icon={faCaretRight} className="goButton" 
+                                onClick={() => {turnOver('go', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);}}
+                                onTouchStart={() => {turnOver('go', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);}}
+                            ></FontAwesomeIcon>
                         </div>
                         <div className="PersonalReading__mainPage--info">
                             <p><input className="PersonalReading__mainPage--info--input" placeholder={currentPageNumber} onKeyUp={(event) => {

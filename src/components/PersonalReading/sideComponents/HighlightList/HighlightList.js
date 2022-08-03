@@ -105,7 +105,7 @@ function HighlightCards(props) {
                 })
         }
     }
-
+    console.log(props);
     return (
         <>
             {props.highlightData?.map(function (element, index) {
@@ -117,10 +117,11 @@ function HighlightCards(props) {
                                 avatar={<Avatar sx={{ width: 10, height: 10, bgcolor: element.color === 0 ? '#93E7A2' : element.color === 1 ? '#9747FF' : element.color === 2 ? '#FFD644' : null}} 
                                 aria-label="recipe">{""}</Avatar>}
                                 title={<p style={{ color: "#DDDDDD" }}></p>}
-                                action={
+                                action={props.commitIdx === -1 ?
                                     <IconButton onClick={() => { deleteHighlight( props.commitIdx, element.highlightIdx, props.setHighlightData, props.updateHighlightList, props.setUpdateHighlightList, props.currentPageNumber ); }}>
                                         <ClearIcon fontSize="small"></ClearIcon>
                                     </IconButton>
+                                    : null
                                 }
                             /><CardContent sx={{ paddingTop: '4px'}}>
                                 <Typography sx={{ fontSize: 14 }} color="text.secondary" draggable="true" onDragStart={(event) => { dragStart_handler(event); }}>

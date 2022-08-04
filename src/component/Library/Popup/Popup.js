@@ -18,7 +18,7 @@ export default function Popup(){
 
         formData.append('files', e.target.files[0]);
         formData.append('body', text);
-        
+
         return formData
     };
 
@@ -34,7 +34,7 @@ export default function Popup(){
 
         const formData = await fomrDateMake(e);
         
-        await fetch(`http://localhost:3000/upload`,{
+        await fetch(`https://inkyuoh.shop/upload`,{
             method:'post',
             body : formData
         })

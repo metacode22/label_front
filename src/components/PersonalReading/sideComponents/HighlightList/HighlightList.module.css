@@ -5,13 +5,20 @@
 
 .container {
     width: 100%;
-    height: 90%;
+    height: 100%;
     
     overflow: scroll;
 }
 
 .container::-webkit-scrollbar {
-    display: none;
+    width: 6px;
+    background-color: transparent;
+}
+
+.container::-webkit-scrollbar-thumb {
+    width: 6px;
+    background-color: rgba(129, 161, 193, 0.38);
+    border-radius: 16px;
 }
 
 .title {
@@ -90,24 +97,5 @@
 }
 
 .highlightCardTitle {
-    
     display: flex;
-}
-
-.trashIconGreen {
-    width: 48px !important;
-    background-color: #04C35C !important;
-    color: rgba(4, 196, 92, 0.1) !important;
-}
-
-.trashIconPurple {
-    width: 48px !important;
-    background-color: rgba(151, 71, 255, 0.1) !important;
-    color: #9747FF !important;
-}
-
-.trashIconYellow {
-    width: 48px !important;
-    background-color: #FDF796 !important;
-    color: #FFD644 !important;
 }

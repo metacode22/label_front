@@ -4,12 +4,40 @@ import styles from './Popup.module.css'
 export default function Popup(){
 
     const fileRef = useRef(null);
+    const titleRef = useRef(null);
+    const subTitleRef = useRef(null);
+    const authorRef = useRef(null);
 
-    const uploadFile = useCallback((e)=>{
+    async function fomrDateMake (e) {
+        const formData = new FormData();
+        const text = JSON.stringify({
+            title : titleRef.current.value,
+            subTitle : subTitleRef.current.value,
+            author : authorRef.current.value
+        });
+
+        formData.append('files', e.target.files[0]);
+        formData.append('body', text);
+
+        return formData
+    };
+
+    const uploadFile = useCallback(async (e)=>{
         if(!e.target.files){
             return;
         }
-        console.log(e.target.files[0]?.name);
+
+        // console.log(e.target.files[0]);
+        // console.log(titleRef.current.value);
+        // console.log(subTitleRef.current.value);
+        // console.log(authorRef.current.value);
+
+        const formData = await fomrDateMake(e);
+        
+        await fetch(`https://inkyuoh.shop/upload`,{
+            method:'post',
+            body : formData
+        })
     },[])
 
     const clickUpload = useCallback(()=>{
@@ -27,13 +55,13 @@ export default function Popup(){
                     <p className={styles.pSubTitle}>파일 업로드</p>
                     <div className={styles.inputWrap}>
                         <label className={styles.label}>책 타이틀
-                            <input className={styles.input} type='text' placeholder='제목을 입력해주세요.'></input>
+                            <input ref={titleRef} className={styles.input} type='text' placeholder='제목을 입력해주세요.'></input>
                         </label>
                         <label className={styles.label}>서브 타이틀
-                            <input className={styles.input} type='text' placeholder='부제목을 입력해주세요.'></input>
+                            <input ref={subTitleRef} className={styles.input} type='text' placeholder='부제목을 입력해주세요.'></input>
                         </label>
                         <label className={styles.label}>저자명
-                            <input className={styles.input} type='text' placeholder='저자명을 입력해주세요.'></input>
+                            <input ref={authorRef} className={styles.input} type='text' placeholder='저자명을 입력해주세요.'></input>
                         </label>
                     </div>
                 </article>

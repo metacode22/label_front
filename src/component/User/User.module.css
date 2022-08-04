@@ -1,5 +1,6 @@
 .main{
     margin: 50px 230px 100px 230px;
+    user-select: none;
 }
 
 .divText{
@@ -38,6 +39,7 @@
 }
 
 .commitDate{
+    font-size: 10px;
     color: #66996f;
 }
 

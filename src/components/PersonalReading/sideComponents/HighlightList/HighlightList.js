@@ -15,9 +15,10 @@ import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
 function HighlightList(props) {
     const [highlightData, setHighlightData] = useState([]);
-    
+    // console.log(props);
     useEffect(() => {
-        if (props.commitIdx === -1) {
+        // if (props.commitIdx === -1) {
+        if (props.readOnly === -1) {
             async function getHighlightData() {
                 await axios.get(`https://inkyuoh.shop/highlights/pdfs/${props.pdfIdx}/pages/${props.currentPageNumber}`)
                     .then((response) => {
@@ -25,10 +26,12 @@ function HighlightList(props) {
                     });
             }
             
-            getHighlightData();
+            getHighlightData(); 
         }
+            
+        // }
         
-        else {
+        if (props.readOnly === 1) {
             async function getHighlightData() {
                 await axios.get(`https://inkyuoh.shop/highlights/pages/${props.currentPageNumber}/commitIdx/${props.commitIdx}`)
                     .then((response) => {
@@ -38,12 +41,34 @@ function HighlightList(props) {
             
             getHighlightData();
         }
-    }, [props.currentPageNumber, props.updateHighlightList, props.commitIdx]);
+        
+        // else {
+        //     async function getHighlightData() {
+        //         await axios.get(`https://inkyuoh.shop/highlights/pages/${props.currentPageNumber}/commitIdx/${props.commitIdx}`)
+        //             .then((response) => {
+        //                 setHighlightData(response.data.result);
+        //             })
+        //     }
+            
+        //     getHighlightData();
+        // }
+    }, [props.currentPageNumber, props.updateHighlightList, props.commitIdx, props.forceUpdate]);
 
     return (
         <>
-            <div></div>
-            <div className={styles.title}>Highlights</div>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div className={styles.title}>Highlights</div>
+                {props.mode === false ? <div className={styles.pageNumberInfo}>
+                    <p><input className={styles.pageNumberInput} placeholder={props.currentPageNumber} onKeyUp={(event) => {
+                        event.preventDefault();
+                        if (window.event.keyCode === 13 && 1 <= event.target.value && event.target.value <= props.totalPage) {
+                            props.setCurrentPageNumber(Number(event.target.value));
+                            event.target.value = null;
+                        }
+                    }}></input> / {props.totalPage}</p>
+                </div>
+                : null}
+            </div>
             <SearchBar pdfIdx={props.pdfIdx} currentPageNumber={props.currentPageNumber} highlightData={highlightData} setHighlightData={setHighlightData}></SearchBar>
             <div className={styles.highlightInfo}>
                 {/* <p className={styles.pageNumber}>Page {props.currentPageNumber} / {props.totalPage}</p> */}
@@ -52,6 +77,7 @@ function HighlightList(props) {
             <aside className={styles.wrap}>
                 <div className={styles.container}>
                     <HighlightCards
+                        readOnly={props.readOnly}
                         commitIdx={props.commitIdx}
                         pdfIdx={props.pdfIdx}
                         highlightData={highlightData}
@@ -74,39 +100,39 @@ function HighlightCards(props) {
 
     async function deleteHighlight(commitIdx, highlightIdx, setHighlightData, updateHighlightList, setUpdateHighlightList, currentPageNumber) {
         
-        if (commitIdx === -1) {
-            await axios.delete(`https://inkyuoh.shop/highlights/${highlightIdx}`)
-                .then((response) => {
-                    console.log("highlight delete response:", response);
-                })
-                .catch((error) => {
-                    console.log("highlight delete error:", error);
-                })
-                .then(async () => {
-                    await axios.get(`https://inkyuoh.shop/highlights/pdfs/${props.pdfIdx}/pages/${currentPageNumber}`)
-                        .then((response) => {
-                            setHighlightData(response.data.result);
-                            setUpdateHighlightList(!updateHighlightList);
-                            const selectedHighlight = document.getElementsByClassName('highlight' + highlightIdx);
-                            
-                            for (let i = 0; i < selectedHighlight.length; i++) {
-                                if (selectedHighlight[i].classList.contains('highlightedGreen') === true) {
-                                    selectedHighlight[i].classList.remove('highlightedGreen');
-                                }
-                                
-                                if (selectedHighlight[i].classList.contains('highlightedPurple') === true) {
-                                    selectedHighlight[i].classList.remove('highlightedPurple');
-                                }
-                                
-                                if (selectedHighlight[i].classList.contains('highlightedYellow') === true) {
-                                    selectedHighlight[i].classList.remove('highlightedYellow');
-                                }
+        // if (commitIdx === -1) {
+        await axios.delete(`https://inkyuoh.shop/highlights/${highlightIdx}`)
+            .then((response) => {
+                console.log("highlight delete response:", response);
+            })
+            .catch((error) => {
+                console.log("highlight delete error:", error);
+            })
+            .then(async () => {
+                await axios.get(`https://inkyuoh.shop/highlights/pdfs/${props.pdfIdx}/pages/${currentPageNumber}`)
+                    .then((response) => {
+                        setHighlightData(response.data.result);
+                        setUpdateHighlightList(!updateHighlightList);
+                        const selectedHighlight = document.getElementsByClassName('highlight' + highlightIdx);
+                        
+                        for (let i = 0; i < selectedHighlight.length; i++) {
+                            if (selectedHighlight[i].classList.contains('highlightedGreen') === true) {
+                                selectedHighlight[i].classList.remove('highlightedGreen');
                             }
-                        })
-                })
-        }
+                            
+                            if (selectedHighlight[i].classList.contains('highlightedPurple') === true) {
+                                selectedHighlight[i].classList.remove('highlightedPurple');
+                            }
+                            
+                            if (selectedHighlight[i].classList.contains('highlightedYellow') === true) {
+                                selectedHighlight[i].classList.remove('highlightedYellow');
+                            }
+                        }
+                    })
+            })
+        // }
     }
-    console.log(props.highlightData);
+
     return (
         <>
             {props.highlightData?.map(function (element, index) {
@@ -118,14 +144,14 @@ function HighlightCards(props) {
                                 avatar={<Avatar sx={{ width: 10, height: 10, bgcolor: element.color === 0 ? '#93E7A2' : element.color === 1 ? '#9747FF' : element.color === 2 ? '#FFD644' : null}} 
                                 aria-label="recipe">{""}</Avatar>}
                                 title={'p.' + `${element.pageNum}`}
-                                action={props.commitIdx === -1 ?
+                                action={props.readOnly === -1 ?
                                     <IconButton onClick={() => { deleteHighlight( props.commitIdx, element.highlightIdx, props.setHighlightData, props.updateHighlightList, props.setUpdateHighlightList, props.currentPageNumber ); }}>
                                         <ClearIcon fontSize="small"></ClearIcon>
                                     </IconButton>
                                     : null
                                 }
                             /><CardContent sx={{ paddingTop: '4px'}}>
-                                <Typography sx={{ fontSize: 14 }} color="text.secondary" draggable="true" onDragStart={(event) => { dragStart_handler(event); }}>
+                                <Typography sx={{ fontSize: 14 }} color="text.secondary" draggable={props.readOnly === -1 ? 'true' : null} onDragStart={(event) => { dragStart_handler(event); }}>
                                     {element.data}
                                 </Typography>
                             </CardContent>

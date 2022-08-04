@@ -97,7 +97,7 @@ function SideBar(props) {
 						<input ref={commitInput} className={styles.historyInput} placeholder={'기록을 남기세요.'}></input>
 					</form>
 					<div className={styles.historyWrap}>
-						<History commitIdx={props.commitIdx} setCommitIdx={props.setCommitIdx} commitsInfo={commitsInfo}></History>
+						<History readOnly={props.readOnly} setReadOnly={props.setReadOnly} forceUpdate={props.forceUpdate} setForceUpdate={props.setForceUpdate} commitIdx={props.commitIdx} setCommitIdx={props.setCommitIdx} commitsInfo={commitsInfo}></History>
 					</div>
 				</div>
 				
@@ -122,22 +122,50 @@ function SideBar(props) {
 function History(props) {
 	function rollback(element) {
 		props.setCommitIdx(element.commitIdx);
+		props.setReadOnly(-1);
+		
+		async function postLogs(element) {
+			await axios.post(`https://inkyuoh.shop/commits/rollback`, {
+				commitHighlightLog: JSON.parse(element.logs),
+				userBookIdx: element.userBookIdx
+			})
+			.then((response) => {
+				console.log(response);
+				props.setForceUpdate(props.forceUpdate + 1);
+			})
+		}
+		
+		postLogs(element);
+	}
+	
+	function goToReadOnly(element) {
+		props.setCommitIdx(element.commitIdx);
+		props.setReadOnly(1);
+		// props.setForceUpdate(props.forceUpdate + 1);
 	}
 	
 	return (
 		<>
 			{props.commitsInfo?.map(function(element, index) {
 				return (
-					<ul className={styles.historyUnorderedListTag} key={index} onClick={() => {
-						rollback(element);
-					}}>
+					<ul className={styles.historyUnorderedListTag} key={index}>
 						<li>
-							<p className={styles.historyMessage}>{element.commitMessage}</p>
+							<p className={styles.historyMessage} onClick={() => {
+								goToReadOnly(element);
+							}}>{element.commitMessage}</p>
+							
 							<div className={styles.historyDateAndIcon}>
-								<p className={styles.historyDate}>{element.createdAt.substring(2)}</p>
+								<p className={styles.historyDate} onClick={() => {
+									goToReadOnly(element);	
+								}}>{element.createdAt.substring(2)}</p>
+								
 								<div className={styles.historyIcon}>
-									<FontAwesomeIcon icon={faEye}></FontAwesomeIcon>
-									<FontAwesomeIcon style={{ marginLeft: '4px'}} icon={faArrowRotateLeft}></FontAwesomeIcon>
+									<FontAwesomeIcon className={styles.readOnly} icon={faEye} onClick={() => {
+										goToReadOnly(element);
+									}}></FontAwesomeIcon>
+									<FontAwesomeIcon className={styles.rollBack} style={{ marginLeft: '4px'}} icon={faArrowRotateLeft} onClick={() => {
+										rollback(element);
+									}}></FontAwesomeIcon>
 								</div>
 							</div>
 						</li>

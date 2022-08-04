@@ -122,6 +122,18 @@ function SideBar(props) {
 function History(props) {
 	function rollback(element) {
 		props.setCommitIdx(element.commitIdx);
+
+		async function postLogs(element) {
+			await axios.post(`https://inkyuoh.shop/commits/rollback`, {
+				commitHighlightLog: JSON.parse(element.logs),
+				userBookIdx: element.userBookIdx
+			})
+			.then((response) => {
+				console.log(response);
+			})
+		}
+		
+		postLogs(element);
 	}
 	
 	return (

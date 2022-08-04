@@ -223,14 +223,8 @@ function PersonalReading(props) {
                     {props.mode === true ? <article className="PersonalReading__mainPage--readingPage" style={props.mode === true ? {flex: 2} : {flex: 0}}>
                         <PageRendered className="PageRendered" html={html}></PageRendered>
                         <div className="PersonalReading__mainPage--goBackButtons">
-                            <FontAwesomeIcon icon={faCaretLeft} className="backButton" 
-                                onClick={() => {turnOver('back', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);}}
-                                // onTouchStart={() => {turnOver('back', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);}}
-                            ></FontAwesomeIcon>
-                            <FontAwesomeIcon icon={faCaretRight} className="goButton" 
-                                onClick={() => {turnOver('go', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);}}
-                                // onTouchStart={() => {turnOver('go', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);}}
-                            ></FontAwesomeIcon>
+                            <FontAwesomeIcon icon={faCaretLeft} className="backButton" onClick={() => {turnOver('back', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);}}></FontAwesomeIcon>
+                            <FontAwesomeIcon icon={faCaretRight} className="goButton" onClick={() => {turnOver('go', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);}}></FontAwesomeIcon>
                         </div>
                         <div className="PersonalReading__mainPage--info">
                             <p><input className="PersonalReading__mainPage--info--input" placeholder={currentPageNumber} onKeyUp={(event) => {
@@ -244,7 +238,13 @@ function PersonalReading(props) {
                     </article> 
                     : null}
                     <aside className="PersonalReading__highlightList" style={props.mode === true ? {flex: 1} : {flex: 1}}>
-                        <HighlightList mode={props.mode} commitIdx={commitIdx} setCommitIdx={setCommitIdx} pdfIdx={pdfIdx} totalPage={currentBookInfo.totalPage} currentPageNumber={currentPageNumber} updateHighlightList={updateHighlightList} setUpdateHighlightList={setUpdateHighlightList}></HighlightList>
+                        <HighlightList commitIdx={commitIdx} setCommitIdx={setCommitIdx} pdfIdx={pdfIdx} totalPage={currentBookInfo.totalPage} currentPageNumber={currentPageNumber} updateHighlightList={updateHighlightList} setUpdateHighlightList={setUpdateHighlightList}></HighlightList>
+                        {props.mode === false ?
+                        <div className="PersonalReading__highlightList--goBackButtons">
+                            <FontAwesomeIcon icon={faCaretLeft} className="backButton--highlightList" onClick={() => {turnOver('back', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);}}></FontAwesomeIcon>
+                            <FontAwesomeIcon icon={faCaretRight} className="goButton--highlightList" onClick={() => {turnOver('go', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);}}></FontAwesomeIcon>
+                        </div>
+                        : null}
                     </aside>
                 </div>
                 

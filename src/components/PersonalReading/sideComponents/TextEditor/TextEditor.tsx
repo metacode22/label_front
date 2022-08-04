@@ -20,7 +20,7 @@ const url:string = 'https://tradingstudy.shop:443';
 let socket:any;
 
 let timerId:NodeJS.Timeout
-export class WrapperTextEditor extends React.Component<{markdownValue: JSONRecord, commitIdx: number, userIdx: string, pdfIdx: string}, { fp: any, flag: boolean }> {
+export class WrapperTextEditor extends React.Component<{readOnly:number, markdownValue: JSONRecord, commitIdx: number, userIdx: string, pdfIdx: string}, { fp: any, flag: boolean }> {
     constructor(props: any) {
         super(props);
         socket = io(url, {
@@ -41,15 +41,15 @@ export class WrapperTextEditor extends React.Component<{markdownValue: JSONRecor
             })
         })
         
-        if (this.props.commitIdx !== -1) {
-            socket.disconnect();
-        }
+        // if (this.props.commitIdx !== -1) {
+        //     socket.disconnect();
+        // }
     }
 
     render() {
         return (
             <div>
-                {this.state.flag && <TextEditor value={this.state.fp} markdownValue={this.props.markdownValue} commitIdx={this.props.commitIdx} userIdx={this.props.userIdx} pdfIdx={this.props.pdfIdx}/>}
+                {this.state.flag && <TextEditor readOnly={this.props.readOnly} value={this.state.fp} markdownValue={this.props.markdownValue} commitIdx={this.props.commitIdx} userIdx={this.props.userIdx} pdfIdx={this.props.pdfIdx}/>}
             </div>
         )
     };
@@ -120,28 +120,40 @@ async function uploadImageToS3(preSignedUrl : any, imageFile : any) {
     })
 }
 
-export const TextEditor: FC<{ value: JSONRecord, markdownValue: JSONRecord, commitIdx: number, userIdx: string, pdfIdx: string }> = ({ value, markdownValue, commitIdx, userIdx, pdfIdx }) => {
+export const TextEditor: FC<{ readOnly: number, value: JSONRecord, markdownValue: JSONRecord, commitIdx: number, userIdx: string, pdfIdx: string }> = ({ readOnly, value, markdownValue, commitIdx, userIdx, pdfIdx }) => {
     // let readonly = false;
     // const editable = () => !readonly;
     const { editor, loading, getInstance } = useEditor((root, renderReact) => {
+                
+                if (Object.keys(markdownValue).length !== 0){
+                    console.log('heloooooooooo', markdownValue);
+                    
+                    if (readOnly === -1) {
+                        updateOrClearEditor(userIdx, pdfIdx, markdownValue);        
+                    }
+                }
+                
                 const editor = Editor.make()
                     .config((ctx) => {
                         ctx.set(rootCtx, root);
                         // 처음 생성된 editor라면 빈 화면 생성
                         // 그게 아니라면 JSON형식으로 DB에서 불러들임
-                        if (commitIdx === -1 && value) {
+                        if (commitIdx === -1 && value.length !== 0) {
+                            console.log('-------1. 롤백 x', value);
                             ctx.set(defaultValueCtx, {
                                 type: "json",
                                 value: value,
                             });    
                         } else if (commitIdx === -1 && Object.keys(value).length === 0) {
+                            console.log('-------2. 롤백 x + 아무런 value가 없을 때', value);
                             ctx.set(defaultValueCtx, '');  
                         } else {
+                            console.log('-------3. 롤백', markdownValue);
                             ctx.set(defaultValueCtx, {
                                 type: 'json',
                                 value: markdownValue,
                             })
-                            console.log(markdownValue);
+                            // console.log(markdownValue);
                         }
                         
                         ctx.get(listenerCtx).updated(async (ctx, doc, prevDoc) => {
@@ -177,7 +189,8 @@ export const TextEditor: FC<{ value: JSONRecord, markdownValue: JSONRecord, comm
                                     }
                                 }
                             }
-
+                            
+                            console.log(jsonOutput);
                             await updateOrClearEditor(userIdx, pdfIdx, jsonOutput);
                             
                             return value;
@@ -204,11 +217,15 @@ export const TextEditor: FC<{ value: JSONRecord, markdownValue: JSONRecord, comm
             document.querySelector('.milkdown')?.setAttribute('style', `height: ${height - 240}px`);    
         }
         
-        if (commitIdx !== -1) {
+        if (readOnly === 1) {            
             document.querySelector('.ProseMirror.editor')?.setAttribute('contenteditable', 'false');
+            // document.querySelectorAll('.editor > *')?.forEach((element) => {
+            //     console.log(element);
+            //     element.setAttribute('style', 'cursor: default !important');
+            // })
         }
         
-        // document.querySelector('.editor')?.setAttribute('style', 'overflow: scroll !important');
+        document.querySelector('.editor')?.setAttribute('style', 'overflow: scroll !important');
     });
     
     return <ReactEditor editor={editor} />

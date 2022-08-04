@@ -32,6 +32,8 @@ function PersonalReading(props) {
     const [markdownValue, setMarkdownValue] = useState({});
     const [highlightData, setHighlightData] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [forceUpdate, setForceUpdate] = useState(0);
+    const [readOnly, setReadOnly] = useState(-1);
      
     const highlightButtonsWrap = useRef();
     const highlightButton = useRef();
@@ -48,7 +50,7 @@ function PersonalReading(props) {
     let userIdx = 58;
     
     const [currentBookInfo, setCurrentBookInfo] = useState({});
-
+    console.log('------------', pdfIdx);
     useEffect(() => {
         axios.get(`https://inkyuoh.shop/users/${userIdx}/pdfs`)
             .then((response) => {
@@ -62,7 +64,8 @@ function PersonalReading(props) {
     }, [pdfIdx])
 
     useEffect(() => {
-        if (commitIdx === -1) {
+        // if (commitIdx === -1) {
+        if (readOnly === -1) {
             const getPageLink = async () => {
                 const pageLink = await axios.get(`https://inkyuoh.shop/pdfs/${pdfIdx}/pages/${currentPageNumber}`).then((response) => {
                     return response.data.result.pageLink;
@@ -78,7 +81,26 @@ function PersonalReading(props) {
             }
             
             getPageLink();
-        } else {
+        }
+        // } else {
+        //     const getPageLink = async () => {
+        //         const pageLink = await axios.get(`https://inkyuoh.shop/pdfs/${pdfIdx}/pages/${currentPageNumber}`).then((response) => {
+        //             return response.data.result.pageLink;
+        //         });
+                
+        //         const getHtml = await axios.get(`${pageLink}`).then((response) => {
+        //             setHtml(response.data);
+        //         });
+                
+        //         const getHighlightData = await axios.get(`https://inkyuoh.shop/highlights/pages/${currentPageNumber}/commitIdx/${commitIdx}`).then((response) => {
+        //             setHighlightData(response.data.result);
+        //         })
+        //     }
+
+        //     getPageLink();
+        // }
+        
+        if (readOnly === 1) {
             const getPageLink = async () => {
                 const pageLink = await axios.get(`https://inkyuoh.shop/pdfs/${pdfIdx}/pages/${currentPageNumber}`).then((response) => {
                     return response.data.result.pageLink;
@@ -95,7 +117,7 @@ function PersonalReading(props) {
 
             getPageLink();
         }
-    }, [currentPageNumber, props.mode, commitIdx])
+    }, [currentPageNumber, props.mode, commitIdx, forceUpdate])
     
     // Text Editor Value
     useEffect(() => {
@@ -109,11 +131,11 @@ function PersonalReading(props) {
                     return JSON.parse(response.data.result[0].editorLog);
                 })
                 .then((response) => {
-                    console.log(response);
+                    console.log('Text Editor markdownValue response:', response);
                     setMarkdownValue(response);
                 })
         }
-    }, [commitIdx])
+    }, [commitIdx, forceUpdate])
     
     // Draw Highlight
     useEffect(() => {
@@ -125,7 +147,7 @@ function PersonalReading(props) {
         catch {
             // console.log('hello');
         }
-    }, [highlightData, commitIdx])
+    }, [highlightData, commitIdx, forceUpdate, readOnly])
     
     useEffect(() => {
         function selectableTextAreaMouseUp(event) {
@@ -150,8 +172,10 @@ function PersonalReading(props) {
         const selectableTextArea = document.querySelectorAll(".PersonalReading__mainPage--readingPage");
 
         selectableTextArea?.forEach((element) => {
-            element?.addEventListener("mouseup", selectableTextAreaMouseUp);
-            element?.addEventListener('touchend', selectableTextAreaMouseUp, false);
+            if (readOnly === -1) {
+                element?.addEventListener("mouseup", selectableTextAreaMouseUp);
+                element?.addEventListener('touchend', selectableTextAreaMouseUp, false); 
+            }
         });
 
         function documentMouseDown(event) {
@@ -187,7 +211,7 @@ function PersonalReading(props) {
             document.removeEventListener("touchstart", documentMouseDown);
         };
     }, [html])
-    
+    console.log('commitIdx', commitIdx);
     return (
         <main className="PersonalReading">
             {loading && <CircularProgress className="CircularProgress"></CircularProgress>}
@@ -216,7 +240,7 @@ function PersonalReading(props) {
             
             <div className="PersonalReading__container" style={loading === true ? {opacity: 0.8} : null}>
                 <aside className="PersonalReading__sideBar">
-                    <SideBar commitIdx={commitIdx} setCommitIdx={setCommitIdx} currentBookInfo={currentBookInfo}></SideBar>
+                    <SideBar readOnly={readOnly} setReadOnly={setReadOnly} forceUpdate={forceUpdate} setForceUpdate={setForceUpdate} commitIdx={commitIdx} setCommitIdx={setCommitIdx} currentBookInfo={currentBookInfo}></SideBar>
                 </aside>
                 
                 <div className="PersonalReading__mainPage" style={props.mode === true ? {flex: 3} : {flex: 1}}>
@@ -238,7 +262,7 @@ function PersonalReading(props) {
                     </article> 
                     : null}
                     <aside className="PersonalReading__highlightList" style={props.mode === true ? {flex: 1} : {flex: 1}}>
-                        <HighlightList commitIdx={commitIdx} setCommitIdx={setCommitIdx} pdfIdx={pdfIdx} totalPage={currentBookInfo.totalPage} currentPageNumber={currentPageNumber} updateHighlightList={updateHighlightList} setUpdateHighlightList={setUpdateHighlightList}></HighlightList>
+                        <HighlightList readOnly={readOnly} forceUpdate={forceUpdate} setForceUpdate={setForceUpdate} mode={props.mode} setCurrentPageNumber={setCurrentPageNumber} commitIdx={commitIdx} setCommitIdx={setCommitIdx} pdfIdx={pdfIdx} totalPage={currentBookInfo.totalPage} currentPageNumber={currentPageNumber} updateHighlightList={updateHighlightList} setUpdateHighlightList={setUpdateHighlightList}></HighlightList>
                         {props.mode === false ?
                         <div className="PersonalReading__highlightList--goBackButtons">
                             <FontAwesomeIcon icon={faCaretLeft} className="backButton--highlightList" onClick={() => {turnOver('back', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);}}></FontAwesomeIcon>
@@ -264,7 +288,7 @@ function PersonalReading(props) {
                             }, 100);
                         }}></FontAwesomeIcon>
                     </div>
-                    <WrapperTextEditor markdownValue={markdownValue} commitIdx={commitIdx} userIdx={String(userIdx)} pdfIdx={String(pdfIdx)}></WrapperTextEditor>
+                    <WrapperTextEditor readOnly={readOnly} markdownValue={markdownValue} commitIdx={commitIdx} userIdx={String(userIdx)} pdfIdx={String(pdfIdx)}></WrapperTextEditor>
                 </article>
             </div>
         </main>

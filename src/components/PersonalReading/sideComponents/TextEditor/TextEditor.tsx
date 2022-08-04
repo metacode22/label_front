@@ -123,6 +123,7 @@ async function uploadImageToS3(preSignedUrl : any, imageFile : any) {
 export const TextEditor: FC<{ readOnly: number, value: JSONRecord, markdownValue: JSONRecord, commitIdx: number, userIdx: string, pdfIdx: string }> = ({ readOnly, value, markdownValue, commitIdx, userIdx, pdfIdx }) => {
     // let readonly = false;
     // const editable = () => !readonly;
+    const nullable:null = null;
     const { editor, loading, getInstance } = useEditor((root, renderReact) => {
                 
                 if (Object.keys(markdownValue).length !== 0){
@@ -196,7 +197,7 @@ export const TextEditor: FC<{ readOnly: number, value: JSONRecord, markdownValue
                             return value;
                         });
                     })
-                    .use(block)
+                    .use(readOnly === -1 ? block : tooltip)
                     .use(menu)
                     .use(nord)
                     .use(history)

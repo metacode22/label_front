@@ -339,11 +339,11 @@ function PersonalReading(props) {
                         <PageRendered className="PageRendered" html={html}></PageRendered>
                         <div className="PersonalReading__mainPage--goBackButtons">
                             <FontAwesomeIcon icon={faCaretLeft} className="backButton" 
-                                onClick={() => {turnOver('back', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);}}
+                                // onClick={() => {turnOver('back', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);}}
                                 onTouchStart={() => {turnOver('back', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);}}
                             ></FontAwesomeIcon>
                             <FontAwesomeIcon icon={faCaretRight} className="goButton" 
-                                onClick={() => {turnOver('go', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);}}
+                                // onClick={() => {turnOver('go', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);}}
                                 onTouchStart={() => {turnOver('go', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);}}
                             ></FontAwesomeIcon>
                         </div>

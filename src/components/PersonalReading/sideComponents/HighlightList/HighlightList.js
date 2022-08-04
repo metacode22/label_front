@@ -151,7 +151,7 @@ function HighlightCards(props) {
                                     : null
                                 }
                             /><CardContent sx={{ paddingTop: '4px'}}>
-                                <Typography sx={{ fontSize: 14 }} color="text.secondary" draggable="true" onDragStart={(event) => { dragStart_handler(event); }}>
+                                <Typography sx={{ fontSize: 14 }} color="text.secondary" draggable={props.readOnly === -1 ? 'true' : null} onDragStart={(event) => { dragStart_handler(event); }}>
                                     {element.data}
                                 </Typography>
                             </CardContent>

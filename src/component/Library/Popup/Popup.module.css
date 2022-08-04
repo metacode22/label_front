@@ -55,7 +55,7 @@
 }
 
 .aside{
-    margin: 10% 0 5% 14%;
+    margin: 7% 0 5% 8%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -92,4 +92,9 @@
 
 .btn:hover{
     opacity: 80%;
+}
+
+.p{
+    color: #3E4051;
+    text-align: center;
 }

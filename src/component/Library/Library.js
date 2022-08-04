@@ -57,19 +57,6 @@ export default function Library(){
                     // console.log(res);
                 })
         }
-        // else {
-        //     fetch(`https://inkyuoh.shop/pdfs`)
-        //     .then(res=>{
-        //         return res.json()
-        //     })
-        //     .then(res=>{
-        //         setSearch(res.result);
-        //         // console.log(res);
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //     })
-        // }
     };
 
     return(

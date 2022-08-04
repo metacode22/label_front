@@ -41,8 +41,16 @@
         /* flex-grow: 7; */
     }
     
-    .t::selection {
-        
+    #page-container::-webkit-scrollbar {
+        width: 6px;
+        background-color: white;
+        border-radius: 16px 0 0 16px;
+    }
+    
+    #page-container::-webkit-scrollbar-thumb {
+        width: 6px;
+        background-color: rgba(129, 161, 193, 0.38);
+        border-radius: 16px;;
     }
 
         /* mainPage--readingPage */
@@ -268,3 +276,15 @@
       opacity: 1;
     }
   }
+  
+.heading.h1 {
+    height: 48px !important;
+}
+
+.heading.h2 {
+    height: 40px !important;
+}
+
+.heading.h3 {
+    margin: 16px 0 !important;
+}

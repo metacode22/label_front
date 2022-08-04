@@ -28,7 +28,7 @@ function SearchBar(props) {
                 await axios.get(`https://inkyuoh.shop/pdfs/${props.pdfIdx}/highlights/search?keyword=${event.target.value}`)
                     .then((response) => {
                         console.log('Search highlight data response:', response);
-                        props.setHighlightData(response.data.result);
+                        props.setHighlightData(response.data.result.sort((x, y) => x.pageNum - y.pageNum));
                     })
                     .catch((error) => {
                         console.log('Search highlight data Fail, error:', error);

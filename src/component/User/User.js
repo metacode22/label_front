@@ -15,7 +15,7 @@ export default function User(){
                         <UserProfile></UserProfile>
                     </div>
                     <div>
-                        <p className={styles.grassP}>Your commit history</p>
+                        <p className={styles.grassP}>My Daily History</p>
                         <Grass></Grass>
                     </div>
                     { onOffHistory ? <div className={styles.divHistory}>

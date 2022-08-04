@@ -157,8 +157,8 @@ export const TextEditor: FC<{ value: JSONRecord, markdownValue: JSONRecord, comm
                                         let contentInDoc = arrOutput[i].content[j]
                                         let contentInDocType = contentInDoc['type']
                                         let contentAttr = contentInDoc['attrs']
-                                        console.log('contentAttr',contentAttr)
-                                        if (contentAttr !== undefined && !contentAttr['title']) {
+                                        console.log('contentAttr',contentAttr, contentInDoc)
+                                        if (contentAttr !== undefined && !contentAttr['title'] && contentInDocType === 'image') {
                                             contentAttr['title'] = 'try'
                                             console.log('it is not stored yet!!')
                                             let imageSrc = contentAttr['src']

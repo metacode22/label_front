@@ -1,5 +1,7 @@
-import { useCallback, useRef } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import styles from './Popup.module.css'
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 export default function Popup(){
 
@@ -7,6 +9,7 @@ export default function Popup(){
     const titleRef = useRef(null);
     const subTitleRef = useRef(null);
     const authorRef = useRef(null);
+    const [open, setOpen] = useState(false);
 
     async function fomrDateMake (e) {
         const formData = new FormData();
@@ -29,11 +32,15 @@ export default function Popup(){
             return;
         }
 
+        setOpen(true);
+
         const formData = await fomrDateMake(e);
         
         await fetch(`https://inkyuoh.shop/upload`,{
             method:'post',
             body : formData
+        }).then((res)=>{
+            setOpen(false);
         })
     },[])
 
@@ -43,6 +50,13 @@ export default function Popup(){
         }
         fileRef.current.click();
     },[])
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
     
     return (
         <div className={styles.popWrap}>
@@ -71,6 +85,11 @@ export default function Popup(){
                         → 작성하지 않을 시 파일이 업로드 되지 않습니다!
                     </p>
                     <button className={styles.btn} onClick={clickUpload}>파일 업로드</button>
+                    <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+                        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                            파일 업로드 중입니다.
+                        </Alert>
+                    </Snackbar>
                 </aside>
             </div>
         </div>

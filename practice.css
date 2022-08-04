@@ -142,41 +142,7 @@
                 background-color: #fff;
                 width: 100%;
                 height: 100%;
-                position: relative;
             }
-            
-                .PersonalReading__highlightList--goBackButtons {
-                    position: absolute;
-                    z-index: 12;
-                    width: 64px;
-                    bottom: 0.5%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    background-color: #FFFFFF;
-                    border: 2px solid var(--color-1-c);
-                    border-radius: 8px;
-                    -webkit-box-shadow: 2px 2px 15px 2px rgba(0,0,0,0.33); 
-                    box-shadow: 2px 2px 15px 2px rgba(0,0,0,0.33);
-                    
-                    display: flex;
-                    justify-content: center;
-                }
-                
-                    .backButton--highlightList, .goButton--highlightList {
-                        margin: 4px;
-                        width: 18px;
-                        height: 18px;
-                        background-color: #FFFFFF;
-                        border: 2px solid var(--color-1-c);
-                        border-radius: 100%;
-                        color: var(--color-1-c);
-                        transition: color 0.15s, background-color 0.15s ease-in-out;
-                        cursor: pointer;
-                    }
-                    
-                    .backButton--highlightList:hover, .goButton--highlightList:hover {
-                        background-color: var(--color-1-a);
-                    }
     
         /* mainPage--textEditor */
         .PersonalReading__mainPage--textEditor {

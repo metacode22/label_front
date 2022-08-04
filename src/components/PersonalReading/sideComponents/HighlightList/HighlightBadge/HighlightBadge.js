@@ -2,7 +2,7 @@ import IconButton from "@mui/material/IconButton";
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
 import Badge from '@mui/material/Badge';
 
-function HighlightBadge() {
+function HighlightBadge(props) {
     function notificationsLabel(count) {
         if (count === 0) {
             return 'no notifications';
@@ -17,7 +17,7 @@ function HighlightBadge() {
     
     return (
         <IconButton aria-label={notificationsLabel(100)}>
-            <Badge badgeContent={100} color="secondary">
+            <Badge badgeContent={props.highlightDataLength} color='primary'>
                 <TurnedInIcon></TurnedInIcon>
             </Badge>
         </IconButton>

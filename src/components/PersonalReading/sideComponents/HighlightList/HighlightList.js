@@ -42,8 +42,9 @@ function HighlightList(props) {
 
     return (
         <>
-            <div></div>
-            <div className={styles.title}>Highlights</div>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div className={styles.title}>Highlights</div>
+            </div>
             <SearchBar pdfIdx={props.pdfIdx} currentPageNumber={props.currentPageNumber} highlightData={highlightData} setHighlightData={setHighlightData}></SearchBar>
             <div className={styles.highlightInfo}>
                 {/* <p className={styles.pageNumber}>Page {props.currentPageNumber} / {props.totalPage}</p> */}
@@ -106,7 +107,7 @@ function HighlightCards(props) {
                 })
         }
     }
-    console.log(props.highlightData);
+
     return (
         <>
             {props.highlightData?.map(function (element, index) {

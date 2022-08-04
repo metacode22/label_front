@@ -314,17 +314,26 @@ function PersonalReading(props) {
             
             <div ref={highlightButtonsWrap} className="HighlightButton__wrap">
                 <button ref={highlightButton} className="HighlightButton specific"
-                    onTouchStart={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedGreen'); }}
+                    onTouchStart={(event) => { 
+                        event.stopPropagation(event);
+                        clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedGreen'); 
+                    }}
                     onClick={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedGreen'); }}
                 ></button>
                 
                 <button ref={highlightButtonPurple} className="HighlightButton__purple specific"
-                    onTouchStart={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedPurple'); }}
+                    onTouchStart={(event) => { 
+                        event.stopPropagation(event);
+                        clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedPurple'); 
+                    }}
                     onClick={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedPurple'); }}
                 ></button>
                 
                 <button ref={highlightButtonYellow} className="HighlightButton__yellow specific"
-                    onTouchStart={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedYellow'); }}
+                    onTouchStart={(event) => { 
+                        event.stopPropagation(event);
+                        clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedYellow'); 
+                    }}
                     onClick={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedYellow'); }}
                 ></button>
             </div>
@@ -339,12 +348,12 @@ function PersonalReading(props) {
                         <PageRendered className="PageRendered" html={html}></PageRendered>
                         <div className="PersonalReading__mainPage--goBackButtons">
                             <FontAwesomeIcon icon={faCaretLeft} className="backButton" 
-                                // onClick={() => {turnOver('back', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);}}
-                                onTouchStart={() => {turnOver('back', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);}}
+                                onClick={() => {turnOver('back', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);}}
+                                // onTouchStart={() => {turnOver('back', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);}}
                             ></FontAwesomeIcon>
                             <FontAwesomeIcon icon={faCaretRight} className="goButton" 
-                                // onClick={() => {turnOver('go', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);}}
-                                onTouchStart={() => {turnOver('go', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);}}
+                                onClick={() => {turnOver('go', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);}}
+                                // onTouchStart={() => {turnOver('go', currentPageNumber, setCurrentPageNumber, currentBookInfo.totalPage);}}
                             ></FontAwesomeIcon>
                         </div>
                         <div className="PersonalReading__mainPage--info">

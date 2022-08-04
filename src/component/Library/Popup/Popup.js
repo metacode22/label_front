@@ -1,5 +1,7 @@
-import { useCallback, useRef } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import styles from './Popup.module.css'
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 export default function Popup(){
 
@@ -7,6 +9,7 @@ export default function Popup(){
     const titleRef = useRef(null);
     const subTitleRef = useRef(null);
     const authorRef = useRef(null);
+    const [open, setOpen] = useState(false);
 
     async function fomrDateMake (e) {
         const formData = new FormData();
@@ -25,18 +28,19 @@ export default function Popup(){
     const uploadFile = useCallback(async (e)=>{
         if(!e.target.files){
             return;
+        } else if(!titleRef.current.value){
+            return;
         }
 
-        // console.log(e.target.files[0]);
-        // console.log(titleRef.current.value);
-        // console.log(subTitleRef.current.value);
-        // console.log(authorRef.current.value);
+        setOpen(true);
 
         const formData = await fomrDateMake(e);
         
         await fetch(`https://inkyuoh.shop/upload`,{
             method:'post',
             body : formData
+        }).then((res)=>{
+            setOpen(false);
         })
     },[])
 
@@ -46,6 +50,13 @@ export default function Popup(){
         }
         fileRef.current.click();
     },[])
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
     
     return (
         <div className={styles.popWrap}>
@@ -54,25 +65,31 @@ export default function Popup(){
                     <p className={styles.pTitle}>My Book</p>
                     <p className={styles.pSubTitle}>파일 업로드</p>
                     <div className={styles.inputWrap}>
-                        <label className={styles.label}>책 타이틀
+                        <label className={styles.label}>📌책 타이틀
                             <input ref={titleRef} className={styles.input} type='text' placeholder='제목을 입력해주세요.'></input>
                         </label>
-                        <label className={styles.label}>서브 타이틀
+                        <label className={styles.label}>서브 타이틀(option)
                             <input ref={subTitleRef} className={styles.input} type='text' placeholder='부제목을 입력해주세요.'></input>
                         </label>
-                        <label className={styles.label}>저자명
+                        <label className={styles.label}>저자명(option)
                             <input ref={authorRef} className={styles.input} type='text' placeholder='저자명을 입력해주세요.'></input>
                         </label>
                     </div>
                 </article>
                 <aside className={styles.aside}>
-                    <label className={styles.uploadLabel}>
-                        <img className={styles.img} src={process.env.PUBLIC_URL + `/images/upload.png`}/>
-                        <input type='file' accept='.pdf' className={styles.file} ref={fileRef} onChange={uploadFile}/>
-                    </label>
-                    <p style={{ color: '#3E4051', fontSize: '10px'}}>PDF 파일만 업로드가 가능합니다.</p>
-                    <button className={styles.btn} onClick={clickUpload}>파일 저장</button>
-                    <p style={{ color: '#3E4051', fontSize: '10px'}}>작성 및 파일 선택 후 저장 버튼을 눌러주세요.</p>
+                    <input type='file' accept='.pdf' className={styles.file} ref={fileRef} onChange={uploadFile}/>
+                    <p className={styles.p}>
+                        <h3><b>🚫주의사항</b>🚫</h3><br/>
+                        1. <b style={{color: 'red'}}>PDF 파일</b>만 업로드가 가능합니다.<br/>
+                        2. <b style={{color: 'red'}}>제목 작성</b> 후 파일 선택을 눌러주세요.<br/>
+                        → 작성하지 않을 시 파일이 업로드 되지 않습니다!
+                    </p>
+                    <button className={styles.btn} onClick={clickUpload}>파일 업로드</button>
+                    <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+                        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                            파일 업로드 중입니다.
+                        </Alert>
+                    </Snackbar>
                 </aside>
             </div>
         </div>

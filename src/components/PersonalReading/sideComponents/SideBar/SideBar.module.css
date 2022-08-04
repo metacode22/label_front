@@ -97,12 +97,16 @@
             }
             
             .historyUnorderedListTag:hover {
-                opacity: 0.8;
+                /* opacity: 0.8; */
             }
             
             .historyMessage {
                 margin-bottom: 0;
                 width: 100%;
+            }
+            
+            .historyMessage:hover {
+                opacity: 0.8;
             }
             
             .historyDateAndIcon {
@@ -117,10 +121,22 @@
                     width: 100%;
                 }
                 
+                .historyDate:hover {
+                    opacity: 0.8;
+                }
+                
                 .historyIcon {
                     display: flex;
                     justify-content: space-between;
                 }
+                
+                    .readOnly:hover {
+                        opacity: 0.8;
+                    }
+                
+                    .rollBack:hover {
+                        opacity: 0.8;
+                    }
 
 .sideBarToggleButton {
     border-radius: 0 16px 16px 0;

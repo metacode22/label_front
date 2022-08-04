@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState, useRef } from 'react';
 import styles from './SideBar.module.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
+import { faAngleRight, faAngleLeft, faEye, faArrowRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import dayjs from 'dayjs';
 
 // mui
@@ -11,6 +10,9 @@ import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import * as React from 'react';
+
+//fontawesome
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function SideBar(props) {
 	const [sideBarStatus, setSideBarStatus] = useState(false);
@@ -88,14 +90,14 @@ function SideBar(props) {
 					<div className={styles.bookImage} style={{backgroundImage: "url(" + `${process.env.PUBLIC_URL + `${props.currentBookInfo.firstPageLink}`}`}}></div>
 					<p className={styles.bookTitle}>{props.currentBookInfo.pdfName}</p>
 				</div>
-				<hr style={{ width: '100%', marginTop: 24, marginBottom: 24, marginLeft: 16, marginRight: 16 }}></hr>
+				<hr style={{ width: '100%', marginTop: 24, marginBottom: 24, marginLeft: 24, marginRight: 16 }}></hr>
 				<div className={styles.historyContainer}>
 					<div className={styles.historyTitle}>History</div>
 					<form onSubmit={(event) => { handleSubmit(event)} }>
 						<input ref={commitInput} className={styles.historyInput} placeholder={'기록을 남기세요.'}></input>
 					</form>
 					<div className={styles.historyWrap}>
-						<History commitIdx={props.commitIdx} setCommitIdx={props.setCommitIdx} commitsInfo={commitsInfo}></History>
+						<History readOnly={props.readOnly} setReadOnly={props.setReadOnly} forceUpdate={props.forceUpdate} setForceUpdate={props.setForceUpdate} commitIdx={props.commitIdx} setCommitIdx={props.setCommitIdx} commitsInfo={commitsInfo}></History>
 					</div>
 				</div>
 				
@@ -120,18 +122,52 @@ function SideBar(props) {
 function History(props) {
 	function rollback(element) {
 		props.setCommitIdx(element.commitIdx);
+		props.setReadOnly(-1);
+		
+		async function postLogs(element) {
+			await axios.post(`https://inkyuoh.shop/commits/rollback`, {
+				commitHighlightLog: JSON.parse(element.logs),
+				userBookIdx: element.userBookIdx
+			})
+			.then((response) => {
+				console.log(response);
+				props.setForceUpdate(props.forceUpdate + 1);
+			})
+		}
+		
+		postLogs(element);
+	}
+	
+	function goToReadOnly(element) {
+		props.setCommitIdx(element.commitIdx);
+		props.setReadOnly(1);
+		// props.setForceUpdate(props.forceUpdate + 1);
 	}
 	
 	return (
 		<>
 			{props.commitsInfo?.map(function(element, index) {
 				return (
-					<ul className={styles.historyUnorderedListTag} key={index} onClick={() => {
-						rollback(element);
-					}}>
+					<ul className={styles.historyUnorderedListTag} key={index}>
 						<li>
-							<p className={styles.historyMessage}>{element.commitMessage}</p>
-							<p className={styles.historyDate}>{element.createdAt}</p>
+							<p className={styles.historyMessage} onClick={() => {
+								goToReadOnly(element);
+							}}>{element.commitMessage}</p>
+							
+							<div className={styles.historyDateAndIcon}>
+								<p className={styles.historyDate} onClick={() => {
+									goToReadOnly(element);	
+								}}>{element.createdAt.substring(2)}</p>
+								
+								<div className={styles.historyIcon}>
+									<FontAwesomeIcon className={styles.readOnly} icon={faEye} onClick={() => {
+										goToReadOnly(element);
+									}}></FontAwesomeIcon>
+									<FontAwesomeIcon className={styles.rollBack} style={{ marginLeft: '4px'}} icon={faArrowRotateLeft} onClick={() => {
+										rollback(element);
+									}}></FontAwesomeIcon>
+								</div>
+							</div>
 						</li>
 					</ul>
 				)

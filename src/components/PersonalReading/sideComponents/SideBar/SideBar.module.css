@@ -56,7 +56,7 @@
         .historyInput {
             outline: none;
             margin: 16px 0;
-            width: 100%;
+            width: 110%;
             height: 24px;
             border-radius: 8px;
             border: 1px solid #E2E5E6;
@@ -73,32 +73,70 @@
         }
         
         .historyWrap {
-            width: 100%;   
-            height: 90%;
+            width: 110%;   
+            /* height: 90%; */
             overflow: scroll;
+            overflow-x: hidden;
         }
         
         .historyWrap::-webkit-scrollbar {
-            display: none;
+            width: 6px;
+            background-color: transparent;
+        }
+        
+        .historyWrap::-webkit-scrollbar-thumb {
+            width: 6px;
+            background-color: rgba(129, 161, 193, 0.38);
+            border-radius: 16px;
         }
         
             .historyUnorderedListTag {
                 padding-left: 16px;
-                margin-bottom: 20px;
+                margin-bottom: 12px;
                 cursor: pointer;
             }
             
             .historyUnorderedListTag:hover {
-                opacity: 0.8;
+                /* opacity: 0.8; */
             }
             
             .historyMessage {
+                margin-bottom: 0;
                 width: 100%;
             }
             
-            .historyDate {
-                width: 100%;
+            .historyMessage:hover {
+                opacity: 0.8;
             }
+            
+            .historyDateAndIcon {
+                margin-right: 8px;
+                
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+            
+                .historyDate {
+                    width: 100%;
+                }
+                
+                .historyDate:hover {
+                    opacity: 0.8;
+                }
+                
+                .historyIcon {
+                    display: flex;
+                    justify-content: space-between;
+                }
+                
+                    .readOnly:hover {
+                        opacity: 0.8;
+                    }
+                
+                    .rollBack:hover {
+                        opacity: 0.8;
+                    }
 
 .sideBarToggleButton {
     border-radius: 0 16px 16px 0;

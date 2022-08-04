@@ -10,8 +10,8 @@ import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import ClearIcon from "@mui/icons-material/Clear";
 import IconButton from "@mui/material/IconButton";
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
 function HighlightList(props) {
     const [highlightData, setHighlightData] = useState([]);
@@ -42,6 +42,7 @@ function HighlightList(props) {
 
     return (
         <>
+            <div></div>
             <div className={styles.title}>Highlights</div>
             <SearchBar pdfIdx={props.pdfIdx} currentPageNumber={props.currentPageNumber} highlightData={highlightData} setHighlightData={setHighlightData}></SearchBar>
             <div className={styles.highlightInfo}>

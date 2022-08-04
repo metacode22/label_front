@@ -43,16 +43,13 @@ function PersonalReading(props) {
     // useLocation
     let userIdx = 58;
     
-    // let [totalPage, setTotalPage] = useState(1);
     const [currentBookInfo, setCurrentBookInfo] = useState({});
-    
+
     useEffect(() => {
-        // console.log('hello1');
         axios.get(`https://inkyuoh.shop/users/${userIdx}/pdfs`)
             .then((response) => {
                 console.log('TotalPage GET response:', response);
                 let newCurrentBookInfo = response.data.result.find(x => x.pdfIdx === pdfIdx);
-                // setTotalPage(nowPdf.totalPage)
                 setCurrentBookInfo(newCurrentBookInfo);
             })
             .catch((error) => {
@@ -94,93 +91,9 @@ function PersonalReading(props) {
 
             getPageLink();
         }
-        
-        
-        
-        // if (commitIdx === -1) {
-        //     axios.get(`https://inkyuoh.shop/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
-        //         .then((response) => {
-        //             console.log('pageLink GET response:', response);      
-                    
-        //             return response.data.result.pageLink;
-        //         })
-        //         .catch((error) => {
-        //             console.log('pageLink GET Fail, error:', error);
-        //         })
-        //         .then((pageLink) => {
-        //             axios.get(`${pageLink}`)
-        //                 .then((response) => {
-        //                     console.log('html GET response:', response);
-        //                     setHtml(response.data);
-        //                 })
-        //         })
-        //         .catch((error) => {
-        //             console.log('html GET Fail, error:', error);
-        //         })
-        //         .then(() => {
-        //             axios.get(`https://inkyuoh.shop/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
-        //                 .then((response) => {
-        //                     console.log('highlight data GET response:', response);
-        //                     setHighlightData(response.data.result);
-        //                 })
-        //                 // .catch((error) => {
-        //                 //     console.log('highlight data GET Fail, error:', error);
-        //                 // })
-        //         })
-        // } else {
-        //     axios.get(`https://inkyuoh.shop/pdfs/${pdfIdx}/pages/${currentPageNumber}`)
-        //         .then((response) => {
-        //             console.log('pageLink GET response:', response);      
-                    
-        //             return response.data.result.pageLink;
-        //         })
-        //         .catch((error) => {
-        //             console.log('pageLink GET Fail, error:', error);
-        //         })
-        //         .then((pageLink) => {
-        //             axios.get(`${pageLink}`)
-        //                 .then((response) => {
-        //                     console.log('html GET response:', response);
-        //                     setHtml(response.data);
-        //                 })
-        //         })
-        //         .catch((error) => {
-        //             console.log('html GET Fail, error:', error);
-        //         })
-        //         .then(() => {
-        //             axios.get(`https://inkyuoh.shop/highlights/pages/${currentPageNumber}/commitIdx/${commitIdx}`)
-        //                 .then((response) => {
-        //                     console.log('Commit highlight data GET response:', response);
-        //                     setHighlightData(response.data.result);
-        //                 })
-        //         })
-        // }
-        
     }, [currentPageNumber, props.mode, commitIdx])
     
     useEffect(() => {
-        // console.log('hello3');
-        // html이 바뀔 때, 전 페이지를 잡는 에러가 있어서 추가.
-        // if (commitIdx === -1) {
-        //     axios.get(`https://inkyuoh.shop/highlights/pdfs/${pdfIdx}/pages/${currentPageNumber}/`)
-        //         .then((response) => {
-        //             console.log('highlight data GET response:', response);
-                    
-        //             for(let i = 0; i < response.data.result?.length; i++) {
-        //                 setHighlightData(response.data.result);
-        //             }
-        //         })
-        //     // .catch((error) => {
-        //     //     console.log('highlight data GET Fail, error:', error);
-        //     // })
-        // } else {
-        //     axios.get(`https://inkyuoh.shop/highlights/pages/${currentPageNumber}/commitIdx/${commitIdx}`)
-        //         .then((response) => {
-        //             console.log('Commit highlight data GET response:', response);
-        //             setHighlightData(response.data.result);
-        //         })
-        // }
-        
         function selectableTextAreaMouseUp(event) {
             const highlightButtonCurrent = highlightButtonsWrap.current;
 
@@ -220,6 +133,15 @@ function PersonalReading(props) {
 
         document.addEventListener("mousedown", documentMouseDown);
         document.addEventListener('touchstart', documentMouseDown, false);
+        
+        // selection height 조정
+        document.querySelectorAll('.c').forEach((element) => {
+            element.style.height = '110%';
+        })
+        
+        document.querySelectorAll('.t').forEach((element) => {
+            element.style.height = '2.1em';
+        })
 
         return () => {
             selectableTextArea?.forEach((element) => {
@@ -262,75 +184,22 @@ function PersonalReading(props) {
         }
     }, [highlightData, commitIdx])
     
-    useEffect(() => {
-        // document.querySelectorAll('.t.h2').forEach((element) => {
-        //     element.style.height = '80px';
-        // })
-        
-        // document.querySelectorAll('.t.h3').forEach((element) => {
-        //     element.style.height = '108px';
-        // })
-        
-        document.querySelectorAll('.c').forEach((element) => {
-            element.style.height = '110%';
-        })
-        
-        document.querySelectorAll('.t').forEach((element) => {
-            element.style.height = '2.1em';
-            // element.style.width = '1.2em';
-        })
-    }, [html])
-      
-    useEffect(() => {      
-        // $('.HighlightButton').on('click touchstart', function() {
-        //     clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedGreen');
-        // });
-        
-        // $('.HighlightButton__purple').on('click touchstart', function() {
-        //     clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedPurple');
-        // });
-        
-        // $('.HighlightButton__yellow').on('click touchstart', function() {
-        //     clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedYellow');
-        // });
-        
-        // return () => {
-        //     $('.HighlightButton').off('touchstart', function() {
-        //         clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedGreen');
-        //     });
-            
-        //     $('.HighlightButton__purple').off('touchstart', function() {
-        //         clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedPurple');
-        //     });
-            
-        //     $('.HighlightButton__yellow').off('touchstart', function() {
-        //         clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedYellow');
-        //     });
-        // }
-    }, [html])
-    
     return (
         <main className="PersonalReading">
             
             <div ref={highlightButtonsWrap} className="HighlightButton__wrap">
                 <button ref={highlightButton} className="HighlightButton specific"
-                    onTouchStart={(event) => {
-                        clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedGreen', event); 
-                    }}
+                    onTouchStart={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedGreen'); }}
                     onClick={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedGreen'); }}
                 ></button>
                 
                 <button ref={highlightButtonPurple} className="HighlightButton__purple specific"
-                    onTouchStart={(event) => {
-                        clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedPurple', event); 
-                    }}
+                    onTouchStart={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedPurple'); }}
                     onClick={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedPurple'); }}
                 ></button>
                 
                 <button ref={highlightButtonYellow} className="HighlightButton__yellow specific"
-                    onTouchStart={(event) => {
-                        clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedYellow', event); 
-                    }}
+                    onTouchStart={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedYellow'); }}
                     onClick={() => { clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedYellow'); }}
                 ></button>
             </div>
@@ -372,8 +241,8 @@ function PersonalReading(props) {
                 <article className="PersonalReading__mainPage--textEditor" style={props.mode === true ? {flex: 1} : {flex: 1}}>
                     <div className="PersonalReading__mainPage--textEditor--wrap">
                         <div className="PersonalReading__mainPage--textEditor--info">
-                            <p style={{ fontSize: '16px' }}>{currentBookInfo.pdfName}</p>
-                            <p style={{ fontSize: '12px', textDecoration: 'underline' }}>5분 전에 수정하였습니다.</p>
+                            <h1>{currentBookInfo.pdfName}</h1>
+                            <p>{currentBookInfo.author}</p>
                         </div>
                         <FontAwesomeIcon className="ToPdfButton" icon={faFilePdf} onClick={() => { 
                             setTimeout(() => {

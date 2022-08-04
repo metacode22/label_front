@@ -45,7 +45,7 @@ function HighlightList(props) {
             <div className={styles.title}>Highlights</div>
             <SearchBar pdfIdx={props.pdfIdx} currentPageNumber={props.currentPageNumber} highlightData={highlightData} setHighlightData={setHighlightData}></SearchBar>
             <div className={styles.highlightInfo}>
-                <p className={styles.pageNumber}>Page {props.currentPageNumber} / {props.totalPage}</p>
+                {/* <p className={styles.pageNumber}>Page {props.currentPageNumber} / {props.totalPage}</p> */}
                 {/* <HighlightBadge></HighlightBadge> */}
             </div>
             <aside className={styles.wrap}>
@@ -105,7 +105,7 @@ function HighlightCards(props) {
                 })
         }
     }
-    console.log(props);
+    console.log(props.highlightData);
     return (
         <>
             {props.highlightData?.map(function (element, index) {
@@ -116,7 +116,7 @@ function HighlightCards(props) {
                                 sx={{ paddingBottom: 0 }}
                                 avatar={<Avatar sx={{ width: 10, height: 10, bgcolor: element.color === 0 ? '#93E7A2' : element.color === 1 ? '#9747FF' : element.color === 2 ? '#FFD644' : null}} 
                                 aria-label="recipe">{""}</Avatar>}
-                                title={<p style={{ color: "#DDDDDD" }}></p>}
+                                title={'p.' + `${element.pageNum}`}
                                 action={props.commitIdx === -1 ?
                                     <IconButton onClick={() => { deleteHighlight( props.commitIdx, element.highlightIdx, props.setHighlightData, props.updateHighlightList, props.setUpdateHighlightList, props.currentPageNumber ); }}>
                                         <ClearIcon fontSize="small"></ClearIcon>

@@ -73,8 +73,7 @@ function doHighlight(highlightData, highlightIdx) {
     }
 }
 
-function clickHighlight( pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, color, event ) {
-    event?.stopPropagation();
+function clickHighlight( pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, color ) {
     const selectedText = window.getSelection().toString().trim();
     const selectedRange = window.getSelection().getRangeAt(0);
 

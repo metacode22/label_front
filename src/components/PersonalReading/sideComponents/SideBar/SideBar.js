@@ -90,7 +90,7 @@ function SideBar(props) {
 				</div>
 				<hr style={{ width: '100%', marginTop: 24, marginBottom: 24, marginLeft: 16, marginRight: 16 }}></hr>
 				<div className={styles.historyContainer}>
-					<div className={styles.historyTitle}>Commit</div>
+					<div className={styles.historyTitle}>History</div>
 					<form onSubmit={(event) => { handleSubmit(event)} }>
 						<input ref={commitInput} className={styles.historyInput} placeholder={'기록을 남기세요.'}></input>
 					</form>

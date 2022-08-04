@@ -20,6 +20,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
 
+// mui
+import { CircularProgress } from "@mui/material";
+
 function PersonalReading(props) {
     const location = useLocation();
     const { pdfIdx, recentlyReadPage } = location.state;
@@ -28,6 +31,7 @@ function PersonalReading(props) {
     const [commitIdx, setCommitIdx] = useState(-1);
     const [markdownValue, setMarkdownValue] = useState({});
     const [highlightData, setHighlightData] = useState([]);
+    const [loading, setLoading] = useState(false);
      
     const highlightButtonsWrap = useRef();
     const highlightButton = useRef();
@@ -93,6 +97,36 @@ function PersonalReading(props) {
         }
     }, [currentPageNumber, props.mode, commitIdx])
     
+    // Text Editor Value
+    useEffect(() => {
+        setHtml({...html})
+        
+        if (commitIdx !== -1) {
+            axios.post('https://inkyuoh.shop/commits/books/2/2', {
+                    commitIdx: commitIdx
+                })
+                .then((response) => {
+                    return JSON.parse(response.data.result[0].editorLog);
+                })
+                .then((response) => {
+                    console.log(response);
+                    setMarkdownValue(response);
+                })
+        }
+    }, [commitIdx])
+    
+    // Draw Highlight
+    useEffect(() => {
+        try {
+            for (let i = 0; i < highlightData.length; i++) {
+                doHighlight(highlightData[i], highlightData[i].highlightIdx);
+            }       
+        }
+        catch {
+            // console.log('hello');
+        }
+    }, [highlightData, commitIdx])
+    
     useEffect(() => {
         function selectableTextAreaMouseUp(event) {
             const highlightButtonCurrent = highlightButtonsWrap.current;
@@ -154,39 +188,9 @@ function PersonalReading(props) {
         };
     }, [html])
     
-    // Text Editor Value
-    useEffect(() => {
-        setHtml({...html})
-        
-        if (commitIdx !== -1) {
-            axios.post('https://inkyuoh.shop/commits/books/2/2', {
-                    commitIdx: commitIdx
-                })
-                .then((response) => {
-                    return JSON.parse(response.data.result[0].editorLog);
-                })
-                .then((response) => {
-                    console.log(response);
-                    setMarkdownValue(response);
-                })
-        }
-    }, [commitIdx])
-    
-    // Draw Highlight
-    useEffect(() => {
-        try {
-            for (let i = 0; i < highlightData.length; i++) {
-                doHighlight(highlightData[i], highlightData[i].highlightIdx);
-            }       
-        }
-        catch {
-            // console.log('hello');
-        }
-    }, [highlightData, commitIdx])
-    
     return (
         <main className="PersonalReading">
-            
+            {loading && <CircularProgress className="CircularProgress"></CircularProgress>}
             <div ref={highlightButtonsWrap} className="HighlightButton__wrap">
                 <button ref={highlightButton} className="HighlightButton specific"
                     onTouchStart={(event) => {
@@ -210,7 +214,7 @@ function PersonalReading(props) {
                 ></button>
             </div>
             
-            <div className="PersonalReading__container">
+            <div className="PersonalReading__container" style={loading === true ? {opacity: 0.8} : null}>
                 <aside className="PersonalReading__sideBar">
                     <SideBar commitIdx={commitIdx} setCommitIdx={setCommitIdx} currentBookInfo={currentBookInfo}></SideBar>
                 </aside>
@@ -240,7 +244,7 @@ function PersonalReading(props) {
                     </article> 
                     : null}
                     <aside className="PersonalReading__highlightList" style={props.mode === true ? {flex: 1} : {flex: 1}}>
-                        <HighlightList commitIdx={commitIdx} setCommitIdx={setCommitIdx} pdfIdx={pdfIdx} totalPage={currentBookInfo.totalPage} currentPageNumber={currentPageNumber} updateHighlightList={updateHighlightList} setUpdateHighlightList={setUpdateHighlightList}></HighlightList>
+                        <HighlightList mode={props.mode} commitIdx={commitIdx} setCommitIdx={setCommitIdx} pdfIdx={pdfIdx} totalPage={currentBookInfo.totalPage} currentPageNumber={currentPageNumber} updateHighlightList={updateHighlightList} setUpdateHighlightList={setUpdateHighlightList}></HighlightList>
                     </aside>
                 </div>
                 
@@ -250,9 +254,13 @@ function PersonalReading(props) {
                             <h1>{currentBookInfo.pdfName}</h1>
                             <p>{currentBookInfo.author}</p>
                         </div>
-                        <FontAwesomeIcon className="ToPdfButton" icon={faFilePdf} onClick={() => { 
+                        <FontAwesomeIcon className="ToPdfButton" icon={faFilePdf} onClick={() => {
+                            setLoading(true); 
                             setTimeout(() => {
-                                toPdf(currentBookInfo.pdfName);   
+                                toPdf(currentBookInfo.pdfName, loading, setLoading);
+                                setTimeout(() => {
+                                    setLoading(false);
+                                }, 500);
                             }, 100);
                         }}></FontAwesomeIcon>
                     </div>

@@ -59,13 +59,14 @@ export default function Library(){
         }
     };
 
+    const refresh = ()=>{
+        window.location.reload();
+    }
+
     return(
         <main className={styles.main}>
             {!popup ? <Popup onClose={setPopup}/> : null}
-            <label onClick={()=>{
-                setPopup(!popup);
-                setText(!text);
-            }} className={styles.label}>{text ? `닫기` : `Upload`}</label>
+            {text ? <label onClick={()=>{setPopup(!popup); setText(!text); refresh()}} className={styles.label}>닫기</label>:<label onClick={()=>{setPopup(!popup); setText(!text)}} className={styles.label}>Upload</label>}
             <article>
                 <section className={styles.sectionTitle}>
                     <p style={{ fontSize: '40px', fontWeight: 'bold'}}>MY LIBRARY</p>
@@ -76,7 +77,6 @@ export default function Library(){
                     </label>
                 </section>
                 {close === true ? <section className={styles.sectionSearch}>
-                    {/* <button className={styles.searchClose} onClick={()=>{setClose(false)}}>X</button> */}
                     <div className={styles.divTextSearch}>
                         <h2>Searched Result</h2>
                         <button className={styles.searchClose} onClick={()=>{setClose(false)}}></button>

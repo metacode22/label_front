@@ -268,8 +268,3 @@
       opacity: 1;
     }
   }
-  
-  &::before {
-      content: '';
-      display: block;
-  }

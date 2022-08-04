@@ -1,7 +1,7 @@
 import "./PersonalReading.css";
 import axios from 'axios';
-import { useState, useEffect, useRef, useCallback } from "react";
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useState, useEffect, useRef } from "react";
+import { useLocation } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import $ from 'jquery';
 
@@ -21,15 +21,7 @@ import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
 
 function PersonalReading(props) {
-    let navigate = useNavigate();
     const location = useLocation();
-    console.log(location);
-    useEffect(() => {
-        if (location.state === null) {
-            navigate('/library');
-        }
-    }, [])
-
     const { pdfIdx, recentlyReadPage } = location.state;
     const [html, setHtml] = useState('');
     const [updateHighlightList, setUpdateHighlightList] = useState(true);
@@ -230,10 +222,13 @@ function PersonalReading(props) {
         document.addEventListener('touchstart', documentMouseDown, false);
 
         return () => {
-            document.removeEventListener("mousedown", documentMouseDown);
             selectableTextArea?.forEach((element) => {
                 element?.removeEventListener("mouseup", selectableTextAreaMouseUp);
+                element?.removeEventListener("touchend", selectableTextAreaMouseUp);
             });
+            
+            document.removeEventListener("mousedown", documentMouseDown);
+            document.removeEventListener("touchstart", documentMouseDown);
         };
     }, [html])
     
@@ -286,22 +281,33 @@ function PersonalReading(props) {
         })
     }, [html])
       
-    // useEffect(() => {
-    
-                
-    //     $('.HighlightButton').on('touchstart', function() {
-    //         clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedGreen');
-    //     });
+    useEffect(() => {      
+        $('.HighlightButton').on('touchstart', function() {
+            clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedGreen');
+        });
         
-    //     $('.HighlightButton__purple').on('touchstart', function() {
-    //         clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedPurple');
-    //     });
+        $('.HighlightButton__purple').on('touchstart', function() {
+            clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedPurple');
+        });
         
-    //     $('.HighlightButton__yellow').on('touchstart', function() {
-    //         clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedYellow');
-    //     });
+        $('.HighlightButton__yellow').on('touchstart', function() {
+            clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedYellow');
+        });
         
-    // }, [html])
+        return () => {
+            $('.HighlightButton').off('touchstart', function() {
+                clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedGreen');
+            });
+            
+            $('.HighlightButton__purple').off('touchstart', function() {
+                clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedPurple');
+            });
+            
+            $('.HighlightButton__yellow').off('touchstart', function() {
+                clickHighlight(pdfIdx, currentPageNumber, highlightButtonsWrap, updateHighlightList, setUpdateHighlightList, 'highlightedYellow');
+            });
+        }
+    }, [html])
     
     return (
         <main className="PersonalReading">

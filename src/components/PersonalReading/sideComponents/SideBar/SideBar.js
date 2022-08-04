@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState, useRef } from 'react';
 import styles from './SideBar.module.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
+import { faAngleRight, faAngleLeft, faEye, faArrowRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import dayjs from 'dayjs';
 
 // mui
@@ -11,6 +10,9 @@ import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import * as React from 'react';
+
+//fontawesome
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function SideBar(props) {
 	const [sideBarStatus, setSideBarStatus] = useState(false);
@@ -88,7 +90,7 @@ function SideBar(props) {
 					<div className={styles.bookImage} style={{backgroundImage: "url(" + `${process.env.PUBLIC_URL + `${props.currentBookInfo.firstPageLink}`}`}}></div>
 					<p className={styles.bookTitle}>{props.currentBookInfo.pdfName}</p>
 				</div>
-				<hr style={{ width: '100%', marginTop: 24, marginBottom: 24, marginLeft: 16, marginRight: 16 }}></hr>
+				<hr style={{ width: '100%', marginTop: 24, marginBottom: 24, marginLeft: 24, marginRight: 16 }}></hr>
 				<div className={styles.historyContainer}>
 					<div className={styles.historyTitle}>History</div>
 					<form onSubmit={(event) => { handleSubmit(event)} }>
@@ -131,7 +133,13 @@ function History(props) {
 					}}>
 						<li>
 							<p className={styles.historyMessage}>{element.commitMessage}</p>
-							<p className={styles.historyDate}>{element.createdAt}</p>
+							<div className={styles.historyDateAndIcon}>
+								<p className={styles.historyDate}>{element.createdAt.substring(2)}</p>
+								<div className={styles.historyIcon}>
+									<FontAwesomeIcon icon={faEye}></FontAwesomeIcon>
+									<FontAwesomeIcon style={{ marginLeft: '4px'}} icon={faArrowRotateLeft}></FontAwesomeIcon>
+								</div>
+							</div>
 						</li>
 					</ul>
 				)

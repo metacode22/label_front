@@ -2,8 +2,6 @@ import styles from './Library.module.css'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Popup from './Popup/Popup'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 export default function Library(){   
     let [result,setResult] = useState([]);
@@ -46,11 +44,9 @@ export default function Library(){
         })
     }, []);
 
-    const handleSubmit = (e)=>{
-        e.preventDefault();
-    }
-
     const onSearch = (e) => {
+        e.preventDefault();
+
         if (e.target.value !== '') {
             fetch(`https://inkyuoh.shop/pdfs/library/search?keyword=${e.target.value}`)
                 .then(res => {
@@ -75,12 +71,10 @@ export default function Library(){
                 <section className={styles.sectionTitle}>
                     <p style={{ fontSize: '40px', fontWeight: 'bold'}}>MY LIBRARY</p>
                     <p className={styles.p}>최근에 읽었던 책 또는 한 번이라도 열어봤던 책 리스트입니다. 오늘도 Label과 즐거운 책 읽기를 해보세요.</p>
-                    <form className={styles.search} onFocus={()=>{setClose(!false)}} onSubmit={(e) => { handleSubmit(e) }}>
-                        <button className={styles.searchButton}>
-                            <FontAwesomeIcon icon={faMagnifyingGlass}></FontAwesomeIcon>
-                        </button>
-                        <input className={styles.searchInput} type="text" id="search" onChange={onSearch} placeholder={'찾고 싶은 책 이름 또는 제목을 입력해보세요.'}></input>
-                    </form>
+                    <label className={styles.search} onFocus={()=>{setClose(!false)}}>
+                        <img className={styles.searchImg} src={process.env.PUBLIC_URL + '/images/search.png'}></img>
+                        <input onChange={onSearch} type='text' className={styles.searchInput} placeholder='찾고 싶은 책 이름 또는 제목을 입력해보세요.'></input>
+                    </label>
                 </section>
                 {close === true ? <section className={styles.sectionSearch}>
                     <div className={styles.divTextSearch}>

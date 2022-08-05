@@ -127,3 +127,28 @@
 .highlightCardTitle {
     display: flex;
 }
+
+.card {
+    transition-duration: 0.6s;
+    transition-property: transform;
+}
+
+.card:hover {
+    /* transform: translateY(-6px); */
+    animation-name: hover;
+    animation-duration: 0.8s;
+    /* animation-delay: 0.4s; */
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+@keyframes hover {
+    50% {
+      transform: translateY(-4px);
+    }
+  
+    100% {
+      transform: translateY(-6px);
+    }
+  }

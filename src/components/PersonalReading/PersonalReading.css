@@ -318,3 +318,25 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+.ReadOnlyText {
+    font-weight: bold;
+    text-align: center;
+    width: 15%;
+    height: 32px;
+    font-size: 14px;
+    border-radius: 16px;
+    border: 1px solid #E2E5E6;
+    background-color: white;
+    position: absolute;
+    z-index: 16;
+    top: 0%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-box-shadow: 0px 4px 13px -1px rgba(0,0,0,0.51); 
+    box-shadow: 0px 4px 13px -1px rgba(0,0,0,0.51);
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

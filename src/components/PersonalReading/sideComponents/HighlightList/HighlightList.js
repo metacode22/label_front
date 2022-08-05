@@ -138,7 +138,7 @@ function HighlightCards(props) {
             {props.highlightData?.map(function (element, index) {
                 return (
                     <>
-                        <Card sx={{ width: '100%', minWidth: 275, marginBottom: 1 }} key={index}>
+                        <Card sx={{ width: '100%', minWidth: 275, marginBottom: 1 }} key={index} className={styles.card}>
                             <CardHeader 
                                 sx={{ paddingBottom: 0 }}
                                 avatar={<Avatar sx={{ width: 10, height: 10, bgcolor: element.color === 0 ? '#93E7A2' : element.color === 1 ? '#9747FF' : element.color === 2 ? '#FFD644' : null}} 

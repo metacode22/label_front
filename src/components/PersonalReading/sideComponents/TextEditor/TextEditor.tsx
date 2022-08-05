@@ -140,16 +140,16 @@ export const TextEditor: FC<{ readOnly: number, value: JSONRecord, markdownValue
                         // 처음 생성된 editor라면 빈 화면 생성
                         // 그게 아니라면 JSON형식으로 DB에서 불러들임
                         if (commitIdx === -1 && value.length !== 0) {
-                            console.log('-------1. 롤백 x', value);
+                            // console.log('-------1. 롤백 x', value);
                             ctx.set(defaultValueCtx, {
                                 type: "json",
                                 value: value,
                             });    
                         } else if (commitIdx === -1 && Object.keys(value).length === 0) {
-                            console.log('-------2. 롤백 x + 아무런 value가 없을 때', value);
+                            // console.log('-------2. 롤백 x + 아무런 value가 없을 때', value);
                             ctx.set(defaultValueCtx, '');  
                         } else {
-                            console.log('-------3. 롤백', markdownValue);
+                            // console.log('-------3. 롤백', markdownValue);
                             ctx.set(defaultValueCtx, {
                                 type: 'json',
                                 value: markdownValue,

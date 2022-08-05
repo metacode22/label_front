@@ -38,6 +38,8 @@ function PersonalReading(props) {
     const highlightButton = useRef();
     const highlightButtonPurple = useRef();
     const highlightButtonYellow = useRef();
+    const highlightListRef = useRef();
+    const textEditorRef = useRef();
     
     // 수정 필요, props로 받아야 할 듯.
     // library에서 넘어올 때 currentPageNumber를 유저로부터 가져와야 함.
@@ -210,10 +212,20 @@ function PersonalReading(props) {
             document.removeEventListener("touchstart", documentMouseDown);
         };
     }, [html])
+    
+    useEffect(() => {
+        if (readOnly === 1) {
+            highlightListRef.current.style.opacity = 0.65;
+            textEditorRef.current.style.opacity = 0.45;
+        } else {
+            highlightListRef.current.style.opacity = 1;
+            textEditorRef.current.style.opacity = 1;
+        }
+    }, [readOnly])
 
     return (
         <main className="PersonalReading">
-            {readOnly === 1 ? <div className="ReadOnlyText">읽기 전용 상태입니다.&nbsp;<FontAwesomeIcon icon={faLock}></FontAwesomeIcon></div> : null}
+            {readOnly === 1 ? <div className="ReadOnlyText">읽기 전용 상태입니다.&nbsp;&nbsp;&nbsp;<FontAwesomeIcon icon={faLock}></FontAwesomeIcon></div> : null}
             {loading && <CircularProgress className="CircularProgress"></CircularProgress>}
             <div ref={highlightButtonsWrap} className="HighlightButton__wrap">
                 <button ref={highlightButton} className="HighlightButton specific"
@@ -261,7 +273,7 @@ function PersonalReading(props) {
                         </div>
                     </article> 
                     : null}
-                    <aside className="PersonalReading__highlightList" style={props.mode === true ? {flex: 1} : {flex: 1}}>
+                    <aside ref={highlightListRef} className="PersonalReading__highlightList" style={props.mode === true ? {flex: 1} : {flex: 1}}>
                         <HighlightList readOnly={readOnly} forceUpdate={forceUpdate} setForceUpdate={setForceUpdate} mode={props.mode} setCurrentPageNumber={setCurrentPageNumber} commitIdx={commitIdx} setCommitIdx={setCommitIdx} pdfIdx={pdfIdx} totalPage={currentBookInfo.totalPage} currentPageNumber={currentPageNumber} updateHighlightList={updateHighlightList} setUpdateHighlightList={setUpdateHighlightList}></HighlightList>
                         {props.mode === false ?
                         <div className="PersonalReading__highlightList--goBackButtons">
@@ -272,7 +284,7 @@ function PersonalReading(props) {
                     </aside>
                 </div>
                 
-                <article className="PersonalReading__mainPage--textEditor" style={props.mode === true ? {flex: 1} : {flex: 1}}>
+                <article ref={textEditorRef} className="PersonalReading__mainPage--textEditor" style={props.mode === true ? {flex: 1} : {flex: 1}}>
                     <div className="PersonalReading__mainPage--textEditor--wrap">
                         <div className="PersonalReading__mainPage--textEditor--info">
                             <h1>{currentBookInfo.pdfName}</h1>

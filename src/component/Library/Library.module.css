@@ -26,15 +26,18 @@
     text-align: start;
 } 
 
-.searchImg{
-    width: 4%;
-    padding: 1%;
+.searchButton {
+    all: unset;
+    height: 2rem;
+    margin: 0 1rem 0 1rem;
+    color: #C7CED9;
+    font-size: 1.3rem;
+    text-align: center;
 }
 
 .searchInput{
     all: unset;
     width: 80%;
-    margin-left: 10px;
     font-size: 14px;
 }
 

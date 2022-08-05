@@ -215,8 +215,8 @@ function PersonalReading(props) {
     
     useEffect(() => {
         if (readOnly === 1) {
-            highlightListRef.current.style.opacity = 0.65;
-            textEditorRef.current.style.opacity = 0.45;
+            highlightListRef.current.style.opacity = 0.85;
+            textEditorRef.current.style.opacity = 0.7;
         } else {
             highlightListRef.current.style.opacity = 1;
             textEditorRef.current.style.opacity = 1;

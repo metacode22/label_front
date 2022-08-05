@@ -25,18 +25,15 @@
     text-align: start;
 } 
 
-.searchButton {
-    all: unset;
-    height: 2rem;
-    margin: 0 1rem 0 1rem;
-    color: #C7CED9;
-    font-size: 1.3rem;
-    text-align: center;
+.searchImg{
+    width: 4%;
+    padding: 1%;
 }
 
 .searchInput{
     all: unset;
     width: 80%;
+    margin-left: 10px;
     font-size: 14px;
 }
 
@@ -173,5 +170,5 @@
 .moreDiv{
     display: flex;
     justify-content: center;
-    margin-top: 3rem;
+    margin-top: 4rem;
 }

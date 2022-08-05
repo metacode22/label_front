@@ -130,12 +130,22 @@
                     justify-content: space-between;
                 }
                 
+                    .readOnly {
+                        transition: all 0.3s;
+                    }
+                    
                     .readOnly:hover {
                         opacity: 0.8;
+                        transform: scale3d(1.5, 1.5, 1.5);
+                    }
+                    
+                    .rollBack {
+                        transition: all 0.3s;
                     }
                 
                     .rollBack:hover {
                         opacity: 0.8;
+                        transform: scale3d(1.5, 1.5, 1.5);
                     }
 
 .sideBarToggleButton {

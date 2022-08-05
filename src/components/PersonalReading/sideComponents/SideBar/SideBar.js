@@ -21,6 +21,8 @@ function SideBar(props) {
 	const date = dayjs();
 	const result = date.format('YYYY-MM-DD HH:mm:ss');
 	
+	console.log(props);
+	
 	let userIdx = 58;
 	
 	function handleSubmit(event) {

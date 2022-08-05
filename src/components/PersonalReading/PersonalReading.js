@@ -17,8 +17,7 @@ import { clickHighlight, doHighlight, turnOver, toPdf } from './sideFunction/sid
 
 // fontawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
-import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
+import { faCaretLeft, faCaretRight, faFilePdf, faLock } from '@fortawesome/free-solid-svg-icons';
 
 // mui
 import { CircularProgress } from "@mui/material";
@@ -50,7 +49,7 @@ function PersonalReading(props) {
     let userIdx = 58;
     
     const [currentBookInfo, setCurrentBookInfo] = useState({});
-    console.log('------------', pdfIdx);
+    
     useEffect(() => {
         axios.get(`https://inkyuoh.shop/users/${userIdx}/pdfs`)
             .then((response) => {
@@ -211,9 +210,10 @@ function PersonalReading(props) {
             document.removeEventListener("touchstart", documentMouseDown);
         };
     }, [html])
-    console.log('commitIdx', commitIdx);
+
     return (
         <main className="PersonalReading">
+            {readOnly === 1 ? <div className="ReadOnlyText">읽기 전용 상태입니다.&nbsp;<FontAwesomeIcon icon={faLock}></FontAwesomeIcon></div> : null}
             {loading && <CircularProgress className="CircularProgress"></CircularProgress>}
             <div ref={highlightButtonsWrap} className="HighlightButton__wrap">
                 <button ref={highlightButton} className="HighlightButton specific"

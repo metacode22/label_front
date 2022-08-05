@@ -229,5 +229,11 @@ export const TextEditor: FC<{ readOnly: number, value: JSONRecord, markdownValue
         document.querySelector('.editor')?.setAttribute('style', 'overflow: scroll !important');
     });
     
+    useEffect(() => {
+        return () => {
+            
+        }
+    }, [])
+    
     return <ReactEditor editor={editor} />
 };

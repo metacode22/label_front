@@ -21,8 +21,6 @@ function SideBar(props) {
 	const date = dayjs();
 	const result = date.format('YYYY-MM-DD HH:mm:ss');
 	
-	console.log(props);
-	
 	let userIdx = 58;
 	
 	function handleSubmit(event) {
@@ -95,7 +93,7 @@ function SideBar(props) {
 				<hr style={{ width: '100%', marginTop: 24, marginBottom: 24, marginLeft: 24, marginRight: 16 }}></hr>
 				<div className={styles.historyContainer}>
 					<div className={styles.historyTitle}>History</div>
-					<form onSubmit={(event) => { handleSubmit(event)} }>
+					<form onSubmit={(event) => { handleSubmit(event)} } className={styles.historyInputWrap}>
 						<input ref={commitInput} className={styles.historyInput} placeholder={'기록을 남기세요.'}></input>
 					</form>
 					<div className={styles.historyWrap}>

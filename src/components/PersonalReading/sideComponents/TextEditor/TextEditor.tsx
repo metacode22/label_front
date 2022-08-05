@@ -171,8 +171,8 @@ export const TextEditor: FC<{ readOnly: number, value: JSONRecord, markdownValue
                                         let contentInDocType = contentInDoc['type']
                                         let contentAttr = contentInDoc['attrs']
                                         console.log('contentAttr',contentAttr, contentInDoc)
-                                        if (contentAttr !== undefined && !contentAttr['title'] && contentInDocType === 'image') {
-                                            contentAttr['title'] = 'try'
+                                        if (contentAttr !== undefined && !contentAttr['alt'] && contentInDocType === 'image') {
+                                            contentAttr['alt'] = 'lable_image'
                                             console.log('it is not stored yet!!')
                                             let imageSrc = contentAttr['src']
                                             /* 이미지를 s3 서버에 전달 */

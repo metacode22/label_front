@@ -7,7 +7,6 @@ import { useCookies } from 'react-cookie';
 export default function Nav(props){
     const location = useLocation();
     const site = location.pathname;
-    // console.log(site);
 
     return(
         <>
@@ -96,7 +95,6 @@ const UserImg = ()=>{
         })
         .then((res)=>{
             setResult(res.result);
-            // console.log(res.result);
         })
         .catch((err) => {
             console.log(err);

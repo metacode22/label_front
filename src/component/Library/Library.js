@@ -22,7 +22,6 @@ export default function Library(){
         })
         .then(res=>{
             setResult(res.result);
-            // console.log(res);
         })
         .catch((err) => {
             console.log(err);
@@ -37,7 +36,6 @@ export default function Library(){
         .then(res=>{
             setAllBook(res.result);
             setSearch(res.result);
-            // console.log(res);
         })
         .catch((err) => {
             console.log(err);
@@ -54,7 +52,6 @@ export default function Library(){
                 })
                 .then(res => {
                     setSearch(res.result);
-                    // console.log(res);
                 })
         }
     };
@@ -126,7 +123,6 @@ const SearchBook = (props)=>{
 }
 
 const MoreBook = (props)=>{
-    // console.log(props.result)
     const rendering = ()=>{
         const result = Array();
 
@@ -139,7 +135,6 @@ const MoreBook = (props)=>{
 }
 
 const BookList = (props)=>{
-    // console.log(props.result)
     const rendering = () => {
         const result = Array();
         
@@ -152,7 +147,6 @@ const BookList = (props)=>{
 }
 
 const RecentBookList = (props)=>{
-    // console.log(props.result)
     const rendering = () => {
         const result = Array();
 

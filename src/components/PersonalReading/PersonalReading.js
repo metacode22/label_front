@@ -20,7 +20,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretLeft, faCaretRight, faFilePdf, faLock } from '@fortawesome/free-solid-svg-icons';
 
 // mui
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, requirePropFactory } from "@mui/material";
 
 function PersonalReading(props) {
     const location = useLocation();

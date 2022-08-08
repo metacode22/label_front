@@ -7,7 +7,7 @@ import axios from "axios";
 import { GoogleLogin } from "react-google-login";
 import { useCookies } from 'react-cookie';
 
-const clientId = "790356719859-n6vusb9mi2cejjumcuick5qbqubvn6tu.apps.googleusercontent.com";
+const clientId = process.env.REACT_APP_clientId;
 
 export default function Login(props){
     const [cookies, setCookie, removeCookie] = useCookies(['sessionID_label']);

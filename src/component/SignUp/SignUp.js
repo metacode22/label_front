@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 // social login
 import { GoogleLogin } from "react-google-login";
 
-const clientId = "790356719859-n6vusb9mi2cejjumcuick5qbqubvn6tu.apps.googleusercontent.com";
+const clientId = process.env.REACT_APP_clientId;
 
 export default function SignUp(){
     const [cookies, setCookie, removeCookie] = useCookies(['sessionID_label']);

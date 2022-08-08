@@ -26,9 +26,7 @@ function Library() {
                 console.log("Post Authorize Error", error);
             });
     });
-
     let [result, setResult] = useState([]);
-
     let userIdx = 58;
 
     useEffect(() => {

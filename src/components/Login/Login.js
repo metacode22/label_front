@@ -4,7 +4,7 @@ import { GoogleLogin } from "react-google-login";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from 'react-cookie';
 
-const clientId = "790356719859-n6vusb9mi2cejjumcuick5qbqubvn6tu.apps.googleusercontent.com";
+const clientId = process.env.REACT_APP_clientId;
 
 function Login() {
     const [cookies, setCookie, removeCookie] = useCookies(['id']);

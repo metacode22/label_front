@@ -9,6 +9,7 @@ const Userpage = lazy(() => import ('./component/User/User.js'));
 const Library = lazy(() => import ('./component/Library/Library.js'));
 const PersonalReading = lazy(() => import ('./components/PersonalReading/PersonalReading.js'));
 const Footer = lazy(() => import ('./component/Footer/Footer.js'));
+const junTemp = 1;
 
 export default function App() {
     const location = useLocation();

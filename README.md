@@ -47,7 +47,7 @@ PDF: [label.pdf](/public/label%EC%B5%9C%EC%A2%85%EC%B5%9C%EC%A2%85.pdf)
     </th>
     <th>
       <div>
-       <img src="https://user-images.githubusercontent.com/93233930/183958638-df827cc7-b2e1-4fd9-a397-06bf89190f9f.gif" width="300" height="180">
+       <img src="https://user-images.githubusercontent.com/93233930/183963585-5e3908db-8358-4794-a2fc-1a1f8b5ab765.gif" width="300" height="180">
       </div>
       4. 완성된 공부노트를 PDF로 다운하여 보관할 수 있습니다.
     </th>
